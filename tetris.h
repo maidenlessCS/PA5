@@ -3,9 +3,9 @@
 
 #include <iostream>
 #include <string>
+#include <SFML/Graphics.hpp>
 using std::cout;
 using std::endl;
-
 
 class Block {
 
