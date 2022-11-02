@@ -32,3 +32,4 @@
 *.app
 pa5
 .vscode/*
+sfml-app
