@@ -7,6 +7,28 @@
 using std::cout;
 using std::endl;
 
+class Game
+{
+   
+ public:
+    Game();
+    ~Game(){};
+    void handleInput();
+    void update();
+    void render();
+    bool isDone() const;
+    int WINDOW_SIZE_X = 1024;
+    int WINDOW_SIZE_Y = 812;
+    int posX = 0;
+ private:
+    sf::RenderWindow mWindow;
+    bool mIsDone;
+    sf::RectangleShape square;
+    sf::Vector2i mIncrement;
+    void moveCherry();
+   
+};
+
 class Block {
 
  public:
