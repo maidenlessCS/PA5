@@ -5,6 +5,7 @@ int main() {
     char board[20][10];
 
     initializeBoard(board, '-');
+    board [5][5] = '*';
 
     displayBoard(board);
 
@@ -57,8 +58,8 @@ int main() {
     {
         sf::Time start = clock.restart();
         game.handleInput();
-        game.update();
-        game.render();
+        game.update(board);
+        game.render(board);
         sf::sleep(start + TIME_PER_FRAME - clock.getElapsedTime());
     }
 

@@ -7,6 +7,8 @@ Game::Game() : mWindow(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "TETRIS") {
     boardSprite.setOutlineColor(sf::Color(0, 97, 255));
     boardSprite.setOutlineThickness(6);
     boardSprite.setFillColor(sf::Color(0, 10, 51));
+    //square.setSize(sf::Vector2f(400, 800));
+    square.setOrigin(62.f / 2.f, 62.f / 2.f);
     mIncrement = sf::Vector2i(4, 4);
     mIsDone = false;
 }
@@ -23,7 +25,7 @@ void Game::handleInput() {
     }
 }
 
-void Game::update() {
+void Game::update(char board[20][10]) {
     sf::Event event;
         while(mWindow.pollEvent(event))
         {
@@ -48,7 +50,6 @@ void Game::update() {
                     square.setPosition(sf::Vector2f(posX, square.getPosition().y));
                     // Do something here
                 }
-                
             }
         }
 }
@@ -74,25 +75,29 @@ void Game::moveCherry() {
         square.getPosition().y + mIncrement.y);
 }
 
-void Game::render() {
-    mWindow.clear(sf::Color(91, 149, 245));
-
-
+void Game::render(char board[20][10]) {
+    mWindow.clear(sf::Color::Black);
 
     sf::RectangleShape drawSquare;
     drawSquare.setSize(sf::Vector2f(40, 40));
     drawSquare.setFillColor(sf::Color::White);
     drawSquare.setOrigin(20, 20);
-    // for(int i = 0; i < 20; i++) {
-    //     for(int j = 0; j < 10; j++) {
-    //         cout << board[i][j] << ' ';
-    //     }
-    // }
 
-
-
-
-    mWindow.draw(boardSprite);
+     for (int j = 0; j < 10; j++)
+            {
+                for (int i = 0; i<20; i++)
+                {
+                    if (board[i][j] == '-')
+                    {
+                        sf::RectangleShape square;
+                        square.setSize(sf::Vector2f(20, 20));
+                        square.setFillColor(sf::Color(255,255,255));
+                        square.setPosition(20*j+5*j,20*i+5*i);
+                        mWindow.draw(square);
+                    }
+                }
+            }
+    //mWindow.draw(square);
     mWindow.display();
 }
 
