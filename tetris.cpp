@@ -1,8 +1,12 @@
 #include "tetris.h"
 
 Game::Game() : mWindow(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "TETRIS") {
-    square.setSize(sf::Vector2f(400, 800));
-    square.setOrigin(62.f / 2.f, 62.f / 2.f);
+    boardSprite.setSize(sf::Vector2f(400, 800));
+    boardSprite.setOrigin(200, 400);
+    boardSprite.setPosition(sf::Vector2f(WINDOW_SIZE_X/2, WINDOW_SIZE_Y/2));
+    boardSprite.setOutlineColor(sf::Color(0, 97, 255));
+    boardSprite.setOutlineThickness(6);
+    boardSprite.setFillColor(sf::Color(0, 10, 51));
     mIncrement = sf::Vector2i(4, 4);
     mIsDone = false;
 }
@@ -71,8 +75,24 @@ void Game::moveCherry() {
 }
 
 void Game::render() {
-    mWindow.clear(sf::Color::Black);
-    mWindow.draw(square);
+    mWindow.clear(sf::Color(91, 149, 245));
+
+
+
+    sf::RectangleShape drawSquare;
+    drawSquare.setSize(sf::Vector2f(40, 40));
+    drawSquare.setFillColor(sf::Color::White);
+    drawSquare.setOrigin(20, 20);
+    // for(int i = 0; i < 20; i++) {
+    //     for(int j = 0; j < 10; j++) {
+    //         cout << board[i][j] << ' ';
+    //     }
+    // }
+
+
+
+
+    mWindow.draw(boardSprite);
     mWindow.display();
 }
 
