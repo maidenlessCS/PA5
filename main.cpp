@@ -6,6 +6,9 @@ int main() {
 
     initializeBoard(board, '-');
     board [5][5] = '*';
+    board [5][6] = '*';
+    board [5][7] = '*';
+    board [6][7] = '*';
 
     displayBoard(board);
 

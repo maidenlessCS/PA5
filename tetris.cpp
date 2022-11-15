@@ -1,6 +1,12 @@
 #include "tetris.h"
 
 Game::Game() : mWindow(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "TETRIS") {
+    boardSprite.setSize(sf::Vector2f(400, 800));
+    boardSprite.setOrigin(200, 400);
+    boardSprite.setPosition(sf::Vector2f(WINDOW_SIZE_X/2, WINDOW_SIZE_Y/2));
+    boardSprite.setOutlineColor(sf::Color(0, 97, 255));
+    boardSprite.setOutlineThickness(6);
+    boardSprite.setFillColor(sf::Color(0, 10, 51));
     //square.setSize(sf::Vector2f(400, 800));
     square.setOrigin(62.f / 2.f, 62.f / 2.f);
     mIncrement = sf::Vector2i(4, 4);
@@ -70,7 +76,14 @@ void Game::moveCherry() {
 }
 
 void Game::render(char board[20][10]) {
-    mWindow.clear(sf::Color::Black);
+    //mWindow.clear(sf::Color::Black);
+    mWindow.clear(sf::Color(91, 149, 245));
+
+    sf::RectangleShape drawSquare;
+    drawSquare.setSize(sf::Vector2f(40, 40));
+    drawSquare.setFillColor(sf::Color::White);
+    drawSquare.setOrigin(20, 20);
+
      for (int j = 0; j < 10; j++)
             {
                 for (int i = 0; i<20; i++)
@@ -78,9 +91,21 @@ void Game::render(char board[20][10]) {
                     if (board[i][j] == '-')
                     {
                         sf::RectangleShape square;
-                        square.setSize(sf::Vector2f(20, 20));
+                        square.setSize(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE));
+                        square.setOutlineColor(sf::Color::Blue);
+                        square.setOutlineThickness(BORDER_SIZE);
                         square.setFillColor(sf::Color(255,255,255));
-                        square.setPosition(20*j+5*j,20*i+5*i);
+                        square.setPosition(BLOCK_SIZE*j+BORDER_SIZE*j,BLOCK_SIZE*i+BORDER_SIZE*i);
+                        mWindow.draw(square);
+                    }
+                    else if (board[i][j] == '*')
+                    {
+                        sf::RectangleShape square;
+                        square.setSize(sf::Vector2f(BLOCK_SIZE+BORDER_SIZE, BLOCK_SIZE+BORDER_SIZE));
+                        // square.setOutlineColor(sf::Color::Blue);
+                        // square.setOutlineThickness(BORDER_SIZE);
+                        square.setFillColor(sf::Color::Red);
+                        square.setPosition(BLOCK_SIZE*j+BORDER_SIZE*j,BLOCK_SIZE*i+BORDER_SIZE*i);
                         mWindow.draw(square);
                     }
                 }
