@@ -76,7 +76,8 @@ void Game::moveCherry() {
 }
 
 void Game::render(char board[20][10]) {
-    mWindow.clear(sf::Color::Black);
+    //mWindow.clear(sf::Color::Black);
+    mWindow.clear(sf::Color(91, 149, 245));
 
     sf::RectangleShape drawSquare;
     drawSquare.setSize(sf::Vector2f(40, 40));
@@ -90,9 +91,21 @@ void Game::render(char board[20][10]) {
                     if (board[i][j] == '-')
                     {
                         sf::RectangleShape square;
-                        square.setSize(sf::Vector2f(20, 20));
+                        square.setSize(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE));
+                        square.setOutlineColor(sf::Color::Blue);
+                        square.setOutlineThickness(BORDER_SIZE);
                         square.setFillColor(sf::Color(255,255,255));
-                        square.setPosition(20*j+5*j,20*i+5*i);
+                        square.setPosition(BLOCK_SIZE*j+BORDER_SIZE*j,BLOCK_SIZE*i+BORDER_SIZE*i);
+                        mWindow.draw(square);
+                    }
+                    else if (board[i][j] == '*')
+                    {
+                        sf::RectangleShape square;
+                        square.setSize(sf::Vector2f(BLOCK_SIZE+BORDER_SIZE, BLOCK_SIZE+BORDER_SIZE));
+                        // square.setOutlineColor(sf::Color::Blue);
+                        // square.setOutlineThickness(BORDER_SIZE);
+                        square.setFillColor(sf::Color::Red);
+                        square.setPosition(BLOCK_SIZE*j+BORDER_SIZE*j,BLOCK_SIZE*i+BORDER_SIZE*i);
                         mWindow.draw(square);
                     }
                 }

@@ -19,6 +19,10 @@ class Game
     bool isDone() const;
     int WINDOW_SIZE_X = 250;
     int WINDOW_SIZE_Y = 500;
+    int BLOCK_SIZE = 20;
+    int BORDER_SIZE = 2;
+   //  int WINDOW_SIZE_X = 1024;
+   //  int WINDOW_SIZE_Y = 812;
     int posX = 0;
  private:
     sf::RenderWindow mWindow;
