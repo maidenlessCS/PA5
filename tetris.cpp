@@ -77,12 +77,19 @@ void Game::moveCherry() {
 
 void Game::render(char board[20][10]) {
     //mWindow.clear(sf::Color::Black);
-    mWindow.clear(sf::Color(91, 149, 245));
+    //mWindow.clear(sf::Color(10, 10, 10));
 
     sf::RectangleShape drawSquare;
     drawSquare.setSize(sf::Vector2f(40, 40));
     drawSquare.setFillColor(sf::Color::White);
     drawSquare.setOrigin(20, 20);
+
+    // Basically it finds the center of the screen, then goes back half the size of the board from there
+    // I know the multiplication could be simplified but it makes more sense when written this way
+    int horizontalOffset = WINDOW_SIZE_X - WINDOW_SIZE_X/2 - ((BLOCK_SIZE+BORDER_SIZE*2)*10)/2;
+    int verticalOffset = WINDOW_SIZE_Y - WINDOW_SIZE_Y/2 - ((BLOCK_SIZE+BORDER_SIZE*2)*20)/2;
+
+    sf::RectangleShape square;
 
      for (int j = 0; j < 10; j++)
             {
@@ -90,29 +97,42 @@ void Game::render(char board[20][10]) {
                 {
                     if (board[i][j] == '-')
                     {
-                        sf::RectangleShape square;
                         square.setSize(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE));
-                        square.setOutlineColor(sf::Color(100,100,100));
+                        square.setTexture(NULL); // Clears texture
+                        square.setOutlineColor(sf::Color(60,60,60));
                         square.setOutlineThickness(BORDER_SIZE);
-                        square.setFillColor(sf::Color::Black);
-                        square.setPosition(BLOCK_SIZE*j+BORDER_SIZE*j,BLOCK_SIZE*i+BORDER_SIZE*i);
+                        // Color starts at 40 because 2*20 gets to 40 so 40-(2*i) becomes 0 by the end of the loop
+                        // Doing it this way allows the gradient to start grey and end black
+                        square.setFillColor(sf::Color(40-(2*i),40-(2*i),40-(2*i)));
+                        square.setPosition(horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2, verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2);
                         mWindow.draw(square);
                     }
-                    else if (board[i][j] == '*')
+                    else if (board[i][j] == 'l')
                     {
-                        sf::RectangleShape square;
-                        square.setSize(sf::Vector2f(BLOCK_SIZE+BORDER_SIZE, BLOCK_SIZE+BORDER_SIZE));
+                        square.setSize(sf::Vector2f(BLOCK_SIZE+BORDER_SIZE*2, BLOCK_SIZE+BORDER_SIZE*2));
                         square.setTexture(&art);
-                        // square.setOutlineColor(sf::Color::Blue);
-                        // square.setOutlineThickness(BORDER_SIZE);
+                        square.setOutlineThickness(0);
                         square.setFillColor(sf::Color(200,0,255));
-                        square.setPosition(BLOCK_SIZE*j+BORDER_SIZE*j,BLOCK_SIZE*i+BORDER_SIZE*i);
+                        // im writing this comment down for later for cleaning up code so i dont forget why its done this way
+                        // the offset is to center it, it's explained above the loops
+                        // the subtracting of broder size is purely for colored blocks and its to correct a single pixel
+                        // missalignment that would otherwise be there
+                        square.setPosition(horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2 - BORDER_SIZE, verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2 - BORDER_SIZE);
+                        mWindow.draw(square);
+                    }
+                    else if (board[i][j] == 's')
+                    {
+                        square.setSize(sf::Vector2f(BLOCK_SIZE+BORDER_SIZE*2, BLOCK_SIZE+BORDER_SIZE*2));
+                        square.setTexture(&art);
+                        square.setFillColor(sf::Color(60,255,30));
+                        square.setOutlineThickness(0);
+                        square.setPosition(horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2 - BORDER_SIZE, verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2 - BORDER_SIZE);
                         mWindow.draw(square);
                     }
                 }
             }
-    //mWindow.draw(square);
     mWindow.display();
+    mWindow.clear(sf::Color(10, 10, 10));
 }
 
 bool Game::isDone() const {
