@@ -17,8 +17,8 @@ class Game
     void update(char board[20][10]);
     void render(char board[20][10]);
     bool isDone() const;
-    int WINDOW_SIZE_X = 250;
-    int WINDOW_SIZE_Y = 500;
+    int WINDOW_SIZE_X = 1024;
+    int WINDOW_SIZE_Y = 812;
     int posX = 0;
  private:
     sf::RenderWindow mWindow;

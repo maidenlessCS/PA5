@@ -70,7 +70,7 @@ void Game::moveCherry() {
 }
 
 void Game::render(char board[20][10]) {
-    mWindow.clear(sf::Color::Black);
+    mWindow.clear(sf::Color::Blue);
      for (int j = 0; j < 10; j++)
             {
                 for (int i = 0; i<20; i++)
@@ -80,7 +80,15 @@ void Game::render(char board[20][10]) {
                         sf::RectangleShape square;
                         square.setSize(sf::Vector2f(20, 20));
                         square.setFillColor(sf::Color(255,255,255));
-                        square.setPosition(20*j+5*j,20*i+5*i);
+                        square.setPosition(20*j+5*(j+1),20*i+5*(i+1));
+                        mWindow.draw(square);
+                    }
+                    if (board[i][j] == '*')
+                    {
+                        sf::RectangleShape square;
+                        square.setSize(sf::Vector2f(20, 20));
+                        square.setFillColor(sf::Color(152,17,95));
+                        square.setPosition(20*j+5*(j+1),20*i+5*(i+1));
                         mWindow.draw(square);
                     }
                 }
