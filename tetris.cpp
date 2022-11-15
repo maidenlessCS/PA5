@@ -92,9 +92,9 @@ void Game::render(char board[20][10]) {
                     {
                         sf::RectangleShape square;
                         square.setSize(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE));
-                        square.setOutlineColor(sf::Color::Blue);
+                        square.setOutlineColor(sf::Color(100,100,100));
                         square.setOutlineThickness(BORDER_SIZE);
-                        square.setFillColor(sf::Color(255,255,255));
+                        square.setFillColor(sf::Color::Black);
                         square.setPosition(BLOCK_SIZE*j+BORDER_SIZE*j,BLOCK_SIZE*i+BORDER_SIZE*i);
                         mWindow.draw(square);
                     }
@@ -105,7 +105,7 @@ void Game::render(char board[20][10]) {
                         square.setTexture(&art);
                         // square.setOutlineColor(sf::Color::Blue);
                         // square.setOutlineThickness(BORDER_SIZE);
-                        square.setFillColor(sf::Color::Cyan);
+                        square.setFillColor(sf::Color(200,0,255));
                         square.setPosition(BLOCK_SIZE*j+BORDER_SIZE*j,BLOCK_SIZE*i+BORDER_SIZE*i);
                         mWindow.draw(square);
                     }

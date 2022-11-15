@@ -18,10 +18,10 @@ class Game
     void update(char board[20][10]);
     void render(char board[20][10]);
     bool isDone() const;
-    int WINDOW_SIZE_X = 250;
-    int WINDOW_SIZE_Y = 500;
-    int BLOCK_SIZE = 20;
-    int BORDER_SIZE = 2;
+    int WINDOW_SIZE_X = 500;
+    int WINDOW_SIZE_Y = 700;
+    int BLOCK_SIZE = 28;
+    int BORDER_SIZE = 1;
    //  int WINDOW_SIZE_X = 1024;
    //  int WINDOW_SIZE_Y = 812;
     int posX = 0;
