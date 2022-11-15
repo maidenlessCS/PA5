@@ -14,6 +14,7 @@ class Game
     Game();
     ~Game(){};
     void handleInput();
+    void loadTextures();
     void update(char board[20][10]);
     void render(char board[20][10]);
     bool isDone() const;
@@ -29,6 +30,7 @@ class Game
     bool mIsDone;
     sf::RectangleShape square;
     sf::RectangleShape boardSprite;
+    sf::Texture art;
     sf::Vector2i mIncrement;
     void moveCherry();
    

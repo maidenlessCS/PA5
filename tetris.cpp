@@ -102,9 +102,10 @@ void Game::render(char board[20][10]) {
                     {
                         sf::RectangleShape square;
                         square.setSize(sf::Vector2f(BLOCK_SIZE+BORDER_SIZE, BLOCK_SIZE+BORDER_SIZE));
+                        square.setTexture(&art);
                         // square.setOutlineColor(sf::Color::Blue);
                         // square.setOutlineThickness(BORDER_SIZE);
-                        square.setFillColor(sf::Color::Red);
+                        square.setFillColor(sf::Color::Cyan);
                         square.setPosition(BLOCK_SIZE*j+BORDER_SIZE*j,BLOCK_SIZE*i+BORDER_SIZE*i);
                         mWindow.draw(square);
                     }
@@ -134,4 +135,11 @@ void displayBoard(char board[20][10]) {
         cout << endl;
     }
     cout << endl;
+}
+
+void Game::loadTextures() {
+    if(!art.loadFromFile("squar.png")) {
+        cout << "no squar" << endl;
+        exit(11);
+    }
 }
