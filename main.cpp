@@ -54,6 +54,8 @@ int main() {
     // }
 
     Game game;
+
+    game.loadTextures();
     
     const sf::Time TIME_PER_FRAME = sf::seconds(1.f / 60.f);
     sf::Clock clock; // starts the clock
