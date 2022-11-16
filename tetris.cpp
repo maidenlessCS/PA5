@@ -54,27 +54,6 @@ void Game::update(char board[20][10]) {
         }
 }
 
-void Game::moveCherry() {
-    sf::Vector2u winSize = mWindow.getSize();
-    int cherryX = 62;
-    int cherryY = 62;
-    if ((square.getPosition().x + (cherryX / 2) > winSize.x && mIncrement.x > 0) ||
-        (square.getPosition().x - (cherryX / 2) < 0 && mIncrement.x < 0))
-    {
-        // Reverse the direction on X axis
-        mIncrement.x = -mIncrement.x;
-    }
-    if ((square.getPosition().y + (cherryY / 2) > winSize.y && mIncrement.y > 0) ||
-        (square.getPosition().y - (cherryY / 2) < 0 && mIncrement.y < 0))
-    {
-        // Reverse the direction on Y axis.
-        mIncrement.y = -mIncrement.y;
-    }
-    square.setPosition(
-        square.getPosition().x + mIncrement.x,
-        square.getPosition().y + mIncrement.y);
-}
-
 void Game::render(char board[20][10]) {
     //mWindow.clear(sf::Color::Black);
     //mWindow.clear(sf::Color(10, 10, 10));
@@ -95,39 +74,37 @@ void Game::render(char board[20][10]) {
             {
                 for (int i = 0; i<20; i++)
                 {
-                    if (board[i][j] == '-')
-                    {
-                        square.setSize(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE));
-                        square.setTexture(NULL); // Clears texture
-                        square.setOutlineColor(sf::Color(60,60,60));
-                        square.setOutlineThickness(BORDER_SIZE);
-                        // Color starts at 40 because 2*20 gets to 40 so 40-(2*i) becomes 0 by the end of the loop
-                        // Doing it this way allows the gradient to start grey and end black
-                        square.setFillColor(sf::Color(40-(2*i),40-(2*i),40-(2*i)));
-                        square.setPosition(horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2, verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2);
-                        mWindow.draw(square);
-                    }
-                    else if (board[i][j] == 'l')
-                    {
-                        square.setSize(sf::Vector2f(BLOCK_SIZE+BORDER_SIZE*2, BLOCK_SIZE+BORDER_SIZE*2));
-                        square.setTexture(&art);
-                        square.setOutlineThickness(0);
-                        square.setFillColor(sf::Color(200,0,255));
-                        // im writing this comment down for later for cleaning up code so i dont forget why its done this way
-                        // the offset is to center it, it's explained above the loops
-                        // the subtracting of broder size is purely for colored blocks and its to correct a single pixel
-                        // missalignment that would otherwise be there
-                        square.setPosition(horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2 - BORDER_SIZE, verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2 - BORDER_SIZE);
-                        mWindow.draw(square);
-                    }
-                    else if (board[i][j] == 's')
-                    {
-                        square.setSize(sf::Vector2f(BLOCK_SIZE+BORDER_SIZE*2, BLOCK_SIZE+BORDER_SIZE*2));
-                        square.setTexture(&art);
-                        square.setFillColor(sf::Color(60,255,30));
-                        square.setOutlineThickness(0);
-                        square.setPosition(horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2 - BORDER_SIZE, verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2 - BORDER_SIZE);
-                        mWindow.draw(square);
+                    switch(board[i][j]) {
+                        case 'l':
+                            square.setSize(sf::Vector2f(BLOCK_SIZE+BORDER_SIZE*2, BLOCK_SIZE+BORDER_SIZE*2));
+                            square.setTexture(&art);
+                            square.setFillColor(sf::Color(60,255,30));
+                            square.setOutlineThickness(0);
+                            square.setPosition(horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2 - BORDER_SIZE, verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2 - BORDER_SIZE);
+                            mWindow.draw(square);
+                            break;
+                        case 's':
+                            square.setSize(sf::Vector2f(BLOCK_SIZE+BORDER_SIZE*2, BLOCK_SIZE+BORDER_SIZE*2));
+                            square.setTexture(&art);
+                            square.setOutlineThickness(0);
+                            square.setFillColor(sf::Color(200,0,255));
+                            // im writing this comment down for later for cleaning up code so i dont forget why its done this way
+                            // the offset is to center it, it's explained above the loops
+                            // the subtracting of broder size is purely for colored blocks and its to correct a single pixel
+                            // missalignment that would otherwise be there
+                            square.setPosition(horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2 - BORDER_SIZE, verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2 - BORDER_SIZE);
+                            mWindow.draw(square);
+                            break;
+                        default:
+                            square.setSize(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE));
+                            square.setTexture(NULL); // Clears texture
+                            square.setOutlineColor(sf::Color(60,60,60));
+                            square.setOutlineThickness(BORDER_SIZE);
+                            // Color starts at 40 because 2*20 gets to 40 so 40-(2*i) becomes 0 by the end of the loop
+                            // Doing it this way allows the gradient to start grey and end black
+                            square.setFillColor(sf::Color(40-(2*i),40-(2*i),40-(2*i)));
+                            square.setPosition(horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2, verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2);
+                            mWindow.draw(square);
                     }
                 }
             }
