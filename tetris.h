@@ -40,6 +40,7 @@ class Game
 class Block {
 
  public:
+   int index;
    virtual void rotate() = 0; // I'm not sure about this, if it's better than just not having
                                // function here at all and just having the child functions
                                // have them anyways (not virtual)
@@ -52,8 +53,7 @@ class Block {
 
 };
 
-class T : Block {
-   int index = 0;
+class T : public Block {
    int startRow = 1;
    char shape[4][5][5]={{{'*','*','*', '*', '*'},
                          {'*','*','X', '*', '*'},
@@ -78,10 +78,12 @@ class T : Block {
                          {'*','*','X', 'X', '*'},
                          {'*','*','X', '*', '*'},
                          {'*','*','*', '*', '*'}}};
+   void rotate() {
+      index += 1;
+   }
 };
 
-class O : Block {
-   int index = 0;
+class O : public Block {
    int startRow = 2;
    char shape[4][5][5]={{{'*','*','*', '*', '*'},
                          {'*','*','*', '*', '*'},
@@ -106,10 +108,12 @@ class O : Block {
                          {'*','*','X', 'X', '*'},
                          {'*','*','X', 'X', '*'},
                          {'*','*','*', '*', '*'}}};
+   void rotate() {
+      index += 1;
+   }
 };
 
-class J : Block {
-   int index = 0;
+class J : public Block {
    int startRow = 1;
    char shape[4][5][5]={{{'*','*','*', '*', '*'},
                          {'*','*','X', 'X', '*'},
@@ -134,10 +138,12 @@ class J : Block {
                          {'*','X','X', 'X', '*'},
                          {'*','*','*', '*', '*'},
                          {'*','*','*', '*', '*'}}};
+   void rotate() {
+      index += 1;
+   }
 };
 
-class L : Block {
-   int index = 0;
+class L : public Block {
    int startRow = 1;
    char shape[4][5][5]={{{'*','*','*', '*', '*'},
                          {'*','X','X', '*', '*'},
@@ -162,10 +168,12 @@ class L : Block {
                          {'*','X','X', 'X', '*'},
                          {'*','X','*', '*', '*'},
                          {'*','*','*', '*', '*'}}};
+   void rotate() {
+      index += 1;
+   }
 };
 
-class I : Block {
-   int index = 0;
+class I : public Block {
    int startRow = 2;
    char shape[4][5][5]={{{'*','*','*', '*', '*'},
                          {'*','*','*', '*', '*'},
@@ -190,10 +198,12 @@ class I : Block {
                          {'*','*','X', '*', '*'},
                          {'*','*','X', '*', '*'},
                          {'*','*','*', '*', '*'}}};
+   void rotate() {
+      index += 1;
+   }
 };
 
-class Z : Block {
-   int index = 0;
+class Z : public Block {
    int startRow = 2;
    char shape[4][5][5]={{{'*','*','*', '*', '*'},
                          {'*','X','X', '*', '*'},
@@ -218,10 +228,12 @@ class Z : Block {
                          {'*','X','X', '*', '*'},
                          {'*','X','*', '*', '*'},
                          {'*','*','*', '*', '*'}}};
+   void rotate() {
+      index += 1;
+   }
 };
 
-class S : Block {
-   int index = 0;
+class S : public Block {
    int startRow = 2;
    char shape[4][5][5]={{{'*','*','*', '*', '*'},
                          {'*','*','X', 'X', '*'},
@@ -246,6 +258,9 @@ class S : Block {
                          {'*','X','X', '*', '*'},
                          {'*','*','X', '*', '*'},
                          {'*','*','*', '*', '*'}}};
+   void rotate() {
+      index += 1;
+   }
 };
 
 void initializeBoard(char board[20][10], char fillChar);
