@@ -2,18 +2,38 @@
 
 int main() {
 
+    srand (time(NULL));
+
     char board[20][10];
 
     initializeBoard(board, '-');
-    board [4][5] = 'l';
-    board [4][6] = 'l';
-    board [4][7] = 'l';
-    board [5][7] = 'l';
+    // board [4][5] = 'l';
+    // board [4][6] = 'l';
+    // board [4][7] = 'l';
+    // board [5][7] = 'l';
 
-    board [5][5] = 's';
-    board [5][6] = 's';
-    board [6][5] = 's';
-    board [6][6] = 's';
+    // board [5][5] = 's';
+    // board [5][6] = 's';
+    // board [6][5] = 's';
+    // board [6][6] = 's';
+
+    int spawnBlok = rand() % 7 + 1;
+
+    Block *fallingBlock;
+
+    if(spawnBlok == 1) {
+        fallingBlock = new T;
+    }
+    else if(spawnBlok == 2) {
+        fallingBlock = new L;
+    }
+    else {
+        fallingBlock = new J;
+    }
+
+    cout << fallingBlock->index;
+    fallingBlock->rotate();
+    cout << fallingBlock->index;
 
     displayBoard(board);
 
