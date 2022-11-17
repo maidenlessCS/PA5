@@ -2,18 +2,22 @@
 
 int main() {
 
+    srand (time(NULL));
+
     char board[20][10];
 
     initializeBoard(board, '-');
-    board [4][5] = 'l';
-    board [4][6] = 'l';
-    board [4][7] = 'l';
-    board [5][7] = 'l';
+    // board [4][5] = 'l';
+    // board [4][6] = 'l';
+    // board [4][7] = 'l';
+    // board [5][7] = 'l';
 
-    board [5][5] = 's';
-    board [5][6] = 's';
-    board [6][5] = 's';
-    board [6][6] = 's';
+    // board [5][5] = 's';
+    // board [5][6] = 's';
+    // board [6][5] = 's';
+    // board [6][6] = 's';
+
+    int spawnBlok = rand()
 
     displayBoard(board);
 
