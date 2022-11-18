@@ -25,7 +25,7 @@ class Block {
       virtual vector<vector<char>> getSprite() = 0;
       virtual char getChar() = 0;
       virtual int getStartingRow() = 0;
-      virtual int movePos(char board[20][10], int moveX, int moveY) = 0;
+      virtual void movePos(char board[20][10], int moveX, int moveY) = 0;
 
    private:
 
@@ -76,7 +76,7 @@ class T : public Block {
       return spriteArray;
    }
 
-   int movePos(char board[20][10], int moveX, int moveY) {
+   void movePos(char board[20][10], int moveX, int moveY) {
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
             if(shape[index][i+2][j+2] != '-') {
@@ -143,7 +143,7 @@ class O : public Block {
       return spriteArray;
    }
 
-   int movePos(char board[20][10], int moveX, int moveY) {
+   void movePos(char board[20][10], int moveX, int moveY) {
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
             if(shape[index][i+2][j+2] != '-') {
@@ -205,7 +205,7 @@ class J : public Block {
       return spriteArray;
    }
    
-   int movePos(char board[20][10], int moveX, int moveY) {
+   void movePos(char board[20][10], int moveX, int moveY) {
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
             if(shape[index][i+2][j+2] != '-') {
@@ -267,6 +267,24 @@ class L : public Block {
       }
       return spriteArray;
    }
+
+   void movePos(char board[20][10], int moveX, int moveY) {
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            if(shape[index][i+2][j+2] != '-') {
+               board[posY+i][posX+j] = '-';
+            }
+         }
+      }
+      cout << "movePos ran" << endl;
+      posX += moveX;
+      posY += moveY;
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            board[posY+i][posX+j] = shape[index][i+2][j+2];
+         }
+      }
+   }
 };
 
 class I : public Block {
@@ -311,6 +329,24 @@ class I : public Block {
          }
       }
       return spriteArray;
+   }
+   
+   void movePos(char board[20][10], int moveX, int moveY) {
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            if(shape[index][i+2][j+2] != '-') {
+               board[posY+i][posX+j] = '-';
+            }
+         }
+      }
+      cout << "movePos ran" << endl;
+      posX += moveX;
+      posY += moveY;
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            board[posY+i][posX+j] = shape[index][i+2][j+2];
+         }
+      }
    }
 };
 
@@ -357,6 +393,24 @@ class Z : public Block {
       }
       return spriteArray;
    }
+
+   void movePos(char board[20][10], int moveX, int moveY) {
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            if(shape[index][i+2][j+2] != '-') {
+               board[posY+i][posX+j] = '-';
+            }
+         }
+      }
+      cout << "movePos ran" << endl;
+      posX += moveX;
+      posY += moveY;
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            board[posY+i][posX+j] = shape[index][i+2][j+2];
+         }
+      }
+   }
 };
 
 class S : public Block {
@@ -401,6 +455,24 @@ class S : public Block {
          }
       }
       return spriteArray;
+   }
+
+   void movePos(char board[20][10], int moveX, int moveY) {
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            if(shape[index][i+2][j+2] != '-') {
+               board[posY+i][posX+j] = '-';
+            }
+         }
+      }
+      cout << "movePos ran" << endl;
+      posX += moveX;
+      posY += moveY;
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            board[posY+i][posX+j] = shape[index][i+2][j+2];
+         }
+      }
    }
 };
 
