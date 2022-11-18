@@ -11,37 +11,11 @@ using std::cout;
 using std::endl;
 using std::vector;
 
-class Game
-{
-   
- public:
-    Game();
-    ~Game(){};
-    void handleInput();
-    void loadTextures();
-    void update(char board[20][10]);
-    void render(char board[20][10]);
-    bool isDone() const;
-    int WINDOW_SIZE_X = 700;
-    int WINDOW_SIZE_Y = 650;
-    // Each block is sized to BLOCK_SIZE + (BORDER_SIZE * 2)
-    int BLOCK_SIZE = 28;
-    int BORDER_SIZE = 1;
-    int posX = 0;
- private:
-    sf::RenderWindow mWindow;
-    bool mIsDone;
-    sf::RectangleShape square;
-    sf::RectangleShape boardSprite;
-    sf::Texture art;
-    sf::Vector2i mIncrement;
-   
-};
-
 class Block {
 
    public:
       int index = 0;
+      int posX = 0, posY = 0;
       char mChar;
       // sf::Color color;
       // sf::Texture texture;
@@ -51,6 +25,7 @@ class Block {
       virtual vector<vector<char>> getSprite() = 0;
       virtual char getChar() = 0;
       virtual int getStartingRow() = 0;
+      virtual int movePos(char board[20][10], int moveX, int moveY) = 0;
 
    private:
 
@@ -101,6 +76,24 @@ class T : public Block {
       return spriteArray;
    }
 
+   int movePos(char board[20][10], int moveX, int moveY) {
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            if(shape[index][i+2][j+2] != '-') {
+               board[posY+i][posX+j] = '-';
+            }
+         }
+      }
+      cout << "movePos ran" << endl;
+      posX += moveX;
+      posY += moveY;
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            board[posY+i][posX+j] = shape[index][i+2][j+2];
+         }
+      }
+   }
+
    public:
 
       
@@ -149,6 +142,23 @@ class O : public Block {
       }
       return spriteArray;
    }
+
+   int movePos(char board[20][10], int moveX, int moveY) {
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            if(shape[index][i+2][j+2] != '-') {
+               board[posY+i][posX+j] = '-';
+            }
+         }
+      }
+      posX += moveX;
+      posY += moveY;
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            board[posY+i][posX+j] = shape[index][i+2][j+2];
+         }
+      }
+   }
 };
 
 class J : public Block {
@@ -193,6 +203,24 @@ class J : public Block {
          }
       }
       return spriteArray;
+   }
+   
+   int movePos(char board[20][10], int moveX, int moveY) {
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            if(shape[index][i+2][j+2] != '-') {
+               board[posY+i][posX+j] = '-';
+            }
+         }
+      }
+      cout << "movePos ran" << endl;
+      posX += moveX;
+      posY += moveY;
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            board[posY+i][posX+j] = shape[index][i+2][j+2];
+         }
+      }
    }
 };
 
@@ -380,5 +408,32 @@ void initializeBoard(char board[20][10], char fillChar);
 void displayBoard(char board[20][10]);
 Block* getBlockType(int num);
 void spawnBlock(char board[20][10], Block* block);
+
+class Game
+{
+   
+ public:
+    Game();
+    ~Game(){};
+    void handleInput();
+    void loadTextures();
+    void update(char board[20][10], Block* fallingBlock);
+    void render(char board[20][10]);
+    bool isDone() const;
+    int WINDOW_SIZE_X = 700;
+    int WINDOW_SIZE_Y = 650;
+    // Each block is sized to BLOCK_SIZE + (BORDER_SIZE * 2)
+    int BLOCK_SIZE = 28;
+    int BORDER_SIZE = 1;
+    int posX = 0;
+ private:
+    sf::RenderWindow mWindow;
+    bool mIsDone;
+    sf::RectangleShape square;
+    sf::RectangleShape boardSprite;
+    sf::Texture art;
+    sf::Vector2i mIncrement;
+   
+};
 
 #endif
