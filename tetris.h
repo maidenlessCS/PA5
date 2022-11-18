@@ -332,7 +332,7 @@ class Z : public Block {
 };
 
 class S : public Block {
-   int startRow = 2;
+   int startRow = 1;
    char mChar = 'S';
    vector<vector<vector<char>>> shape={{{'-','-','-','-','-'},
                                         {'-','-','S','S','-'},
