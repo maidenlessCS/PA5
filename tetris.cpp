@@ -116,6 +116,13 @@ bool Game::isDone() const {
     return (!mWindow.isOpen() || mIsDone);
 }
 
+void Game::loadTextures() {
+    if(!art.loadFromFile("squar.png")) {
+        cout << "no squar" << endl;
+        exit(11);
+    }
+}
+
 void initializeBoard(char board[20][10], char fillChar) {
     for(int i = 0; i < 20; i++) {
         for(int j = 0; j < 10; j++) {
@@ -134,9 +141,34 @@ void displayBoard(char board[20][10]) {
     cout << endl;
 }
 
-void Game::loadTextures() {
-    if(!art.loadFromFile("squar.png")) {
-        cout << "no squar" << endl;
-        exit(11);
+Block* getBlockType(int num) {
+    int spawnBlock = rand() % 7 + 1;
+    Block *fallingBlock;
+    switch(spawnBlock) {
+        case 1:
+            fallingBlock = new T;
+            break;
+        case 2:
+            fallingBlock = new O;
+            break;
+        case 3:
+            fallingBlock = new J;
+            break;
+        case 4:
+            fallingBlock = new L;
+            break;
+        case 5:
+            fallingBlock = new I;
+            break;
+        case 6:
+            fallingBlock = new Z;
+            break;
+        case 7:
+            fallingBlock = new S;
+            break;
+        default:
+            exit(2);
     }
+
+    return fallingBlock;
 }

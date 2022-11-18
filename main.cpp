@@ -17,25 +17,28 @@ int main() {
     // board [6][5] = 's';
     // board [6][6] = 's';
 
-    int spawnBlok = rand() % 7 + 1;
+    int spawnBlock = rand() % 7 + 1;
+    Block *fallingBlock = getBlockType(spawnBlock);
 
-    Block *fallingBlock;
-
-    if(spawnBlok == 1) {
-        fallingBlock = new T;
-    }
-    else if(spawnBlok == 2) {
-        fallingBlock = new L;
-    }
-    else {
-        fallingBlock = new J;
-    }
-
-    cout << fallingBlock->index;
+    cout << fallingBlock->index << endl;
     fallingBlock->rotate();
-    cout << fallingBlock->index;
+    cout << fallingBlock->index << endl;
+    cout << fallingBlock->getChar() << endl;
 
-    displayBoard(board);
+    // This is temporary, just to test and show how this will work
+    // by getting the sprites of each block. It gets it at the index of its rotation
+    // so by using rotate() first it will change which array it returns
+    vector<vector<char>> spriteSheet = fallingBlock->getSprite();
+
+    // just displays spriteSheet, which is one of the rotations
+    for(int i = 0; i < 5; i++) {
+        for(int j = 0; j < 5; j++) {
+            cout << spriteSheet[i][j] << ' ';
+        }
+        cout << endl;
+    }
+
+    //displayBoard(board);
 
     // int posX = 0;
 
