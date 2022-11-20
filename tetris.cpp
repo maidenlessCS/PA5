@@ -16,26 +16,27 @@ void Game::handleInput() {
     }
 }
 
-void Game::update(char board[20][10]) {
+void Game::update(char board[20][10], Block* fallingBlock) {
     sf::Event event;
-        while(mWindow.pollEvent(event))
+    while(mWindow.pollEvent(event))
+    {
+        if(event.type == sf::Event::Closed)
         {
-            if(event.type == sf::Event::Closed)
-            {
-                // Close window button clicked.
-                mWindow.close();
+            // Close window button clicked.
+            mWindow.close();
+        }
+        if (event.type == sf::Event::EventType::KeyPressed){
+            // LEFT ARROW PRESSED
+            if (event.key.code == sf::Keyboard::Left){
+                cout << "TSET" << endl;
+                fallingBlock->movePos(board, -1, 0);
             }
-            if (event.type == sf::Event::EventType::KeyPressed){
-                // LEFT ARROW PRESSED
-                if (event.key.code == sf::Keyboard::Left){
-                    // Do something here
-                }
-                // RIGHT ARROW PRESSED
-                else if (event.key.code == sf::Keyboard::Right) {
-                    // Do something here
-                }
+            // RIGHT ARROW PRESSED
+            else if (event.key.code == sf::Keyboard::Right) {
+                fallingBlock->movePos(board, 1, 0);
             }
         }
+    }
 }
 
 void Game::render(char board[20][10]) {
@@ -150,26 +151,28 @@ Block* getBlockType(int num) {
         case 1:
             fallingBlock = new T;
             break;
-        case 2:
-            fallingBlock = new O;
-            break;
-        case 3:
-            fallingBlock = new J;
-            break;
-        case 4:
-            fallingBlock = new L;
-            break;
-        case 5:
-            fallingBlock = new I;
-            break;
-        case 6:
-            fallingBlock = new Z;
-            break;
-        case 7:
-            fallingBlock = new S;
-            break;
+        // case 2:
+        //     fallingBlock = new O;
+        //     break;
+        // case 3:
+        //     fallingBlock = new J;
+        //     break;
+        // case 4:
+        //     fallingBlock = new L;
+        //     break;
+        // case 5:
+        //     fallingBlock = new I;
+        //     break;
+        // case 6:
+        //     fallingBlock = new Z;
+        //     break;
+        // case 7:
+        //     fallingBlock = new S;
+        //     break;
         default:
-            exit(2);
+            // exit(2);
+            fallingBlock = new T;
+            break;
     }
     return fallingBlock;
 }
@@ -183,5 +186,6 @@ void spawnBlock(char board[20][10], Block* block) {
                 board[i][2+j] = spriteSheet[i+start][j];
         }
     }
-
+    block->posY = 2-start;
+    block->posX = 4;
 }

@@ -34,13 +34,22 @@ int main() {
     
     const sf::Time TIME_PER_FRAME = sf::seconds(1.f / 60.f);
     sf::Clock clock; // starts the clock
+
+    float secondCounter = 0;
+
     while(!game.isDone())
     {
-        sf::Time start = clock.restart();
+        sf::Time elapsedTime = clock.restart();
+        secondCounter += elapsedTime.asSeconds();
         game.handleInput();
-        game.update(board);
+        game.update(board, fallingBlock);
         game.render(board);
-        sf::sleep(start + TIME_PER_FRAME - clock.getElapsedTime());
+        if(secondCounter >= 1) {
+            fallingBlock->movePos(board, 0, 1);
+            // displayBoard(board);
+            secondCounter = 0;
+        }
+        sf::sleep(elapsedTime + TIME_PER_FRAME - clock.getElapsedTime());
     }
 
     return 0;
