@@ -80,6 +80,7 @@ class T : public Block {
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
             if(shape[index][i+2][j+2] != '-') {
+               if(posY < 2 || posX < 2) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -89,6 +90,7 @@ class T : public Block {
       posY += moveY;
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
+            if(posY < 2 || posX < 2) { continue; }
             board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
       }
@@ -147,6 +149,7 @@ class O : public Block {
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
             if(shape[index][i+2][j+2] != '-') {
+               if(posY < 2 || posX < 2) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -155,6 +158,7 @@ class O : public Block {
       posY += moveY;
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
+            if(posY < 2 || posX < 2) { continue; }
             board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
       }
@@ -209,6 +213,7 @@ class J : public Block {
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
             if(shape[index][i+2][j+2] != '-') {
+               if(posY < 2 || posX < 2) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -218,6 +223,7 @@ class J : public Block {
       posY += moveY;
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
+            if(posY < 2 || posX < 2) { continue; }
             board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
       }
@@ -272,6 +278,7 @@ class L : public Block {
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
             if(shape[index][i+2][j+2] != '-') {
+               if(posY < 2 || posX < 2) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -281,6 +288,7 @@ class L : public Block {
       posY += moveY;
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
+            if(posY < 2 || posX < 2) { continue; }
             board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
       }
@@ -335,6 +343,7 @@ class I : public Block {
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
             if(shape[index][i+2][j+2] != '-') {
+               if(posY < 2 || posX < 2) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -344,6 +353,7 @@ class I : public Block {
       posY += moveY;
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
+            if(posY < 2 || posX < 2) { continue; }
             board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
       }
@@ -398,6 +408,7 @@ class Z : public Block {
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
             if(shape[index][i+2][j+2] != '-') {
+               if(posY < 2 || posX < 2) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -407,6 +418,7 @@ class Z : public Block {
       posY += moveY;
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
+            if(posY < 2 || posX < 2) { continue; }
             board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
       }
@@ -451,6 +463,7 @@ class S : public Block {
       vector<vector<char>> spriteArray(5, vector<char>(5));
       for(int i = 0; i < 5; i++) {
          for(int j = 0; j < 5; j++) {
+            if(posY < 2 || posX < 2) { continue; }
             spriteArray[i][j] = shape[index][i][j];
          }
       }
@@ -461,6 +474,7 @@ class S : public Block {
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
             if(shape[index][i+2][j+2] != '-') {
+               if(posY < 2 || posX < 2) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -470,6 +484,7 @@ class S : public Block {
       posY += moveY;
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
+            if(posY < 2 || posX < 2) { continue; }
             board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
       }

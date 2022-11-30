@@ -9,7 +9,7 @@ int main() {
     initializeBoard(board, '-');
 
     int randBlock = rand() % 7 + 1;
-    Block *fallingBlock = getBlockType(randBlock);
+    Block *fallingBlock = getBlockType(5);
 
     // cout << fallingBlock->index << endl;
     // fallingBlock->rotate();
