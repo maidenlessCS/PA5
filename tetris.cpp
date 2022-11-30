@@ -145,34 +145,33 @@ void displayBoard(char board[20][10]) {
 }
 
 Block* getBlockType(int num) {
-    int spawnBlock = rand() % 7 + 1;
     Block *fallingBlock;
-    switch(spawnBlock) {
+    switch(num) {
         case 1:
             fallingBlock = new T;
             break;
-        // case 2:
-        //     fallingBlock = new O;
-        //     break;
-        // case 3:
-        //     fallingBlock = new J;
-        //     break;
-        // case 4:
-        //     fallingBlock = new L;
-        //     break;
-        // case 5:
-        //     fallingBlock = new I;
-        //     break;
-        // case 6:
-        //     fallingBlock = new Z;
-        //     break;
-        // case 7:
-        //     fallingBlock = new S;
-        //     break;
-        default:
-            // exit(2);
-            fallingBlock = new T;
+        case 2:
+            fallingBlock = new O;
             break;
+        case 3:
+            fallingBlock = new J;
+            break;
+        case 4:
+            fallingBlock = new L;
+            break;
+        case 5:
+            fallingBlock = new I;
+            break;
+        case 6:
+            fallingBlock = new Z;
+            break;
+        case 7:
+            fallingBlock = new S;
+            break;
+        default:
+            exit(2); // This shouldn't ever happen but just in case
+            // fallingBlock = new T;
+            // break;
     }
     return fallingBlock;
 }
@@ -189,3 +188,39 @@ void spawnBlock(char board[20][10], Block* block) {
     block->posY = 2-start;
     block->posX = 4;
 }
+
+// friend void rotate() {
+//     index = (index + 1) % 4; // Wrap-around operation, increments from 0, 1, 2, 3 and then wraps back to 0
+// }
+
+// friend char getChar() { return mChar; }
+
+// friend int getStartingRow() { return startRow; }
+
+// friend vector<vector<char>> getSprite() {
+//     vector<vector<char>> spriteArray(5, vector<char>(5));
+//     for(int i = 0; i < 5; i++) {
+//         for(int j = 0; j < 5; j++) {
+//         spriteArray[i][j] = shape[index][i][j];
+//         }
+//     }
+//     return spriteArray;
+// }
+
+// friend void movePos(char board[20][10], int moveX, int moveY) {
+//     for(int i = -2; i < 3; i++) {
+//         for(int j = -2; j < 3; j++) {
+//         if(shape[index][i+2][j+2] != '-') {
+//             board[posY+i][posX+j] = '-';
+//         }
+//         }
+//     }
+//     cout << "movePos ran" << endl;
+//     posX += moveX;
+//     posY += moveY;
+//     for(int i = -2; i < 3; i++) {
+//         for(int j = -2; j < 3; j++) {
+//         board[posY+i][posX+j] = shape[index][i+2][j+2];
+//         }
+//     }
+// }
