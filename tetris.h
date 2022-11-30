@@ -159,6 +159,7 @@ class O : public Block {
          }
       }
    }
+
 };
 
 class J : public Block {

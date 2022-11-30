@@ -145,32 +145,31 @@ void displayBoard(char board[20][10]) {
 }
 
 Block* getBlockType(int num) {
-    int spawnBlock = rand() % 7 + 1;
     Block *fallingBlock;
-    switch(spawnBlock) {
+    switch(num) {
         case 1:
             fallingBlock = new T;
             break;
-        // case 2:
-        //     fallingBlock = new O;
-        //     break;
-        // case 3:
-        //     fallingBlock = new J;
-        //     break;
-        // case 4:
-        //     fallingBlock = new L;
-        //     break;
-        // case 5:
-        //     fallingBlock = new I;
-        //     break;
-        // case 6:
-        //     fallingBlock = new Z;
-        //     break;
-        // case 7:
-        //     fallingBlock = new S;
-        //     break;
+        case 2:
+            fallingBlock = new O;
+            break;
+        case 3:
+            fallingBlock = new J;
+            break;
+        case 4:
+            fallingBlock = new L;
+            break;
+        case 5:
+            fallingBlock = new I;
+            break;
+        case 6:
+            fallingBlock = new Z;
+            break;
+        case 7:
+            fallingBlock = new S;
+            break;
         default:
-            // exit(2);
+            exit(2);
             fallingBlock = new T;
             break;
     }

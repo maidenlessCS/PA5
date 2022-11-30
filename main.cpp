@@ -12,11 +12,11 @@ int main() {
     Block *fallingBlock = getBlockType(randBlock);
 
     // cout << fallingBlock->index << endl;
-    // fallingBlock->rotate();
+    fallingBlock->rotate();
     // cout << fallingBlock->index << endl;
     cout << fallingBlock->getChar() << endl;
 
-    // fallingBlock->rotate();
+    //fallingBlock->rotate();
     // fallingBlock->rotate(); // this is just for resetting the rotation, or rotating back around
     // fallingBlock->rotate();
 
