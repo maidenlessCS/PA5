@@ -4,19 +4,7 @@ Game::Game() : mWindow(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "TETRIS") {
     mIsDone = false;
 }
 
-void Game::handleInput() {
-    sf::Event event;
-    while(mWindow.pollEvent(event))
-    {
-        if(event.type == sf::Event::Closed)
-        {
-            // Close window button clicked.
-            mWindow.close();
-        }
-    }
-}
-
-void Game::update(char board[20][10], Block* fallingBlock) {
+void Game::handleInput(char board[20][10], Block* fallingBlock) {
     sf::Event event;
     while(mWindow.pollEvent(event))
     {
@@ -28,7 +16,6 @@ void Game::update(char board[20][10], Block* fallingBlock) {
         if (event.type == sf::Event::EventType::KeyPressed){
             // LEFT ARROW PRESSED
             if (event.key.code == sf::Keyboard::Left){
-                cout << "TSET" << endl;
                 fallingBlock->movePos(board, -1, 0);
             }
             // RIGHT ARROW PRESSED
@@ -37,6 +24,10 @@ void Game::update(char board[20][10], Block* fallingBlock) {
             }
         }
     }
+}
+
+void Game::update(char board[20][10], Block* fallingBlock) {
+    
 }
 
 void Game::render(char board[20][10]) {
@@ -178,10 +169,11 @@ Block* getBlockType(int num) {
 
 void spawnBlock(char board[20][10], Block* block) {
     vector<vector<char>> spriteSheet = block->getSprite();
+    char blockChar = block->getChar();
     int start = block->getStartingRow();
     for(int i = 0; i < 5-start; i++) {
         for(int j = 0; j < 5; j++) {
-            if(spriteSheet[i+start][j] != '-')
+            if(spriteSheet[i+start][j] == blockChar)
                 board[i][2+j] = spriteSheet[i+start][j];
         }
     }
