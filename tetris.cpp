@@ -40,6 +40,28 @@ void Game::update(char board[20][10], Block* fallingBlock) {
 }
 
 void Game::render(char board[20][10]) {
+    sf::RectangleShape background;
+    background.setSize(sf::Vector2f(700, 650));
+    background.setTexture(&back);
+    mWindow.draw(background);
+    sf::RectangleShape score;
+    score.setSize(sf::Vector2f(150, 70));
+    score.setFillColor(sf::Color::Black);
+    score.setPosition(525, 100);
+    mWindow.draw(score);
+    sf::Text numbers;
+    sf::Font font;
+    if (!font.loadFromFile("tf2build.ttf"))
+    {
+        cout << "Font not found" <<endl;
+    }
+    numbers.setFont(font);
+    numbers.setString("0123456789");
+    numbers.setPosition(525,100);
+    numbers.setCharacterSize(24);
+    numbers.setFillColor(sf::Color::White);
+    //numbers.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    mWindow.draw(numbers);
     sf::RectangleShape drawSquare;
     drawSquare.setSize(sf::Vector2f(40, 40));
     drawSquare.setFillColor(sf::Color::White);
@@ -122,6 +144,10 @@ bool Game::isDone() const {
 void Game::loadTextures() {
     if(!art.loadFromFile("squar.png")) {
         cout << "no squar" << endl;
+        exit(11);
+    }
+    if(!back.loadFromFile("back.png")) {
+        cout << "no back" << endl;
         exit(11);
     }
 }

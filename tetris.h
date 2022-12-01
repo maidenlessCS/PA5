@@ -489,6 +489,7 @@ class S : public Block {
          }
       }
    }
+
 };
 
 void initializeBoard(char board[20][10], char fillChar);
@@ -519,6 +520,7 @@ class Game
     sf::RectangleShape square;
     sf::RectangleShape boardSprite;
     sf::Texture art;
+    sf::Texture back;
     sf::Vector2i mIncrement;
    
 };
