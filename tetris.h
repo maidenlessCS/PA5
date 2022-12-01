@@ -7,6 +7,7 @@
 #include <SFML/Graphics.hpp>
 #include <time.h>
 #include <stdlib.h>
+#include <fstream>
 using std::cout;
 using std::endl;
 using std::vector;
@@ -773,6 +774,7 @@ class Game
     ~Game(){};
     void handleInput(char board[20][10], Block* fallingBlock);
     void loadTextures();
+    void loadFont();
     void update(char board[20][10], Block* fallingBlock);
     void render(char board[20][10]);
     bool isDone() const;
@@ -785,10 +787,13 @@ class Game
  private:
     sf::RenderWindow mWindow;
     bool mIsDone;
+    void drawHighscore();
+    void drawCurrentscore();
     sf::RectangleShape square;
     sf::RectangleShape boardSprite;
     sf::Texture art;
     sf::Texture back;
+    sf::Font font;
     sf::Vector2i mIncrement;
    
 };

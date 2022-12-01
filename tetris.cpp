@@ -35,24 +35,8 @@ void Game::render(char board[20][10]) {
     background.setSize(sf::Vector2f(700, 650));
     background.setTexture(&back);
     mWindow.draw(background);
-    sf::RectangleShape score;
-    score.setSize(sf::Vector2f(150, 70));
-    score.setFillColor(sf::Color::Black);
-    score.setPosition(525, 100);
-    mWindow.draw(score);
-    sf::Text numbers;
-    sf::Font font;
-    if (!font.loadFromFile("tf2build.ttf"))
-    {
-        cout << "Font not found" <<endl;
-    }
-    numbers.setFont(font);
-    numbers.setString("0123456789");
-    numbers.setPosition(525,100);
-    numbers.setCharacterSize(24);
-    numbers.setFillColor(sf::Color::White);
-    //numbers.setStyle(sf::Text::Bold | sf::Text::Underlined);
-    mWindow.draw(numbers);
+    drawHighscore();
+    drawCurrentscore();
     sf::RectangleShape drawSquare;
     drawSquare.setSize(sf::Vector2f(40, 40));
     drawSquare.setFillColor(sf::Color::White);
@@ -143,6 +127,13 @@ void Game::loadTextures() {
     }
 }
 
+void Game::loadFont() {
+    if (!font.loadFromFile("Excelsior.ttf"))
+    {
+        cout << "Font not found" <<endl;
+    }
+}
+
 void initializeBoard(char board[20][10], char fillChar) {
     for(int i = 0; i < 20; i++) {
         for(int j = 0; j < 10; j++) {
@@ -205,6 +196,56 @@ void spawnBlock(char board[20][10], Block* block) {
     }
     block->posY = 2-start;
     block->posX = 4;
+}
+
+void Game::drawHighscore()
+{
+    std::ifstream file; 
+    std::string Highscore;
+    file.open("Highscore.txt");
+    getline(file, Highscore);
+    sf::RectangleShape scoreBox;
+    scoreBox.setSize(sf::Vector2f(150, 50));
+    scoreBox.setFillColor(sf::Color::Black);
+    scoreBox.setPosition(525, 100);
+    mWindow.draw(scoreBox);
+    sf::Text high;
+    high.setFont(font);
+    high.setString("Highscore:");
+    high.setPosition(530,100);
+    high.setCharacterSize(24);
+    high.setFillColor(sf::Color::White);
+    mWindow.draw(high);
+    sf::Text score;
+    score.setFont(font);
+    score.setString(Highscore);
+    score.setPosition(530,120);
+    score.setCharacterSize(24);
+    score.setFillColor(sf::Color::White);
+    mWindow.draw(score);
+}
+
+void Game::drawCurrentscore()
+{
+    sf::RectangleShape scoreBox;
+    scoreBox.setSize(sf::Vector2f(150, 50));
+    scoreBox.setFillColor(sf::Color::Black);
+    scoreBox.setPosition(525, 160);
+    mWindow.draw(scoreBox);
+    sf::Text high;
+    high.setFont(font);
+    high.setString("Score:");
+    high.setPosition(530,160);
+    high.setCharacterSize(24);
+    high.setFillColor(sf::Color::White);
+    mWindow.draw(high);
+    sf::Text score;
+    score.setFont(font);
+    score.setString("0123456789");
+    score.setPosition(530,180);
+    score.setCharacterSize(24);
+    score.setFillColor(sf::Color::White);
+    mWindow.draw(score);
 }
 
 // friend void rotate() {
