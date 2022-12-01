@@ -8,13 +8,17 @@ int main() {
 
     initializeBoard(board, '-');
 
+    board[9][1] = 'O';
+    board[9][2] = 'O';
+    board[10][1] = 'O';
+    board[10][2] = 'O';
+
     int randBlock = rand() % 7 + 1;
     Block *fallingBlock = getBlockType(randBlock);
 
     // cout << fallingBlock->index << endl;
     fallingBlock->rotate();
     // cout << fallingBlock->index << endl;
-    cout << fallingBlock->getChar() << endl;
 
     //fallingBlock->rotate();
     // fallingBlock->rotate(); // this is just for resetting the rotation, or rotating back around
@@ -35,20 +39,27 @@ int main() {
     const sf::Time TIME_PER_FRAME = sf::seconds(1.f / 60.f);
     sf::Clock clock; // starts the clock
 
-    float secondCounter = 0;
+    float secondsCounter = 0;
 
     while(!game.isDone())
     {
         sf::Time elapsedTime = clock.restart();
-        secondCounter += elapsedTime.asSeconds();
-        game.handleInput();
+        secondsCounter += elapsedTime.asSeconds();
+        game.handleInput(board, fallingBlock);
         game.update(board, fallingBlock);
-        game.render(board);
-        if(secondCounter >= 1) {
-            fallingBlock->movePos(board, 0, 1);
-            // displayBoard(board);
-            secondCounter = 0;
+        if(secondsCounter >= 1) {
+            if(!fallingBlock->movePos(board, 0, 1)) {
+                // this runs when it is unable to move downwards, so itll
+                // be where we create and assign a new falling block
+                cout << "move failed" << endl;
+                int randBlock = rand() % 7 + 1;
+                fallingBlock = getBlockType(randBlock);
+                spawnBlock(board, fallingBlock);
+            }
+            secondsCounter = 0;
         }
+        game.render(board);
+        displayBoard(board);
         sf::sleep(elapsedTime + TIME_PER_FRAME - clock.getElapsedTime());
     }
 

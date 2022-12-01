@@ -4,19 +4,7 @@ Game::Game() : mWindow(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "TETRIS") {
     mIsDone = false;
 }
 
-void Game::handleInput() {
-    sf::Event event;
-    while(mWindow.pollEvent(event))
-    {
-        if(event.type == sf::Event::Closed)
-        {
-            // Close window button clicked.
-            mWindow.close();
-        }
-    }
-}
-
-void Game::update(char board[20][10], Block* fallingBlock) {
+void Game::handleInput(char board[20][10], Block* fallingBlock) {
     sf::Event event;
     while(mWindow.pollEvent(event))
     {
@@ -28,7 +16,6 @@ void Game::update(char board[20][10], Block* fallingBlock) {
         if (event.type == sf::Event::EventType::KeyPressed){
             // LEFT ARROW PRESSED
             if (event.key.code == sf::Keyboard::Left){
-                cout << "TSET" << endl;
                 fallingBlock->movePos(board, -1, 0);
             }
             // RIGHT ARROW PRESSED
@@ -39,7 +26,33 @@ void Game::update(char board[20][10], Block* fallingBlock) {
     }
 }
 
+void Game::update(char board[20][10], Block* fallingBlock) {
+    
+}
+
 void Game::render(char board[20][10]) {
+    sf::RectangleShape background;
+    background.setSize(sf::Vector2f(700, 650));
+    background.setTexture(&back);
+    mWindow.draw(background);
+    sf::RectangleShape score;
+    score.setSize(sf::Vector2f(150, 70));
+    score.setFillColor(sf::Color::Black);
+    score.setPosition(525, 100);
+    mWindow.draw(score);
+    sf::Text numbers;
+    sf::Font font;
+    if (!font.loadFromFile("tf2build.ttf"))
+    {
+        cout << "Font not found" <<endl;
+    }
+    numbers.setFont(font);
+    numbers.setString("0123456789");
+    numbers.setPosition(525,100);
+    numbers.setCharacterSize(24);
+    numbers.setFillColor(sf::Color::White);
+    //numbers.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    mWindow.draw(numbers);
     sf::RectangleShape drawSquare;
     drawSquare.setSize(sf::Vector2f(40, 40));
     drawSquare.setFillColor(sf::Color::White);
@@ -124,6 +137,10 @@ void Game::loadTextures() {
         cout << "no squar" << endl;
         exit(11);
     }
+    if(!back.loadFromFile("back.png")) {
+        cout << "no back" << endl;
+        exit(11);
+    }
 }
 
 void initializeBoard(char board[20][10], char fillChar) {
@@ -169,22 +186,59 @@ Block* getBlockType(int num) {
             fallingBlock = new S;
             break;
         default:
-            exit(2);
-            fallingBlock = new T;
-            break;
+            exit(2); // This shouldn't ever happen but just in case
+            // fallingBlock = new T;
+            // break;
     }
     return fallingBlock;
 }
 
 void spawnBlock(char board[20][10], Block* block) {
     vector<vector<char>> spriteSheet = block->getSprite();
+    char blockChar = block->getChar();
     int start = block->getStartingRow();
     for(int i = 0; i < 5-start; i++) {
         for(int j = 0; j < 5; j++) {
-            if(spriteSheet[i+start][j] != '-')
+            if(spriteSheet[i+start][j] == blockChar)
                 board[i][2+j] = spriteSheet[i+start][j];
         }
     }
     block->posY = 2-start;
     block->posX = 4;
 }
+
+// friend void rotate() {
+//     index = (index + 1) % 4; // Wrap-around operation, increments from 0, 1, 2, 3 and then wraps back to 0
+// }
+
+// friend char getChar() { return mChar; }
+
+// friend int getStartingRow() { return startRow; }
+
+// friend vector<vector<char>> getSprite() {
+//     vector<vector<char>> spriteArray(5, vector<char>(5));
+//     for(int i = 0; i < 5; i++) {
+//         for(int j = 0; j < 5; j++) {
+//         spriteArray[i][j] = shape[index][i][j];
+//         }
+//     }
+//     return spriteArray;
+// }
+
+// friend void movePos(char board[20][10], int moveX, int moveY) {
+//     for(int i = -2; i < 3; i++) {
+//         for(int j = -2; j < 3; j++) {
+//         if(shape[index][i+2][j+2] != '-') {
+//             board[posY+i][posX+j] = '-';
+//         }
+//         }
+//     }
+//     cout << "movePos ran" << endl;
+//     posX += moveX;
+//     posY += moveY;
+//     for(int i = -2; i < 3; i++) {
+//         for(int j = -2; j < 3; j++) {
+//         board[posY+i][posX+j] = shape[index][i+2][j+2];
+//         }
+//     }
+// }
