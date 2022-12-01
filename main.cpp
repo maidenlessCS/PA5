@@ -8,19 +8,14 @@ int main() {
 
     initializeBoard(board, '-');
 
-    board[9][1] = 'O';
-    board[9][2] = 'O';
-    board[10][1] = 'O';
-    board[10][2] = 'O';
-
     int randBlock = rand() % 7 + 1;
     Block *fallingBlock = getBlockType(randBlock);
 
     // cout << fallingBlock->index << endl;
-    // fallingBlock->rotate();
+    fallingBlock->rotate();
     // cout << fallingBlock->index << endl;
 
-    // fallingBlock->rotate();
+    //fallingBlock->rotate();
     // fallingBlock->rotate(); // this is just for resetting the rotation, or rotating back around
     // fallingBlock->rotate();
 
@@ -35,6 +30,7 @@ int main() {
     Game game;
 
     game.loadTextures();
+    game.loadFont();
     
     const sf::Time TIME_PER_FRAME = sf::seconds(1.f / 60.f);
     sf::Clock clock; // starts the clock

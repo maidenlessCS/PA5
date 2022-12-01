@@ -31,6 +31,12 @@ void Game::update(char board[20][10], Block* fallingBlock) {
 }
 
 void Game::render(char board[20][10]) {
+    sf::RectangleShape background;
+    background.setSize(sf::Vector2f(700, 650));
+    background.setTexture(&back);
+    mWindow.draw(background);
+    drawHighscore();
+    drawCurrentscore();
     sf::RectangleShape drawSquare;
     drawSquare.setSize(sf::Vector2f(40, 40));
     drawSquare.setFillColor(sf::Color::White);
@@ -115,6 +121,17 @@ void Game::loadTextures() {
         cout << "no squar" << endl;
         exit(11);
     }
+    if(!back.loadFromFile("back.png")) {
+        cout << "no back" << endl;
+        exit(11);
+    }
+}
+
+void Game::loadFont() {
+    if (!font.loadFromFile("Excelsior.ttf"))
+    {
+        cout << "Font not found" <<endl;
+    }
 }
 
 void initializeBoard(char board[20][10], char fillChar) {
@@ -179,6 +196,56 @@ void spawnBlock(char board[20][10], Block* block) {
     }
     block->posY = 2-start;
     block->posX = 4;
+}
+
+void Game::drawHighscore()
+{
+    std::ifstream file; 
+    std::string Highscore;
+    file.open("Highscore.txt");
+    getline(file, Highscore);
+    sf::RectangleShape scoreBox;
+    scoreBox.setSize(sf::Vector2f(150, 50));
+    scoreBox.setFillColor(sf::Color::Black);
+    scoreBox.setPosition(525, 100);
+    mWindow.draw(scoreBox);
+    sf::Text high;
+    high.setFont(font);
+    high.setString("Highscore:");
+    high.setPosition(530,100);
+    high.setCharacterSize(24);
+    high.setFillColor(sf::Color::White);
+    mWindow.draw(high);
+    sf::Text score;
+    score.setFont(font);
+    score.setString(Highscore);
+    score.setPosition(530,120);
+    score.setCharacterSize(24);
+    score.setFillColor(sf::Color::White);
+    mWindow.draw(score);
+}
+
+void Game::drawCurrentscore()
+{
+    sf::RectangleShape scoreBox;
+    scoreBox.setSize(sf::Vector2f(150, 50));
+    scoreBox.setFillColor(sf::Color::Black);
+    scoreBox.setPosition(525, 160);
+    mWindow.draw(scoreBox);
+    sf::Text high;
+    high.setFont(font);
+    high.setString("Score:");
+    high.setPosition(530,160);
+    high.setCharacterSize(24);
+    high.setFillColor(sf::Color::White);
+    mWindow.draw(high);
+    sf::Text score;
+    score.setFont(font);
+    score.setString("0123456789");
+    score.setPosition(530,180);
+    score.setCharacterSize(24);
+    score.setFillColor(sf::Color::White);
+    mWindow.draw(score);
 }
 
 // friend void rotate() {
