@@ -22,6 +22,9 @@ void Game::handleInput(char board[20][10], Block* fallingBlock) {
             else if (event.key.code == sf::Keyboard::Right) {
                 fallingBlock->movePos(board, 1, 0);
             }
+            else if (event.key.code == sf::Keyboard::Up) {
+                fallingBlock->rotate(board);
+            }
         }
     }
 }
@@ -102,7 +105,7 @@ void Game::render(char board[20][10]) {
                             break;
                         default: // Essentially the "else"
                             // This is only in the loop because it uses i
-                            emptySquare.setFillColor(sf::Color(40-(2*i),40-(2*i),40-(2*i)));
+                            emptySquare.setFillColor(sf::Color(40-(2*i),40-(2*i),40-(2*i), 230));
                             emptySquare.setPosition(horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2, verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2);
                             mWindow.draw(emptySquare);
                     }
