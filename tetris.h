@@ -205,7 +205,50 @@ class O : public Block {
                                         {'-','4','O','O','6'},
                                         {'-','-','2','2','-'}}};
    void rotate(char board[20][10]) {
-      index = (index + 1) % 4; // Wrap-around operation, increments from 0, 1, 2, 3 and then wraps back to 0
+      // CLEARING CURRENT BLOCK FROM BOARD
+      for(int i = -2; i <= 2; i++) {
+         for(int j = -2; j <= 2; j++) {
+            if(shape[index][i+2][j+2] == mChar) {
+               if((posY + i < 0 || posX + i < 0)) { continue; }
+               board[posY+i][posX+j] = '-';
+            }
+         }
+      }
+
+      int startIndex = index;
+      bool canRotate;
+
+      // By doing a while loop, making a rotation attempt will continue to rotate
+      // until a valid rotation is found, meaning it can skip over a rotation if it is invalid
+      do {
+         canRotate = true;
+
+         // ROTATING INDEX OF BLOCK
+         index = (index + 1) % 4; // Wrap-around operation, increments from 0, 1, 2, 3 and then wraps back to 0
+         // COLLISION CHECKING
+         for(int i = -2; i <= 2; i++) {                     
+            for(int j = -2; j <= 2; j++) {
+               if((shape[index][i+2][j+2] == mChar) && (posX+j >= 10 || posX+j < 0 || board[posY+i][posX+j] != '-')) {
+                  cout << "canot rotat" << endl;
+                  canRotate = false;
+                  break;
+               }
+               else if(shape[index][i+2][j+2] == mChar) {
+                  cout << posX + j << endl;
+               }
+            }
+         }
+
+      } while (!canRotate && index != startIndex);
+
+      // RE-ADDING THE BLOCK TO THE BOARD WITH INDEX (EITHER UPDATED OR NOT DEPENDING ON WHILE LOOP)
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(shape[index][i+2][j+2] == mChar)
+               board[posY+i][posX+j] = shape[index][i+2][j+2];
+         }
+      }
    }
 
    char getChar() { return mChar; }
@@ -260,13 +303,13 @@ class O : public Block {
 
    bool canMove(char board[20][10], int moveX, int moveY, int i, int j) {
       if(moveX > 0) { // MOVING RIGHT
-         if( (shape[index][i+2][j+2] == '6' || shape[index][i+2][j+2] == '3')  &&  board[posY+i][posX+j] != '-') {
+         if( (shape[index][i+2][j+2] == '6' || shape[index][i+2][j+2] == '3')  &&  (posX+j >= 10 || board[posY+i][posX+j] != '-')) {
             cout << "COLLISION RIGHT" << endl;
             return false;
          }
       }
       else if (moveX < 0) { // MOVING LEFT
-         if( (shape[index][i+2][j+2] == '4' || shape[index][i+2][j+2] == '1')  &&  board[posY+i][posX+j] != '-') {
+         if( (shape[index][i+2][j+2] == '4' || shape[index][i+2][j+2] == '1')  &&  (posX+j < 0 || board[posY+i][posX+j] != '-')) {
             cout << "COLLISION LEFT" << endl;
             return false;
          }
@@ -309,7 +352,50 @@ class J : public Block {
                                         {'4','J','J','6','-'},
                                         {'-','2','2','-','-'}}};
    void rotate(char board[20][10]) {
-      index = (index + 1) % 4; // Wrap-around operation, increments from 0, 1, 2, 3 and then wraps back to 0
+      // CLEARING CURRENT BLOCK FROM BOARD
+      for(int i = -2; i <= 2; i++) {
+         for(int j = -2; j <= 2; j++) {
+            if(shape[index][i+2][j+2] == mChar) {
+               if((posY + i < 0 || posX + i < 0)) { continue; }
+               board[posY+i][posX+j] = '-';
+            }
+         }
+      }
+
+      int startIndex = index;
+      bool canRotate;
+
+      // By doing a while loop, making a rotation attempt will continue to rotate
+      // until a valid rotation is found, meaning it can skip over a rotation if it is invalid
+      do {
+         canRotate = true;
+
+         // ROTATING INDEX OF BLOCK
+         index = (index + 1) % 4; // Wrap-around operation, increments from 0, 1, 2, 3 and then wraps back to 0
+         // COLLISION CHECKING
+         for(int i = -2; i <= 2; i++) {                     
+            for(int j = -2; j <= 2; j++) {
+               if((shape[index][i+2][j+2] == mChar) && (posX+j >= 10 || posX+j < 0 || board[posY+i][posX+j] != '-')) {
+                  cout << "canot rotat" << endl;
+                  canRotate = false;
+                  break;
+               }
+               else if(shape[index][i+2][j+2] == mChar) {
+                  cout << posX + j << endl;
+               }
+            }
+         }
+
+      } while (!canRotate && index != startIndex);
+
+      // RE-ADDING THE BLOCK TO THE BOARD WITH INDEX (EITHER UPDATED OR NOT DEPENDING ON WHILE LOOP)
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(shape[index][i+2][j+2] == mChar)
+               board[posY+i][posX+j] = shape[index][i+2][j+2];
+         }
+      }
    }
 
    char getChar() { return mChar; }
@@ -325,7 +411,7 @@ class J : public Block {
       }
       return spriteArray;
    }
-   
+
    bool movePos(char board[20][10], int moveX, int moveY) {
       // COLLISION CHECKING
       for(int i = -2; i <= 2; i++) {                     
@@ -364,13 +450,13 @@ class J : public Block {
 
    bool canMove(char board[20][10], int moveX, int moveY, int i, int j) {
       if(moveX > 0) { // MOVING RIGHT
-         if( (shape[index][i+2][j+2] == '6' || shape[index][i+2][j+2] == '3')  &&  board[posY+i][posX+j] != '-') {
+         if( (shape[index][i+2][j+2] == '6' || shape[index][i+2][j+2] == '3')  &&  (posX+j >= 10 || board[posY+i][posX+j] != '-')) {
             cout << "COLLISION RIGHT" << endl;
             return false;
          }
       }
       else if (moveX < 0) { // MOVING LEFT
-         if( (shape[index][i+2][j+2] == '4' || shape[index][i+2][j+2] == '1')  &&  board[posY+i][posX+j] != '-') {
+         if( (shape[index][i+2][j+2] == '4' || shape[index][i+2][j+2] == '1')  &&  (posX+j < 0 || board[posY+i][posX+j] != '-')) {
             cout << "COLLISION LEFT" << endl;
             return false;
          }
@@ -443,7 +529,7 @@ class L : public Block {
                else if(shape[index][i+2][j+2] == mChar) {
                   cout << posX + j << endl;
                }
-            }                                               
+            }
          }
 
       } while (!canRotate && index != startIndex);
@@ -571,21 +657,175 @@ class I : public Block {
       int startIndex = index;
       bool canRotate;
 
+      // By doing a while loop, making a rotation attempt will continue to rotate
+      // until a valid rotation is found, meaning it can skip over a rotation if it is invalid
       do {
          canRotate = true;
-         
+
+         // ROTATING INDEX OF BLOCK
+         index = (index + 1) % 4; // Wrap-around operation, increments from 0, 1, 2, 3 and then wraps back to 0
+         // COLLISION CHECKING
+
+         for(int i = -2; i <= 2; i++) {                     
+            for(int j = -2; j <= 2; j++) {
+               if((shape[index][i+2][j+2] == mChar) && (posX+j >= 10 || posX+j < 0 || board[posY+i][posX+j] != '-')) {
+                  cout << "canot rotat" << endl;
+                  canRotate = false;
+                  break;
+               }
+               else if(shape[index][i+2][j+2] == mChar) {
+                  cout << posX + j << endl;
+               }
+            }
+         }
+      } while (!canRotate && index != startIndex);
+
+      // RE-ADDING THE BLOCK TO THE BOARD WITH INDEX (EITHER UPDATED OR NOT DEPENDING ON WHILE LOOP)
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(shape[index][i+2][j+2] == mChar)
+               board[posY+i][posX+j] = shape[index][i+2][j+2];
+         }
+      }
+   }
+
+   char getChar() { return mChar; }
+
+   int getStartingRow() { return startRow; }
+
+   vector<vector<char>> getSprite() {
+      vector<vector<char>> spriteArray(5, vector<char>(5));
+      for(int i = 0; i < 5; i++) {
+         for(int j = 0; j < 5; j++) {
+            spriteArray[i][j] = shape[index][i][j];
+         }
+      }
+      return spriteArray;
+   }
+
+   bool movePos(char board[20][10], int moveX, int moveY) {
+      // COLLISION CHECKING
+      for(int i = -2; i <= 2; i++) {                     
+         for(int j = -2; j <= 2; j++) {                  
+            if(!canMove(board, moveX, moveY, i, j)) {    
+               cout << "can't move" << endl;            
+               return false;                             
+            }                                            
+         }                                               
+      }                                                  
+      
+      // CLEARING CURRENT BLOCK FROM BOARD
+      for(int i = -2; i <= 2; i++) {
+         for(int j = -2; j <= 2; j++) {
+            if(shape[index][i+2][j+2] == mChar) {
+               if((posY + i < 0 || posX + i < 0)) { continue; }
+               board[posY+i][posX+j] = '-';
+            }
+         }
+      }
+      
+      // UPDATING BLOCK'S INTERNAL POSITION
+      posX += moveX;
+      posY += moveY;
+
+      // RE-ADDING THE BLOCK TO THE BOARD IN THE NEW POSITION
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(shape[index][i+2][j+2] == mChar)
+               board[posY+i][posX+j] = shape[index][i+2][j+2];
+         }
+      }
+      return true;
+   }
+
+   bool canMove(char board[20][10], int moveX, int moveY, int i, int j) {
+      if(moveX > 0) { // MOVING RIGHT
+         if((index == 0 || index == 2) && posX >= 7) { // manual checking for I block since
+            return false;                              // block is too big for array to have
+         }                                             // right side detection
+         if( (shape[index][i+2][j+2] == '6' || shape[index][i+2][j+2] == '3')  &&  (posX+j >= 10 || board[posY+i][posX+j] != '-')) {
+            cout << "COLLISION RIGHT" << endl;
+            return false;
+         }
+      }
+      else if (moveX < 0) { // MOVING LEFT
+         if( (shape[index][i+2][j+2] == '4' || shape[index][i+2][j+2] == '1')  &&  (posX+j < 0 || board[posY+i][posX+j] != '-')) {
+            cout << "COLLISION LEFT" << endl;
+            return false;
+         }
+      }
+      if(moveY > 0) { // MOVING DOWN
+         if( (shape[index][i+2][j+2] == '1' || shape[index][i+2][j+2] == '2' || shape[index][i+2][j+2] == '3')  &&  board[posY+i][posX+j] != '-') {
+            cout << "COLLISION DOWN" << endl;
+            return false;
+         }
+      }
+      return true;
+   }
+};
+
+class Z : public Block {
+   int startRow = 1;
+   char mChar = 'Z';
+   vector<vector<vector<char>>> shape={{{'-','-','-','-','-'},
+                                        {'4','Z','Z','6','-'},
+                                        {'-','1','Z','Z','6'},
+                                        {'-','-','2','2','-'},
+                                        {'-','-','-','-','-'}},
+
+                                       {{'-','-','-','-','-'},
+                                        {'-','-','4','Z','6'},
+                                        {'-','4','Z','Z','6'},
+                                        {'-','4','Z','3','-'},
+                                        {'-','-','2','-','-'}},
+
+                                       {{'-','-','-','-','-'},
+                                        {'-','-','-','-','-'},
+                                        {'4','Z','Z','6','-'},
+                                        {'-','1','Z','Z','6'},
+                                        {'-','-','2','2','-'}},
+
+                                       {{'-','-','-','-','-'},
+                                        {'-','4','Z','6','-'},
+                                        {'4','Z','Z','6','-'},
+                                        {'4','Z','3','-','-'},
+                                        {'-','2','-','-','-'}}};
+   void rotate(char board[20][10]) {
+      // CLEARING CURRENT BLOCK FROM BOARD
+      for(int i = -2; i <= 2; i++) {
+         for(int j = -2; j <= 2; j++) {
+            if(shape[index][i+2][j+2] == mChar) {
+               if((posY + i < 0 || posX + i < 0)) { continue; }
+               board[posY+i][posX+j] = '-';
+            }
+         }
+      }
+
+      int startIndex = index;
+      bool canRotate;
+
+      // By doing a while loop, making a rotation attempt will continue to rotate
+      // until a valid rotation is found, meaning it can skip over a rotation if it is invalid
+      do {
+         canRotate = true;
+
          // ROTATING INDEX OF BLOCK
          index = (index + 1) % 4; // Wrap-around operation, increments from 0, 1, 2, 3 and then wraps back to 0
          // COLLISION CHECKING
          for(int i = -2; i <= 2; i++) {                     
-            for(int j = -2; j <= 2; j++) {                  
-               if(shape[index][i+2][j+2] == mChar && board[posY+i][posX+j] != '-') {
+            for(int j = -2; j <= 2; j++) {
+               if((shape[index][i+2][j+2] == mChar) && (posX+j >= 10 || posX+j < 0 || board[posY+i][posX+j] != '-')) {
+                  cout << "canot rotat" << endl;
                   canRotate = false;
                   break;
                }
-            }                                               
+               else if(shape[index][i+2][j+2] == mChar) {
+                  cout << posX + j << endl;
+               }
+            }
          }
-         cout << !canRotate << " " << (index != startIndex) << endl;
 
       } while (!canRotate && index != startIndex);
 
@@ -657,110 +897,7 @@ class I : public Block {
          }
       }
       else if (moveX < 0) { // MOVING LEFT
-         if( (shape[index][i+2][j+2] == '4' || shape[index][i+2][j+2] == '1')  &&  (posX+j <=-1 || board[posY+i][posX+j] != '-')) {
-            cout << "COLLISION LEFT" << endl;
-            return false;
-         }
-      }
-      if(moveY > 0) { // MOVING DOWN
-         if( (shape[index][i+2][j+2] == '1' || shape[index][i+2][j+2] == '2' || shape[index][i+2][j+2] == '3')  &&  board[posY+i][posX+j] != '-') {
-            cout << "COLLISION DOWN" << endl;
-            return false;
-         }
-      }
-      return true;
-   }
-};
-
-class Z : public Block {
-   int startRow = 1;
-   char mChar = 'Z';
-   vector<vector<vector<char>>> shape={{{'-','-','-','-','-'},
-                                        {'4','Z','Z','6','-'},
-                                        {'-','1','Z','Z','6'},
-                                        {'-','-','2','2','-'},
-                                        {'-','-','-','-','-'}},
-
-                                       {{'-','-','-','-','-'},
-                                        {'-','-','4','Z','6'},
-                                        {'-','4','Z','Z','6'},
-                                        {'-','4','Z','3','-'},
-                                        {'-','-','2','-','-'}},
-
-                                       {{'-','-','-','-','-'},
-                                        {'-','-','-','-','-'},
-                                        {'4','Z','Z','6','-'},
-                                        {'-','1','Z','Z','6'},
-                                        {'-','-','2','2','-'}},
-
-                                       {{'-','-','-','-','-'},
-                                        {'-','4','Z','6','-'},
-                                        {'4','Z','Z','6','-'},
-                                        {'4','Z','3','-','-'},
-                                        {'-','2','-','-','-'}}};
-   void rotate(char board[20][10]) {
-      index = (index + 1) % 4; // Wrap-around operation, increments from 0, 1, 2, 3 and then wraps back to 0
-   }
-
-   char getChar() { return mChar; }
-
-   int getStartingRow() { return startRow; }
-
-   vector<vector<char>> getSprite() {
-      vector<vector<char>> spriteArray(5, vector<char>(5));
-      for(int i = 0; i < 5; i++) {
-         for(int j = 0; j < 5; j++) {
-            spriteArray[i][j] = shape[index][i][j];
-         }
-      }
-      return spriteArray;
-   }
-
-   bool movePos(char board[20][10], int moveX, int moveY) {
-      // COLLISION CHECKING
-      for(int i = -2; i <= 2; i++) {                     
-         for(int j = -2; j <= 2; j++) {                  
-            if(!canMove(board, moveX, moveY, i, j)) {    
-               cout << "can't move" << endl;            
-               return false;                             
-            }                                            
-         }                                               
-      }                                                  
-      
-      // CLEARING CURRENT BLOCK FROM BOARD
-      for(int i = -2; i <= 2; i++) {
-         for(int j = -2; j <= 2; j++) {
-            if(shape[index][i+2][j+2] == mChar) {
-               if((posY + i < 0 || posX + i < 0)) { continue; }
-               board[posY+i][posX+j] = '-';
-            }
-         }
-      }
-      
-      // UPDATING BLOCK'S INTERNAL POSITION
-      posX += moveX;
-      posY += moveY;
-
-      // RE-ADDING THE BLOCK TO THE BOARD IN THE NEW POSITION
-      for(int i = -2; i < 3; i++) {
-         for(int j = -2; j < 3; j++) {
-            if((posY + i < 0 || posX + i < 0)) { continue; }
-            if(shape[index][i+2][j+2] == mChar)
-               board[posY+i][posX+j] = shape[index][i+2][j+2];
-         }
-      }
-      return true;
-   }
-
-   bool canMove(char board[20][10], int moveX, int moveY, int i, int j) {
-      if(moveX > 0) { // MOVING RIGHT
-         if( (shape[index][i+2][j+2] == '6' || shape[index][i+2][j+2] == '3')  &&  board[posY+i][posX+j] != '-') {
-            cout << "COLLISION RIGHT" << endl;
-            return false;
-         }
-      }
-      else if (moveX < 0) { // MOVING LEFT
-         if( (shape[index][i+2][j+2] == '4' || shape[index][i+2][j+2] == '1')  &&  board[posY+i][posX+j] != '-') {
+         if( (shape[index][i+2][j+2] == '4' || shape[index][i+2][j+2] == '1')  &&  (posX+j < 0 || board[posY+i][posX+j] != '-')) {
             cout << "COLLISION LEFT" << endl;
             return false;
          }
@@ -802,7 +939,50 @@ class S : public Block {
                                         {'-','1','S','6','-'},
                                         {'-','-','2','-','-'}}};
    void rotate(char board[20][10]) {
-      index = (index + 1) % 4; // Wrap-around operation, increments from 0, 1, 2, 3 and then wraps back to 0
+      // CLEARING CURRENT BLOCK FROM BOARD
+      for(int i = -2; i <= 2; i++) {
+         for(int j = -2; j <= 2; j++) {
+            if(shape[index][i+2][j+2] == mChar) {
+               if((posY + i < 0 || posX + i < 0)) { continue; }
+               board[posY+i][posX+j] = '-';
+            }
+         }
+      }
+
+      int startIndex = index;
+      bool canRotate;
+
+      // By doing a while loop, making a rotation attempt will continue to rotate
+      // until a valid rotation is found, meaning it can skip over a rotation if it is invalid
+      do {
+         canRotate = true;
+
+         // ROTATING INDEX OF BLOCK
+         index = (index + 1) % 4; // Wrap-around operation, increments from 0, 1, 2, 3 and then wraps back to 0
+         // COLLISION CHECKING
+         for(int i = -2; i <= 2; i++) {                     
+            for(int j = -2; j <= 2; j++) {
+               if((shape[index][i+2][j+2] == mChar) && (posX+j >= 10 || posX+j < 0 || board[posY+i][posX+j] != '-')) {
+                  cout << "canot rotat" << endl;
+                  canRotate = false;
+                  break;
+               }
+               else if(shape[index][i+2][j+2] == mChar) {
+                  cout << posX + j << endl;
+               }
+            }
+         }
+
+      } while (!canRotate && index != startIndex);
+
+      // RE-ADDING THE BLOCK TO THE BOARD WITH INDEX (EITHER UPDATED OR NOT DEPENDING ON WHILE LOOP)
+      for(int i = -2; i < 3; i++) {
+         for(int j = -2; j < 3; j++) {
+            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(shape[index][i+2][j+2] == mChar)
+               board[posY+i][posX+j] = shape[index][i+2][j+2];
+         }
+      }
    }
 
    char getChar() { return mChar; }
@@ -813,7 +993,6 @@ class S : public Block {
       vector<vector<char>> spriteArray(5, vector<char>(5));
       for(int i = 0; i < 5; i++) {
          for(int j = 0; j < 5; j++) {
-            if(posY < 2 || posX < 2) { continue; }
             spriteArray[i][j] = shape[index][i][j];
          }
       }
@@ -858,13 +1037,13 @@ class S : public Block {
 
    bool canMove(char board[20][10], int moveX, int moveY, int i, int j) {
       if(moveX > 0) { // MOVING RIGHT
-         if( (shape[index][i+2][j+2] == '6' || shape[index][i+2][j+2] == '3')  &&  board[posY+i][posX+j] != '-') {
+         if( (shape[index][i+2][j+2] == '6' || shape[index][i+2][j+2] == '3')  &&  (posX+j >= 10 || board[posY+i][posX+j] != '-')) {
             cout << "COLLISION RIGHT" << endl;
             return false;
          }
       }
       else if (moveX < 0) { // MOVING LEFT
-         if( (shape[index][i+2][j+2] == '4' || shape[index][i+2][j+2] == '1')  &&  board[posY+i][posX+j] != '-') {
+         if( (shape[index][i+2][j+2] == '4' || shape[index][i+2][j+2] == '1')  &&  (posX+j < 0 || board[posY+i][posX+j] != '-')) {
             cout << "COLLISION LEFT" << endl;
             return false;
          }

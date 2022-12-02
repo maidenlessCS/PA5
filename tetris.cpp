@@ -25,6 +25,20 @@ void Game::handleInput(char board[20][10], Block* fallingBlock) {
             else if (event.key.code == sf::Keyboard::Up) {
                 fallingBlock->rotate(board);
             }
+            else if (event.key.code == sf::Keyboard::Down) {
+                // This needs some work
+                //
+                // Probably change it so it changes the time needed to
+                // drop block rather than just drop it manually
+                //
+                // fallingBlock->movePos(board, 0, 1);
+            }
+            else if (event.key.code == sf::Keyboard::Space) {
+                bool canDrop = true;
+                do {
+                    canDrop = fallingBlock->movePos(board, 0, 1);
+                } while(canDrop);
+            }
         }
     }
 }
