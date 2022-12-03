@@ -8,6 +8,8 @@
 #include <time.h>
 #include <stdlib.h>
 #include <fstream>
+#include <sstream>
+#include <string>
 using std::cout;
 using std::endl;
 using std::vector;
@@ -1076,10 +1078,11 @@ class Game
     void update(char board[20][10], Block* fallingBlock);
     void render(char board[20][10]);
     bool isDone() const;
+    void gameEnd(char board[20][10], Block* fallingBlock);
     int WINDOW_SIZE_X = 700;
     int WINDOW_SIZE_Y = 650;
     // Each block is sized to BLOCK_SIZE + (BORDER_SIZE * 2)
-    int BLOCK_SIZE = 28;
+    int BLOCK_SIZE = 22;
     int BORDER_SIZE = 1;
     int posX = 0;
  private:
@@ -1087,12 +1090,15 @@ class Game
     bool mIsDone;
     void drawHighscore();
     void drawCurrentscore();
+    void explosion(char board[20][10]);
+    std::string scoreToString(int score);
     sf::RectangleShape square;
     sf::RectangleShape boardSprite;
     sf::Texture art;
     sf::Texture back;
     sf::Font font;
     sf::Vector2i mIncrement;
+    int currentScore = 0;
    
 };
 
