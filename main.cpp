@@ -8,8 +8,12 @@ int main() {
 
     initializeBoard(board, '-');
 
+    char nextBoard[5][5];
+
     int randBlock = rand() % 7 + 1;
-    Block *fallingBlock = getBlockType(1);
+    Block *fallingBlock = getBlockType(5);
+    randBlock = rand() % 7 + 1;
+    Block *nextBlock = getBlockType(randBlock);
 
     board[19][0] = 'J';
     board[19][1] = 'J';
@@ -64,16 +68,21 @@ int main() {
         game.update(board, fallingBlock);
         if(secondsCounter >= 1) {
             if(!fallingBlock->movePos(board, 0, 1)) {
+                fallingBlock = nullptr;
+                game.explosion(board);
                 // this runs when it is unable to move downwards, so itll
                 // be where we create and assign a new falling block
                 cout << "move failed" << endl;
+                game.placementPoints();
                 int randBlock = rand() % 7 + 1;
-                fallingBlock = getBlockType(randBlock);
+                fallingBlock = nextBlock;
+                nextBlock = getBlockType(randBlock);
                 spawnBlock(board, fallingBlock);
             }
             secondsCounter = 0;
         }
-        game.render(board);
+        game.render(board, nextBlock);
+
         displayBoard(board);
         sf::sleep(elapsedTime + TIME_PER_FRAME - clock.getElapsedTime());
         game.gameEnd(board, fallingBlock);

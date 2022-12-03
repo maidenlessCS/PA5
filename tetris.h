@@ -1076,7 +1076,9 @@ class Game
     void loadTextures();
     void loadFont();
     void update(char board[20][10], Block* fallingBlock);
-    void render(char board[20][10]);
+    void render(char board[20][10], Block* nextBlock);
+    void explosion(char board[20][10]);
+    void placementPoints();
     bool isDone() const;
     void gameEnd(char board[20][10], Block* fallingBlock);
     int WINDOW_SIZE_X = 700;
@@ -1090,7 +1092,7 @@ class Game
     bool mIsDone;
     void drawHighscore();
     void drawCurrentscore();
-    void explosion(char board[20][10]);
+    void squareColor(char current, sf::RectangleShape &square);
     std::string scoreToString(int score);
     sf::RectangleShape square;
     sf::RectangleShape boardSprite;

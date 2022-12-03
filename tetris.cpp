@@ -47,17 +47,25 @@ void Game::update(char board[20][10], Block* fallingBlock) {
     
 }
 
-void Game::render(char board[20][10]) {
+void Game::render(char board[20][10], Block* nextBlock) {
     sf::RectangleShape background;
     background.setSize(sf::Vector2f(700, 650));
     background.setTexture(&back);
     mWindow.draw(background);
     drawHighscore();
     drawCurrentscore();
-    sf::RectangleShape drawSquare;
-    drawSquare.setSize(sf::Vector2f(40, 40));
-    drawSquare.setFillColor(sf::Color::White);
-    drawSquare.setOrigin(20, 20);
+    sf::RectangleShape nextBox;
+    nextBox.setSize(sf::Vector2f(150, 200));
+    nextBox.setFillColor(sf::Color::Black);
+    nextBox.setPosition(50, 250);
+    mWindow.draw(nextBox);
+    sf::Text next;
+    next.setFont(font);
+    next.setString("Next:");
+    next.setPosition(50,250);
+    next.setCharacterSize(24);
+    next.setFillColor(sf::Color::White);
+    mWindow.draw(next);
 
     // Basically it finds the center of the screen, then goes back half the size of the board from there
     // I know the multiplication could be simplified but it makes more sense when written this way
@@ -73,7 +81,6 @@ void Game::render(char board[20][10]) {
     emptySquare.setSize(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE));
     emptySquare.setOutlineColor(sf::Color(60,60,60));
     emptySquare.setOutlineThickness(BORDER_SIZE);
-        explosion(board);
      for (int j = 0; j < 10; j++)
             {
                 for (int i = 0; i<20; i++)
@@ -81,52 +88,77 @@ void Game::render(char board[20][10]) {
                     int posX = horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2 - BORDER_SIZE;
                     int posY = verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2 - BORDER_SIZE;
 
-                    switch(board[i][j]) {
-                        case 'T':
-                            square.setFillColor(sf::Color(160,0,240));
-                            square.setPosition(posX, posY);
-                            mWindow.draw(square);
-                            break;
-                        case 'O':
-                            square.setFillColor(sf::Color(240,240,0));
-                            square.setPosition(posX, posY);
-                            mWindow.draw(square);
-                            break;
-                        case 'J':
-                            square.setFillColor(sf::Color(0,0,240));
-                            square.setPosition(posX, posY);
-                            mWindow.draw(square);
-                            break;
-                        case 'L':
-                            square.setFillColor(sf::Color(240,160,0));
-                            square.setPosition(posX, posY);
-                            mWindow.draw(square);
-                            break;
-                        case 'I':
-                            square.setFillColor(sf::Color(0,240,240));
-                            square.setPosition(posX, posY);
-                            mWindow.draw(square);
-                            break;
-                        case 'Z':
-                            square.setFillColor(sf::Color(240,0,0));
-                            square.setPosition(posX, posY);
-                            mWindow.draw(square);
-                            break;
-                        case 'S':
-                            square.setFillColor(sf::Color(0,240,0));
-                            square.setPosition(posX, posY);
-                            mWindow.draw(square);
-                            break;
-                        default: // Essentially the "else"
-                            // This is only in the loop because it uses i
-                            emptySquare.setFillColor(sf::Color(40-(2*i),40-(2*i),40-(2*i), 230));
-                            emptySquare.setPosition(horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2, verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2);
-                            mWindow.draw(emptySquare);
+                    char currentChar = board[i][j];
+                
+
+                    if(currentChar == '-') {
+                        emptySquare.setFillColor(sf::Color(40-(2*i),40-(2*i),40-(2*i), 230));
+                        emptySquare.setPosition(horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2,   verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2);
+                        mWindow.draw(emptySquare);
+                    }
+                    else {
+                        squareColor(currentChar, square);
+                        square.setPosition(posX, posY);
+                        mWindow.draw(square);
                     }
                 }
             }
+    horizontalOffset = nextBox.getPosition().x+(nextBox.getSize().x - nextBox.getSize().x /2 - ((BLOCK_SIZE+BORDER_SIZE*2)*5)/2);
+    verticalOffset = nextBox.getPosition().y+(nextBox.getSize().y  - nextBox.getSize().y /2 - ((BLOCK_SIZE+BORDER_SIZE*2)*5)/2);
+        for (int j = 0; j < 5; j++)
+            {
+                for (int i = 0; i<5; i++)
+                {
+                    int posX = horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2 - BORDER_SIZE;
+                    int posY = verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2 - BORDER_SIZE;
+
+                    char currentChar = nextBlock->getSprite()[i][j];
+                    cout << currentChar << " ";
+                    if(currentChar == '-' || isdigit(currentChar)) {
+                        emptySquare.setFillColor(sf::Color(40-(2*i),40-(2*i),40-(2*i), 230));
+                        emptySquare.setPosition(horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2,   verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2);
+                        mWindow.draw(emptySquare);
+                    }
+                    else {
+                        squareColor(currentChar, square);
+                        square.setPosition(posX, posY);
+                        mWindow.draw(square);
+                    }
+                }
+                cout << endl;
+            }
     mWindow.display();
     mWindow.clear(sf::Color(10, 10, 10));
+}
+
+void Game::squareColor(char current, sf::RectangleShape &square){
+
+    switch(current) {
+        case 'T':
+            square.setFillColor(sf::Color(160,0,240));
+            break;
+        case 'O':
+            square.setFillColor(sf::Color(240,240,0));
+            break;
+        case 'J':
+            square.setFillColor(sf::Color(0,0,240));
+            break;
+        case 'L':
+            square.setFillColor(sf::Color(240,160,0));
+            break;
+        case 'I':
+            square.setFillColor(sf::Color(0,240,240));
+            break;
+        case 'Z':
+            square.setFillColor(sf::Color(240,0,0));
+            break;
+        case 'S':
+            square.setFillColor(sf::Color(0,240,0));
+            break;
+        default: // Essentially the "else"
+            // This is only in the loop because it uses i
+            cout << "default ran" << endl;
+    }
 }
 
 bool Game::isDone() const {
@@ -307,6 +339,11 @@ void Game::gameEnd(char board[20][10], Block* fallingBlock)
         }
         count++;
     }
+}
+
+void Game::placementPoints()
+{
+    currentScore = currentScore+20;
 }
 
 // friend void rotate() {
