@@ -73,7 +73,7 @@ void Game::render(char board[20][10]) {
     emptySquare.setSize(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE));
     emptySquare.setOutlineColor(sf::Color(60,60,60));
     emptySquare.setOutlineThickness(BORDER_SIZE);
-
+        explosion(board);
      for (int j = 0; j < 10; j++)
             {
                 for (int i = 0; i<20; i++)
@@ -258,11 +258,55 @@ void Game::drawCurrentscore()
     mWindow.draw(high);
     sf::Text score;
     score.setFont(font);
-    score.setString("0123456789");
+    score.setString(scoreToString(currentScore));
     score.setPosition(530,180);
     score.setCharacterSize(24);
     score.setFillColor(sf::Color::White);
     mWindow.draw(score);
+}
+
+void Game::explosion(char board[20][10])
+{
+    int counter = 0;
+    for(int i=0; i < 20; i++){
+        if (board[i][0] != '-'){
+            for (int j =0; j <10; j++)
+            {
+                if (board[i][j] == '-'){
+                    counter = 0;
+                    break;
+                }
+                else{
+                counter++;
+                }
+                if (counter == 10){
+                    for (int x=0; x <10; x++){
+                        board[i][x] = '-';
+                    }
+                currentScore = currentScore+100;
+                }
+            }
+        }
+    }
+}
+
+std::string Game::scoreToString(int score)
+{
+    std::ostringstream os;
+    os << score;
+    return os.str();
+}
+
+void Game::gameEnd(char board[20][10], Block* fallingBlock)
+{
+    int count = 0;
+    while (count < 10){
+        if (board[0][count] != '-' && !fallingBlock->movePos(board, 0, 1))
+        {
+            mIsDone = true;
+        }
+        count++;
+    }
 }
 
 // friend void rotate() {

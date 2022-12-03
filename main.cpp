@@ -11,6 +11,25 @@ int main() {
     int randBlock = rand() % 7 + 1;
     Block *fallingBlock = getBlockType(1);
 
+    board[19][0] = 'J';
+    board[19][1] = 'J';
+    board[19][2] = 'J';
+    board[19][3] = 'J';
+    board[19][4] = 'J';
+    board[19][5] = 'J';
+    board[19][6] = 'J';
+    board[19][7] = 'J';
+    board[19][8] = 'J';
+    board[18][0] = 'J';
+    board[18][1] = 'J';
+    board[18][2] = 'J';
+    board[18][3] = 'J';
+    board[18][4] = 'J';
+    board[18][5] = 'J';
+    board[18][6] = 'J';
+    board[18][7] = 'J';
+    board[18][8] = 'J';
+
     // cout << fallingBlock->index << endl;
     // fallingBlock->rotate(board);
     // cout << fallingBlock->index << endl;
@@ -57,6 +76,7 @@ int main() {
         game.render(board);
         displayBoard(board);
         sf::sleep(elapsedTime + TIME_PER_FRAME - clock.getElapsedTime());
+        game.gameEnd(board, fallingBlock);
     }
 
     return 0;
