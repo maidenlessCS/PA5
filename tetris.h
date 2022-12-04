@@ -1076,21 +1076,25 @@ class Game
     void loadTextures();
     void loadFont();
     void update(char board[20][10], Block* fallingBlock);
-    void render(char board[20][10]);
+    void render(char board[20][10], Block* nextBlock);
+    void explosion(char board[20][10]);
+    void placementPoints();
     bool isDone() const;
     void gameEnd(char board[20][10], Block* fallingBlock);
+    void getHighscore();
+    void checkScores();
     int WINDOW_SIZE_X = 700;
     int WINDOW_SIZE_Y = 650;
     // Each block is sized to BLOCK_SIZE + (BORDER_SIZE * 2)
     int BLOCK_SIZE = 22;
     int BORDER_SIZE = 1;
     int posX = 0;
+   sf::RenderWindow mWindow;
  private:
-    sf::RenderWindow mWindow;
     bool mIsDone;
     void drawHighscore();
     void drawCurrentscore();
-    void explosion(char board[20][10]);
+    void squareColor(char current, sf::RectangleShape &square);
     std::string scoreToString(int score);
     sf::RectangleShape square;
     sf::RectangleShape boardSprite;
@@ -1099,6 +1103,7 @@ class Game
     sf::Font font;
     sf::Vector2i mIncrement;
     int currentScore = 0;
+    int highestScore =0;
    
 };
 

@@ -1,15 +1,18 @@
 #include "tetris.h"
 
 int main() {
-
     srand (time(NULL));
 
     char board[20][10];
 
     initializeBoard(board, '-');
 
+    char nextBoard[5][5];
+
     int randBlock = rand() % 7 + 1;
-    Block *fallingBlock = getBlockType(1);
+    Block *fallingBlock = getBlockType(randBlock);
+    randBlock = rand() % 7 + 1;
+    Block *nextBlock = getBlockType(randBlock);
 
     board[19][0] = 'J';
     board[19][1] = 'J';
@@ -48,8 +51,34 @@ int main() {
 
     Game game;
 
+    //Main menu prototype
+    /*bool gameStart = false;
+    while(!gameStart)
+    {
+        sf::RectangleShape menuBackground;
+        menuBackground.setSize(sf::Vector2f(700, 650));
+        menuBackground.setFillColor(sf::Color::Black);
+        game.mWindow.draw(menuBackground);
+        sf::RectangleShape playButton;
+        playButton.setSize(sf::Vector2f(100,50));
+        playButton.setPosition(sf::Vector2f(200,200));
+        playButton.setFillColor(sf::Color::White);
+        game.mWindow.draw(playButton);
+        sf::Event event;
+        while(game.mWindow.pollEvent(event)){
+            if (event.type == sf::Event::MouseButtonPressed){
+                    if(event.mouseButton.button==sf::Mouse::Left){
+                        gameStart = true;
+                    }
+                }
+        }
+    game.mWindow.display();
+    game.mWindow.clear(sf::Color(10, 10, 10));
+    }*/
+
     game.loadTextures();
     game.loadFont();
+    game.getHighscore();
     
     const sf::Time TIME_PER_FRAME = sf::seconds(1.f / 60.f);
     sf::Clock clock; // starts the clock
@@ -64,20 +93,26 @@ int main() {
         game.update(board, fallingBlock);
         if(secondsCounter >= 1) {
             if(!fallingBlock->movePos(board, 0, 1)) {
+                fallingBlock = nullptr;
+                game.explosion(board);
                 // this runs when it is unable to move downwards, so itll
                 // be where we create and assign a new falling block
                 cout << "move failed" << endl;
+                game.placementPoints();
                 int randBlock = rand() % 7 + 1;
-                fallingBlock = getBlockType(randBlock);
+                fallingBlock = nextBlock;
+                nextBlock = getBlockType(randBlock);
                 spawnBlock(board, fallingBlock);
             }
             secondsCounter = 0;
         }
-        game.render(board);
+        game.render(board, nextBlock);
+
         displayBoard(board);
         sf::sleep(elapsedTime + TIME_PER_FRAME - clock.getElapsedTime());
         game.gameEnd(board, fallingBlock);
     }
+    game.checkScores();
 
     return 0;
 
