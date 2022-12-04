@@ -54,6 +54,7 @@ int main() {
 
     game.loadTextures();
     game.loadFont();
+    game.getHighscore();
     
     const sf::Time TIME_PER_FRAME = sf::seconds(1.f / 60.f);
     sf::Clock clock; // starts the clock
@@ -87,6 +88,7 @@ int main() {
         sf::sleep(elapsedTime + TIME_PER_FRAME - clock.getElapsedTime());
         game.gameEnd(board, fallingBlock);
     }
+    game.checkScores();
 
     return 0;
 

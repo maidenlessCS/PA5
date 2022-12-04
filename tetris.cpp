@@ -253,6 +253,7 @@ void Game::drawHighscore()
     std::string Highscore;
     file.open("Highscore.txt");
     getline(file, Highscore);
+    file.close();
     sf::RectangleShape scoreBox;
     scoreBox.setSize(sf::Vector2f(150, 50));
     scoreBox.setFillColor(sf::Color::Black);
@@ -272,6 +273,25 @@ void Game::drawHighscore()
     score.setCharacterSize(24);
     score.setFillColor(sf::Color::White);
     mWindow.draw(score);
+}
+
+void Game::getHighscore()
+{
+    std::ifstream file; 
+    file.open("Highscore.txt");
+    file >> highestScore;
+    file.close();
+}
+
+void Game::checkScores()
+{
+    if (highestScore < currentScore)
+    {
+        std::ofstream file; 
+        file.open("Highscore.txt");
+        file << currentScore;
+        file.close();
+    }
 }
 
 void Game::drawCurrentscore()

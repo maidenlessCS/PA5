@@ -1081,6 +1081,8 @@ class Game
     void placementPoints();
     bool isDone() const;
     void gameEnd(char board[20][10], Block* fallingBlock);
+    void getHighscore();
+    void checkScores();
     int WINDOW_SIZE_X = 700;
     int WINDOW_SIZE_Y = 650;
     // Each block is sized to BLOCK_SIZE + (BORDER_SIZE * 2)
@@ -1101,6 +1103,7 @@ class Game
     sf::Font font;
     sf::Vector2i mIncrement;
     int currentScore = 0;
+    int highestScore =0;
    
 };
 
