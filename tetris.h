@@ -1089,8 +1089,8 @@ class Game
     int BLOCK_SIZE = 22;
     int BORDER_SIZE = 1;
     int posX = 0;
+   sf::RenderWindow mWindow;
  private:
-    sf::RenderWindow mWindow;
     bool mIsDone;
     void drawHighscore();
     void drawCurrentscore();

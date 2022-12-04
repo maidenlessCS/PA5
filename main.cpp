@@ -1,7 +1,6 @@
 #include "tetris.h"
 
 int main() {
-
     srand (time(NULL));
 
     char board[20][10];
@@ -51,6 +50,31 @@ int main() {
     displayBoard(board);
 
     Game game;
+
+    //Main menu prototype
+    /*bool gameStart = false;
+    while(!gameStart)
+    {
+        sf::RectangleShape menuBackground;
+        menuBackground.setSize(sf::Vector2f(700, 650));
+        menuBackground.setFillColor(sf::Color::Black);
+        game.mWindow.draw(menuBackground);
+        sf::RectangleShape playButton;
+        playButton.setSize(sf::Vector2f(100,50));
+        playButton.setPosition(sf::Vector2f(200,200));
+        playButton.setFillColor(sf::Color::White);
+        game.mWindow.draw(playButton);
+        sf::Event event;
+        while(game.mWindow.pollEvent(event)){
+            if (event.type == sf::Event::MouseButtonPressed){
+                    if(event.mouseButton.button==sf::Mouse::Left){
+                        gameStart = true;
+                    }
+                }
+        }
+    game.mWindow.display();
+    game.mWindow.clear(sf::Color(10, 10, 10));
+    }*/
 
     game.loadTextures();
     game.loadFont();
