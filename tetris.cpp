@@ -299,6 +299,7 @@ void Game::drawCurrentscore()
 
 void Game::explosion(char board[20][10])
 {
+    bool explosion = false;
     int counter = 0;
     for(int i=0; i < 20; i++){
         if (board[i][0] != '-'){
@@ -313,8 +314,11 @@ void Game::explosion(char board[20][10])
                 }
                 if (counter == 10){
                     for (int x=0; x <10; x++){
-                        board[i][x] = '-';
+                        for (int y =1; y <= i; y++){
+                            board[i-y+1][x] = board[i-y][x];
+                        }
                     }
+                this->explosion(board);
                 currentScore = currentScore+100;
                 }
             }
