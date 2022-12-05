@@ -4,7 +4,7 @@ Game::Game() : mWindow(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "TETRIS") {
     mIsDone = false;
 }
 
-void Game::handleInput(char board[20][10], Block* fallingBlock) {
+bool Game::handleInput(char board[20][10], Block* fallingBlock) {
     sf::Event event;
     while(mWindow.pollEvent(event))
     {
@@ -26,21 +26,32 @@ void Game::handleInput(char board[20][10], Block* fallingBlock) {
                 fallingBlock->rotate(board);
             }
             else if (event.key.code == sf::Keyboard::Down) {
-                // This needs some work
-                //
-                // Probably change it so it changes the time needed to
-                // drop block rather than just drop it manually
-                //
-                // fallingBlock->movePos(board, 0, 1);
+                // SPEED_MULT will never get below 0.2
+                // It is using a > instead of a != simply because
+                // != did not work. I assume it had something to do
+                // with float innacurracy and very very small numbers
+                // so this guarentee'd that it would test correctly
+                if(SPEED_MULT > 0.11) {
+                    TEMP_SPEED = SPEED_MULT;
+                }
+                
+                SPEED_MULT = 0.1;
             }
             else if (event.key.code == sf::Keyboard::Space) {
                 bool canDrop = true;
                 do {
                     canDrop = fallingBlock->movePos(board, 0, 1);
                 } while(canDrop);
+                return true;
+            }
+        }
+        if(event.type == sf::Event::EventType::KeyReleased) {
+            if (event.key.code == sf::Keyboard::Down) {
+                SPEED_MULT = TEMP_SPEED;
             }
         }
     }
+    return false;
 }
 
 void Game::update(char board[20][10], Block* fallingBlock) {
@@ -81,52 +92,44 @@ void Game::render(char board[20][10], Block* nextBlock) {
     emptySquare.setSize(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE));
     emptySquare.setOutlineColor(sf::Color(60,60,60));
     emptySquare.setOutlineThickness(BORDER_SIZE);
-     for (int j = 0; j < 10; j++)
-            {
-                for (int i = 0; i<20; i++)
-                {
-                    int posX = horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2 - BORDER_SIZE;
-                    int posY = verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2 - BORDER_SIZE;
+    for (int j = 0; j < 10; j++)
+    {
+        for (int i = 0; i<20; i++)
+        {
+            int posX = horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2 - BORDER_SIZE;
+            int posY = verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2 - BORDER_SIZE;
 
-                    char currentChar = board[i][j];
-                
-
-                    if(currentChar == '-') {
-                        emptySquare.setFillColor(sf::Color(40-(2*i),40-(2*i),40-(2*i), 230));
-                        emptySquare.setPosition(horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2,   verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2);
-                        mWindow.draw(emptySquare);
-                    }
-                    else {
-                        squareColor(currentChar, square);
-                        square.setPosition(posX, posY);
-                        mWindow.draw(square);
-                    }
-                }
+            char currentChar = board[i][j];
+        
+            if(currentChar == '-') {
+                emptySquare.setFillColor(sf::Color(40-(2*i),40-(2*i),40-(2*i), 230));
+                emptySquare.setPosition(horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2,   verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2);
+                mWindow.draw(emptySquare);
             }
-    horizontalOffset = nextBox.getPosition().x+(nextBox.getSize().x - nextBox.getSize().x /2 - ((BLOCK_SIZE+BORDER_SIZE*2)*5)/2);
-    verticalOffset = nextBox.getPosition().y+(nextBox.getSize().y  - nextBox.getSize().y /2 - ((BLOCK_SIZE+BORDER_SIZE*2)*5)/2);
-        for (int j = 0; j < 5; j++)
-            {
-                for (int i = 0; i<5; i++)
-                {
-                    int posX = horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2 - BORDER_SIZE;
-                    int posY = verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2 - BORDER_SIZE;
-
-                    char currentChar = nextBlock->getSprite()[i][j];
-                    cout << currentChar << " ";
-                    if(currentChar == '-' || isdigit(currentChar)) {
-                        emptySquare.setFillColor(sf::Color(40-(2*i),40-(2*i),40-(2*i), 230));
-                        emptySquare.setPosition(horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2,   verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2);
-                        mWindow.draw(emptySquare);
-                    }
-                    else {
-                        squareColor(currentChar, square);
-                        square.setPosition(posX, posY);
-                        mWindow.draw(square);
-                    }
-                }
-                cout << endl;
+            else {
+                squareColor(currentChar, square);
+                square.setPosition(posX, posY);
+                mWindow.draw(square);
             }
+        }
+    }
+    horizontalOffset = (nextBox.getPosition().x - (BLOCK_SIZE+BORDER_SIZE*2)*nextBlock->getCenterX()) + (nextBox.getSize().x/2);
+    verticalOffset = (nextBox.getPosition().y - (BLOCK_SIZE+BORDER_SIZE*2)*nextBlock->getCenterY()) + (nextBox.getSize().y/2);
+    for (int j = 0; j < 5; j++)
+    {
+        for (int i = 0; i<5; i++)
+        {
+            int posX = horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2 - BORDER_SIZE;
+            int posY = verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2 - BORDER_SIZE;
+
+            char currentChar = nextBlock->getSprite()[i][j];
+            if(currentChar != '-' && !isdigit(currentChar)) {
+                squareColor(currentChar, square);
+                square.setPosition(posX, posY);
+                mWindow.draw(square);
+            }
+        }
+    }
     mWindow.display();
     mWindow.clear(sf::Color(10, 10, 10));
 }
@@ -285,11 +288,11 @@ void Game::getHighscore()
 
 void Game::checkScores()
 {
-    if (highestScore < currentScore)
+    if (highestScore < round(currentScore))
     {
         std::ofstream file; 
         file.open("Highscore.txt");
-        file << currentScore;
+        file << round(currentScore);
         file.close();
     }
 }
@@ -310,7 +313,7 @@ void Game::drawCurrentscore()
     mWindow.draw(high);
     sf::Text score;
     score.setFont(font);
-    score.setString(scoreToString(currentScore));
+    score.setString(scoreToString(round(currentScore)));
     score.setPosition(530,180);
     score.setCharacterSize(24);
     score.setFillColor(sf::Color::White);
@@ -319,6 +322,7 @@ void Game::drawCurrentscore()
 
 void Game::explosion(char board[20][10])
 {
+    float scoredPoints = 100;
     bool explosion = false;
     int counter = 0;
     for(int i=0; i < 20; i++){
@@ -333,13 +337,16 @@ void Game::explosion(char board[20][10])
                 counter++;
                 }
                 if (counter == 10){
-                    for (int x=0; x <10; x++){
+                    for (int x=0; x <10; x++) {
                         for (int y =1; y <= i; y++){
                             board[i-y+1][x] = board[i-y][x];
                         }
                     }
-                this->explosion(board);
-                currentScore = currentScore+100;
+                    this->explosion(board);
+                    currentScore += scoredPoints+(1-SPEED_MULT)*100;
+                    if(SPEED_MULT > 0.2) {
+                        SPEED_MULT -= (scoredPoints/5000);
+                    }
                 }
             }
         }
@@ -367,7 +374,11 @@ void Game::gameEnd(char board[20][10], Block* fallingBlock)
 
 void Game::placementPoints()
 {
-    currentScore = currentScore+20;
+    float scoredPoints = 20;
+    currentScore += scoredPoints+(1-SPEED_MULT)*100;
+    if(SPEED_MULT > 0.2) {
+        SPEED_MULT -= (scoredPoints/5000);
+    }
 }
 
 // friend void rotate() {

@@ -10,7 +10,7 @@ int main() {
     char nextBoard[5][5];
 
     int randBlock = rand() % 7 + 1;
-    Block *fallingBlock = getBlockType(randBlock);
+    Block *fallingBlock = getBlockType(5);
     randBlock = rand() % 7 + 1;
     Block *nextBlock = getBlockType(randBlock);
 
@@ -51,30 +51,30 @@ int main() {
 
     Game game;
 
-    //Main menu prototype
-    /*bool gameStart = false;
-    while(!gameStart)
-    {
-        sf::RectangleShape menuBackground;
-        menuBackground.setSize(sf::Vector2f(700, 650));
-        menuBackground.setFillColor(sf::Color::Black);
-        game.mWindow.draw(menuBackground);
-        sf::RectangleShape playButton;
-        playButton.setSize(sf::Vector2f(100,50));
-        playButton.setPosition(sf::Vector2f(200,200));
-        playButton.setFillColor(sf::Color::White);
-        game.mWindow.draw(playButton);
-        sf::Event event;
-        while(game.mWindow.pollEvent(event)){
-            if (event.type == sf::Event::MouseButtonPressed){
-                    if(event.mouseButton.button==sf::Mouse::Left){
-                        gameStart = true;
-                    }
-                }
-        }
-    game.mWindow.display();
-    game.mWindow.clear(sf::Color(10, 10, 10));
-    }*/
+    // Main menu prototype
+    // bool gameStart = false;
+    // while(!gameStart)
+    // {
+    //     sf::RectangleShape menuBackground;
+    //     menuBackground.setSize(sf::Vector2f(700, 650));
+    //     menuBackground.setFillColor(sf::Color::Black);
+    //     game.mWindow.draw(menuBackground);
+    //     sf::RectangleShape playButton;
+    //     playButton.setSize(sf::Vector2f(100,50));
+    //     playButton.setPosition(sf::Vector2f(200,200));
+    //     playButton.setFillColor(sf::Color::White);
+    //     game.mWindow.draw(playButton);
+    //     sf::Event event;
+    //     while(game.mWindow.pollEvent(event)){
+    //         if (event.type == sf::Event::MouseButtonPressed){
+    //                 if(event.mouseButton.button==sf::Mouse::Left){
+    //                     gameStart = true;
+    //                 }
+    //             }
+    //     }
+    //     game.mWindow.display();
+    //     game.mWindow.clear(sf::Color(10, 10, 10));
+    // }
 
     game.loadTextures();
     game.loadFont();
@@ -85,20 +85,23 @@ int main() {
 
     float secondsCounter = 0;
 
+    bool newBlock = false;
+
     while(!game.isDone())
     {
         sf::Time elapsedTime = clock.restart();
         secondsCounter += elapsedTime.asSeconds();
-        game.handleInput(board, fallingBlock);
+        newBlock = game.handleInput(board, fallingBlock);
         game.update(board, fallingBlock);
-        if(secondsCounter >= 1) {
-            if(!fallingBlock->movePos(board, 0, 1)) {
+        cout << "speed mult: " << game.SPEED_MULT << endl;
+        if(secondsCounter >= game.SPEED_MULT) {
+            if(!fallingBlock->movePos(board, 0, 1) || newBlock) {
+                newBlock = false;
                 fallingBlock = nullptr;
                 game.explosion(board);
-                // this runs when it is unable to move downwards, so itll
-                // be where we create and assign a new falling block
-                cout << "move failed" << endl;
                 game.placementPoints();
+
+                // Spawning new block
                 int randBlock = rand() % 7 + 1;
                 fallingBlock = nextBlock;
                 nextBlock = getBlockType(randBlock);
