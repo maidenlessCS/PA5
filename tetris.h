@@ -1135,6 +1135,9 @@ class Game
     float TEMP_SPEED = 1;
     int posX = 0;
    sf::RenderWindow mWindow;
+   sf::Font font;
+   sf::Texture art;
+   sf::Texture back;
  private:
     bool mIsDone;
     void drawHighscore();
@@ -1143,9 +1146,7 @@ class Game
     std::string scoreToString(int score);
     sf::RectangleShape square;
     sf::RectangleShape boardSprite;
-    sf::Texture art;
-    sf::Texture back;
-    sf::Font font;
+    
     sf::Vector2i mIncrement;
     float currentScore = 0;
     int highestScore =0;
