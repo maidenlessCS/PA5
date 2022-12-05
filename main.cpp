@@ -14,25 +14,6 @@ int main() {
     randBlock = rand() % 7 + 1;
     Block *nextBlock = getBlockType(randBlock);
 
-    board[19][0] = 'J';
-    board[19][1] = 'J';
-    board[19][2] = 'J';
-    board[19][3] = 'J';
-    board[19][4] = 'J';
-    board[19][5] = 'J';
-    board[19][6] = 'J';
-    board[19][7] = 'J';
-    board[19][8] = 'J';
-    board[18][0] = 'J';
-    board[18][1] = 'J';
-    board[18][2] = 'J';
-    board[18][3] = 'J';
-    board[18][4] = 'J';
-    board[18][5] = 'J';
-    board[18][6] = 'J';
-    board[18][7] = 'J';
-    board[18][8] = 'J';
-
     // cout << fallingBlock->index << endl;
     // fallingBlock->rotate(board);
     // cout << fallingBlock->index << endl;
@@ -61,11 +42,13 @@ int main() {
         menuBackground.setSize(sf::Vector2f(700, 650));
         menuBackground.setTexture(&game.back);
         game.mWindow.draw(menuBackground);
+
         sf::RectangleShape playButton;
         playButton.setSize(sf::Vector2f(100,50));
         playButton.setOrigin(50,25);
         playButton.setPosition(sf::Vector2f(350,325));
         playButton.setOutlineThickness(5);
+
         sf::Text play;
         if (overPlayButton){
             playButton.setFillColor(sf::Color(152,181,227, 190));

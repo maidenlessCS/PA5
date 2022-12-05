@@ -59,17 +59,31 @@ void Game::update(char board[20][10], Block* fallingBlock) {
 }
 
 void Game::render(char board[20][10], Block* nextBlock) {
+
     sf::RectangleShape background;
     background.setSize(sf::Vector2f(700, 650));
     background.setTexture(&back);
     mWindow.draw(background);
+
     drawHighscore();
     drawCurrentscore();
+
+    sf::RectangleShape boardBorder;
+    boardBorder.setSize(sf::Vector2f(((BLOCK_SIZE+BORDER_SIZE*2)*10)-1, ((BLOCK_SIZE+BORDER_SIZE*2)*20)-1));
+    boardBorder.setPosition(sf::Vector2f(WINDOW_SIZE_X - WINDOW_SIZE_X/2 - ((BLOCK_SIZE+BORDER_SIZE*2)*10)/2, WINDOW_SIZE_Y - WINDOW_SIZE_Y/2 - ((BLOCK_SIZE+BORDER_SIZE*2)*20)/2));
+    boardBorder.setFillColor(sf::Color(0,0,0,0));
+    boardBorder.setOutlineColor(sf::Color(102,102,102));
+    boardBorder.setOutlineThickness(2);
+    mWindow.draw(boardBorder);
+
     sf::RectangleShape nextBox;
     nextBox.setSize(sf::Vector2f(150, 200));
     nextBox.setFillColor(sf::Color::Black);
+    nextBox.setOutlineColor(sf::Color(102,102,102));
+    nextBox.setOutlineThickness(2);
     nextBox.setPosition(50, 250);
     mWindow.draw(nextBox);
+
     sf::Text next;
     next.setFont(font);
     next.setString("Next:");
@@ -102,7 +116,7 @@ void Game::render(char board[20][10], Block* nextBlock) {
             char currentChar = board[i][j];
         
             if(currentChar == '-') {
-                emptySquare.setFillColor(sf::Color(40-(2*i),40-(2*i),40-(2*i), 230));
+                emptySquare.setFillColor(sf::Color(40-(2*i),40-(2*i),40-(2*i), 240));
                 emptySquare.setPosition(horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2,   verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2);
                 mWindow.draw(emptySquare);
             }
@@ -261,6 +275,8 @@ void Game::drawHighscore()
     scoreBox.setSize(sf::Vector2f(150, 50));
     scoreBox.setFillColor(sf::Color::Black);
     scoreBox.setPosition(525, 100);
+    scoreBox.setOutlineColor(sf::Color(102,102,102));
+    scoreBox.setOutlineThickness(2);
     mWindow.draw(scoreBox);
     sf::Text high;
     high.setFont(font);
@@ -268,6 +284,8 @@ void Game::drawHighscore()
     high.setPosition(530,100);
     high.setCharacterSize(24);
     high.setFillColor(sf::Color::White);
+    high.setOutlineColor(sf::Color(102,102,102));
+    high.setOutlineThickness(2);
     mWindow.draw(high);
     sf::Text score;
     score.setFont(font);
@@ -275,6 +293,8 @@ void Game::drawHighscore()
     score.setPosition(530,120);
     score.setCharacterSize(24);
     score.setFillColor(sf::Color::White);
+    score.setOutlineColor(sf::Color(102,102,102));
+    score.setOutlineThickness(2);
     mWindow.draw(score);
 }
 
@@ -303,6 +323,8 @@ void Game::drawCurrentscore()
     scoreBox.setSize(sf::Vector2f(150, 50));
     scoreBox.setFillColor(sf::Color::Black);
     scoreBox.setPosition(525, 160);
+    scoreBox.setOutlineColor(sf::Color(102,102,102));
+    scoreBox.setOutlineThickness(2);
     mWindow.draw(scoreBox);
     sf::Text high;
     high.setFont(font);
@@ -310,6 +332,8 @@ void Game::drawCurrentscore()
     high.setPosition(530,160);
     high.setCharacterSize(24);
     high.setFillColor(sf::Color::White);
+    high.setOutlineColor(sf::Color(102,102,102));
+    high.setOutlineThickness(2);
     mWindow.draw(high);
     sf::Text score;
     score.setFont(font);
@@ -317,6 +341,8 @@ void Game::drawCurrentscore()
     score.setPosition(530,180);
     score.setCharacterSize(24);
     score.setFillColor(sf::Color::White);
+    score.setOutlineColor(sf::Color(102,102,102));
+    score.setOutlineThickness(2);
     mWindow.draw(score);
 }
 
