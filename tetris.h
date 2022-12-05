@@ -10,6 +10,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <cmath> // for round()
 using std::cout;
 using std::endl;
 using std::vector;
@@ -20,6 +21,7 @@ class Block {
       int index = 0;
       int posX = 0, posY = 0;
       char mChar;
+      float centerX, centerY;
       // sf::Color color;
       // sf::Texture texture;
       vector<vector<vector<char>>> shape;
@@ -27,6 +29,8 @@ class Block {
       virtual void rotate(char board[20][10]) = 0;
       virtual vector<vector<char>> getSprite() = 0;
       virtual char getChar() = 0;
+      virtual float getCenterX() = 0;
+      virtual float getCenterY() = 0;
       virtual int getStartingRow() = 0;
       virtual bool movePos(char board[20][10], int moveX, int moveY) = 0;
 
@@ -38,6 +42,8 @@ class Block {
 class T : public Block {
    int startRow = 1;
    char mChar = 'T';
+   float centerX = 2.5;
+   float centerY = 2;
    vector<vector<vector<char>>> shape={{{'-','-','-','-','-'},
                                         {'-','4','T','6','-'},
                                         {'4','T','T','T','6'},
@@ -66,7 +72,7 @@ class T : public Block {
       for(int i = -2; i <= 2; i++) {
          for(int j = -2; j <= 2; j++) {
             if(shape[index][i+2][j+2] == mChar) {
-               if((posY + i < 0 || posX + i < 0)) { continue; }
+               if(posY + i < 0 ) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -96,7 +102,7 @@ class T : public Block {
       // RE-ADDING THE BLOCK TO THE BOARD WITH INDEX (EITHER UPDATED OR NOT DEPENDING ON WHILE LOOP)
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
-            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(posY + i < 0 ) { continue; }
             if(shape[index][i+2][j+2] == mChar)
                board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
@@ -104,6 +110,9 @@ class T : public Block {
    }
 
    char getChar() { return mChar; }
+
+   float getCenterX() { return centerX; }
+   float getCenterY() { return centerY; }
 
    int getStartingRow() { return startRow; }
 
@@ -132,7 +141,7 @@ class T : public Block {
       for(int i = -2; i <= 2; i++) {
          for(int j = -2; j <= 2; j++) {
             if(shape[index][i+2][j+2] == mChar) {
-               if((posY + i < 0 || posX + i < 0)) { continue; }
+               if(posY + i < 0) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -145,7 +154,7 @@ class T : public Block {
       // RE-ADDING THE BLOCK TO THE BOARD IN THE NEW POSITION
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
-            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(posY + i < 0) { continue; }
             if(shape[index][i+2][j+2] == mChar)
                board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
@@ -183,6 +192,8 @@ class T : public Block {
 class O : public Block {
    int startRow = 2;
    char mChar = 'O';
+   float centerX = 3;
+   float centerY = 3;
    vector<vector<vector<char>>> shape={{{'-','-','-','-','-'},
                                         {'-','-','-','-','-'},
                                         {'-','4','O','O','6'},
@@ -211,7 +222,7 @@ class O : public Block {
       for(int i = -2; i <= 2; i++) {
          for(int j = -2; j <= 2; j++) {
             if(shape[index][i+2][j+2] == mChar) {
-               if((posY + i < 0 || posX + i < 0)) { continue; }
+               if(posY + i < 0 ) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -246,7 +257,7 @@ class O : public Block {
       // RE-ADDING THE BLOCK TO THE BOARD WITH INDEX (EITHER UPDATED OR NOT DEPENDING ON WHILE LOOP)
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
-            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(posY + i < 0 ) { continue; }
             if(shape[index][i+2][j+2] == mChar)
                board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
@@ -254,6 +265,9 @@ class O : public Block {
    }
 
    char getChar() { return mChar; }
+
+   float getCenterX() { return centerX; }
+   float getCenterY() { return centerY; }
 
    int getStartingRow() { return startRow; }
 
@@ -282,7 +296,7 @@ class O : public Block {
       for(int i = -2; i <= 2; i++) {
          for(int j = -2; j <= 2; j++) {
             if(shape[index][i+2][j+2] == mChar) {
-               if((posY + i < 0 || posX + i < 0)) { continue; }
+               if(posY + i < 0 ) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -295,7 +309,7 @@ class O : public Block {
       // RE-ADDING THE BLOCK TO THE BOARD IN THE NEW POSITION
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
-            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(posY + i < 0 ) { continue; }
             if(shape[index][i+2][j+2] == mChar)
                board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
@@ -330,6 +344,8 @@ class O : public Block {
 class J : public Block {
    int startRow = 1;
    char mChar = 'J';
+   float centerX = 2.5;
+   float centerY = 2;
    vector<vector<vector<char>>> shape={{{'-','-','-','-','-'},
                                         {'4','J','6','-','-'},
                                         {'4','J','J','J','6'},
@@ -358,7 +374,7 @@ class J : public Block {
       for(int i = -2; i <= 2; i++) {
          for(int j = -2; j <= 2; j++) {
             if(shape[index][i+2][j+2] == mChar) {
-               if((posY + i < 0 || posX + i < 0)) { continue; }
+               if(posY + i < 0 ) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -393,7 +409,7 @@ class J : public Block {
       // RE-ADDING THE BLOCK TO THE BOARD WITH INDEX (EITHER UPDATED OR NOT DEPENDING ON WHILE LOOP)
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
-            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(posY + i < 0 ) { continue; }
             if(shape[index][i+2][j+2] == mChar)
                board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
@@ -401,6 +417,9 @@ class J : public Block {
    }
 
    char getChar() { return mChar; }
+
+   float getCenterX() { return centerX; }
+   float getCenterY() { return centerY; }
 
    int getStartingRow() { return startRow; }
 
@@ -429,7 +448,7 @@ class J : public Block {
       for(int i = -2; i <= 2; i++) {
          for(int j = -2; j <= 2; j++) {
             if(shape[index][i+2][j+2] == mChar) {
-               if((posY + i < 0 || posX + i < 0)) { continue; }
+               if(posY + i < 0 ) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -442,7 +461,7 @@ class J : public Block {
       // RE-ADDING THE BLOCK TO THE BOARD IN THE NEW POSITION
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
-            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(posY + i < 0 ) { continue; }
             if(shape[index][i+2][j+2] == mChar)
                board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
@@ -476,6 +495,8 @@ class J : public Block {
 class L : public Block {
    int startRow = 1;
    char mChar = 'L';
+   float centerX = 2.5;
+   float centerY = 2;
    vector<vector<vector<char>>> shape={{{'-','-','-','-','-'},
                                         {'-','-','4','L','6'},
                                         {'4','L','L','L','6'},
@@ -504,7 +525,7 @@ class L : public Block {
       for(int i = -2; i <= 2; i++) {
          for(int j = -2; j <= 2; j++) {
             if(shape[index][i+2][j+2] == mChar) {
-               if((posY + i < 0 || posX + i < 0)) { continue; }
+               if(posY + i < 0 ) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -539,7 +560,7 @@ class L : public Block {
       // RE-ADDING THE BLOCK TO THE BOARD WITH INDEX (EITHER UPDATED OR NOT DEPENDING ON WHILE LOOP)
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
-            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(posY + i < 0 ) { continue; }
             if(shape[index][i+2][j+2] == mChar)
                board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
@@ -547,6 +568,9 @@ class L : public Block {
    }
 
    char getChar() { return mChar; }
+
+   float getCenterX() { return centerX; }
+   float getCenterY() { return centerY; }
 
    int getStartingRow() { return startRow; }
 
@@ -575,7 +599,7 @@ class L : public Block {
       for(int i = -2; i <= 2; i++) {
          for(int j = -2; j <= 2; j++) {
             if(shape[index][i+2][j+2] == mChar) {
-               if((posY + i < 0 || posX + i < 0)) { continue; }
+               if(posY + i < 0 ) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -588,7 +612,7 @@ class L : public Block {
       // RE-ADDING THE BLOCK TO THE BOARD IN THE NEW POSITION
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
-            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(posY + i < 0 ) { continue; }
             if(shape[index][i+2][j+2] == mChar)
                board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
@@ -620,12 +644,14 @@ class L : public Block {
 };
 
 class I : public Block {
-   int startRow = 2;
+   int startRow = 1;
    char mChar = 'I';
+   float centerX = 3;
+   float centerY = 1.5;
    vector<vector<vector<char>>> shape={{{'-','-','-','-','-'},
-                                        {'-','-','-','-','-'},
                                         {'4','I','I','I','I'},
                                         {'-','2','2','2','2'},
+                                        {'-','-','-','-','-'},
                                         {'-','-','-','-','-'}},
  
                                        {{'-','4','I','6','-'},
@@ -635,9 +661,9 @@ class I : public Block {
                                         {'-','-','2','-','-'}},
 
                                        {{'-','-','-','-','-'},
-                                        {'-','-','-','-','-'},
                                         {'4','I','I','I','I'},
                                         {'-','2','2','2','2'},
+                                        {'-','-','-','-','-'},
                                         {'-','-','-','-','-'}},
  
                                        {{'-','4','I','6','-'},
@@ -650,7 +676,7 @@ class I : public Block {
       for(int i = -2; i <= 2; i++) {
          for(int j = -2; j <= 2; j++) {
             if(shape[index][i+2][j+2] == mChar) {
-               if((posY + i < 0 || posX + i < 0)) { continue; }
+               if(posY + i < 0 ) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -685,7 +711,7 @@ class I : public Block {
       // RE-ADDING THE BLOCK TO THE BOARD WITH INDEX (EITHER UPDATED OR NOT DEPENDING ON WHILE LOOP)
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
-            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(posY + i < 0 ) { continue; }
             if(shape[index][i+2][j+2] == mChar)
                board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
@@ -693,6 +719,9 @@ class I : public Block {
    }
 
    char getChar() { return mChar; }
+
+   float getCenterX() { return centerX; }
+   float getCenterY() { return centerY; }
 
    int getStartingRow() { return startRow; }
 
@@ -721,7 +750,7 @@ class I : public Block {
       for(int i = -2; i <= 2; i++) {
          for(int j = -2; j <= 2; j++) {
             if(shape[index][i+2][j+2] == mChar) {
-               if((posY + i < 0 || posX + i < 0)) { continue; }
+               if(posY + i < 0 ) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -734,7 +763,7 @@ class I : public Block {
       // RE-ADDING THE BLOCK TO THE BOARD IN THE NEW POSITION
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
-            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(posY + i < 0 ) { continue; }
             if(shape[index][i+2][j+2] == mChar)
                board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
@@ -771,6 +800,8 @@ class I : public Block {
 class Z : public Block {
    int startRow = 1;
    char mChar = 'Z';
+   float centerX = 2.5;
+   float centerY = 2;
    vector<vector<vector<char>>> shape={{{'-','-','-','-','-'},
                                         {'4','Z','Z','6','-'},
                                         {'-','1','Z','Z','6'},
@@ -799,7 +830,7 @@ class Z : public Block {
       for(int i = -2; i <= 2; i++) {
          for(int j = -2; j <= 2; j++) {
             if(shape[index][i+2][j+2] == mChar) {
-               if((posY + i < 0 || posX + i < 0)) { continue; }
+               if(posY + i < 0 ) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -834,7 +865,7 @@ class Z : public Block {
       // RE-ADDING THE BLOCK TO THE BOARD WITH INDEX (EITHER UPDATED OR NOT DEPENDING ON WHILE LOOP)
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
-            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(posY + i < 0 ) { continue; }
             if(shape[index][i+2][j+2] == mChar)
                board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
@@ -842,6 +873,9 @@ class Z : public Block {
    }
 
    char getChar() { return mChar; }
+
+   float getCenterX() { return centerX; }
+   float getCenterY() { return centerY; }
 
    int getStartingRow() { return startRow; }
 
@@ -870,7 +904,7 @@ class Z : public Block {
       for(int i = -2; i <= 2; i++) {
          for(int j = -2; j <= 2; j++) {
             if(shape[index][i+2][j+2] == mChar) {
-               if((posY + i < 0 || posX + i < 0)) { continue; }
+               if(posY + i < 0 ) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -883,7 +917,7 @@ class Z : public Block {
       // RE-ADDING THE BLOCK TO THE BOARD IN THE NEW POSITION
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
-            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(posY + i < 0 ) { continue; }
             if(shape[index][i+2][j+2] == mChar)
                board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
@@ -917,6 +951,8 @@ class Z : public Block {
 class S : public Block {
    int startRow = 1;
    char mChar = 'S';
+   float centerX = 2.5;
+   float centerY = 2;
    vector<vector<vector<char>>> shape={{{'-','-','-','-','-'},
                                         {'-','4','S','S','6'},
                                         {'4','S','S','3','-'},
@@ -945,7 +981,7 @@ class S : public Block {
       for(int i = -2; i <= 2; i++) {
          for(int j = -2; j <= 2; j++) {
             if(shape[index][i+2][j+2] == mChar) {
-               if((posY + i < 0 || posX + i < 0)) { continue; }
+               if(posY + i < 0 ) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -980,7 +1016,7 @@ class S : public Block {
       // RE-ADDING THE BLOCK TO THE BOARD WITH INDEX (EITHER UPDATED OR NOT DEPENDING ON WHILE LOOP)
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
-            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(posY + i < 0 ) { continue; }
             if(shape[index][i+2][j+2] == mChar)
                board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
@@ -988,6 +1024,9 @@ class S : public Block {
    }
 
    char getChar() { return mChar; }
+
+   float getCenterX() { return centerX; }
+   float getCenterY() { return centerY; }
 
    int getStartingRow() { return startRow; }
 
@@ -1016,7 +1055,7 @@ class S : public Block {
       for(int i = -2; i <= 2; i++) {
          for(int j = -2; j <= 2; j++) {
             if(shape[index][i+2][j+2] == mChar) {
-               if((posY + i < 0 || posX + i < 0)) { continue; }
+               if(posY + i < 0 ) { continue; }
                board[posY+i][posX+j] = '-';
             }
          }
@@ -1029,7 +1068,7 @@ class S : public Block {
       // RE-ADDING THE BLOCK TO THE BOARD IN THE NEW POSITION
       for(int i = -2; i < 3; i++) {
          for(int j = -2; j < 3; j++) {
-            if((posY + i < 0 || posX + i < 0)) { continue; }
+            if(posY + i < 0 ) { continue; }
             if(shape[index][i+2][j+2] == mChar)
                board[posY+i][posX+j] = shape[index][i+2][j+2];
          }
@@ -1072,7 +1111,7 @@ class Game
  public:
     Game();
     ~Game(){};
-    void handleInput(char board[20][10], Block* fallingBlock);
+    bool handleInput(char board[20][10], Block* fallingBlock);
     void loadTextures();
     void loadFont();
     void update(char board[20][10], Block* fallingBlock);
@@ -1088,6 +1127,12 @@ class Game
     // Each block is sized to BLOCK_SIZE + (BORDER_SIZE * 2)
     int BLOCK_SIZE = 22;
     int BORDER_SIZE = 1;
+    float SPEED_MULT = 1;
+    // This is purely here to temporariyl save speed
+    // when decreasing it for holding down arrow.
+    // I could've passed a float instead of using a public
+    // but this was simpler so I just did it this way.
+    float TEMP_SPEED = 1;
     int posX = 0;
    sf::RenderWindow mWindow;
  private:
@@ -1102,7 +1147,7 @@ class Game
     sf::Texture back;
     sf::Font font;
     sf::Vector2i mIncrement;
-    int currentScore = 0;
+    float currentScore = 0;
     int highestScore =0;
    
 };
