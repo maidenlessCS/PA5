@@ -64,9 +64,9 @@ int main() {
 
         sf::RectangleShape title;
         title.setSize(sf::Vector2f(984/1.75, 168/1.75));
-        title.setTexture(&game.title);
+        title.setTexture(&game.Title);
         title.setOrigin(title.getSize().x/2, title.getSize().y/2);
-        title.setPosition(sf::Vector2f(playButton.getPosition().x, playButton.getPosition().y-game.WINDOW_SIZE_Y/6));
+        title.setPosition(sf::Vector2f(playButton.getPosition().x, playButton.getPosition().y-game.WINDOW_SIZE_Y/4));
         game.mWindow.draw(title);
 
         sf::Text play;
@@ -184,7 +184,7 @@ int main() {
         game.gameEnd(board, fallingBlock);
     }
     game.checkScores();
-
+    
     return 0;
 
 }
