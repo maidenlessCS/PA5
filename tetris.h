@@ -30,8 +30,6 @@ class Block {
       int posX = 0, posY = 0;
       char mChar;
       float centerX, centerY;
-      // sf::Color color;
-      // sf::Texture texture;
       vector<vector<vector<char>>> shape;
 
       virtual void rotate(char board[20][10]) = 0;

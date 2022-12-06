@@ -95,7 +95,7 @@ void Game::render(char board[20][10], Block* nextBlock, bool clearSceen) {
     sf::Text next;
     next.setFont(font);
     next.setString("Next");
-    next.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    next.setStyle(sf::Text::Bold);
     next.setCharacterSize(24);
     sf::FloatRect textRect = next.getLocalBounds();
     next.setPosition(sf::Vector2f(nextBox.getPosition().x+((nextBox.getSize().x-textRect.width)*.5), nextBox.getPosition().y));
@@ -187,7 +187,7 @@ void Game::squareColor(char current, sf::RectangleShape &square){
             break;
         default: // Essentially the "else"
             // This is only in the loop because it uses i
-            cout << "default ran" << endl;
+            break;
     }
 }
 
@@ -229,10 +229,16 @@ void Game::drawHighscore()
     int verticalOffset = WINDOW_SIZE_Y - WINDOW_SIZE_Y/2 - ((BLOCK_SIZE+BORDER_SIZE*2)*20)/2;
     //gets highscore from file
     std::ifstream file; 
-    std::string Highscore;
+    std::string readScore, highscore;
     file.open("Highscore.txt");
-    getline(file, Highscore);
+    getline(file, readScore);
     file.close();
+
+    for(int i = 0; i < 10 - readScore.length(); i++) {
+        highscore += '0';
+    }
+    highscore += readScore;
+    
     //draws box for highscore
     sf::RectangleShape scoreBox;
     scoreBox.setSize(sf::Vector2f(150, 70));
@@ -245,7 +251,7 @@ void Game::drawHighscore()
     sf::Text high;
     high.setFont(font);
     high.setString("Highscore");
-    high.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    high.setStyle(sf::Text::Bold);
     high.setCharacterSize(24);
     sf::FloatRect textRect = high.getLocalBounds();
     high.setPosition(sf::Vector2f(scoreBox.getPosition().x+((scoreBox.getSize().x-textRect.width)*.5), scoreBox.getPosition().y));
@@ -256,19 +262,19 @@ void Game::drawHighscore()
     //draws actual highscore
     sf::Text score;
     score.setFont(font);
-    score.setString(Highscore);
+    score.setString(highscore);
     score.setCharacterSize(24);
     sf::FloatRect textRect2 = score.getLocalBounds();
-    score.setPosition(sf::Vector2f(scoreBox.getPosition().x+((scoreBox.getSize().x-textRect2.width)*.5), scoreBox.getPosition().y+32));
+    score.setPosition(sf::Vector2f(scoreBox.getPosition().x+((scoreBox.getSize().x-textRect2.width)*.5)-2, scoreBox.getPosition().y+32));
     score.setFillColor(sf::Color::White);
     score.setOutlineColor(sf::Color(102,102,102));
-    score.setOutlineThickness(2);
+    score.setOutlineThickness(1);
     mWindow.draw(score);
 }
 
 void Game::getHighscore()
 {
-    //gets highscore to compare numerically
+    // gets highscore to compare numerically
     std::ifstream file; 
     file.open("Highscore.txt");
     file >> highestScore;
@@ -277,10 +283,10 @@ void Game::getHighscore()
 
 void Game::checkScores()
 {
-    //checks if current score is more than highscore
+    // checks if current score is more than highscore
     if (highestScore < round(currentScore))
     {
-        //sets highscore to new score 
+        // sets highscore to new score 
         std::ofstream file; 
         file.open("Highscore.txt");
         file << round(currentScore);
@@ -304,7 +310,7 @@ void Game::drawCurrentscore()
     sf::Text current;
     current.setFont(font);
     current.setString("Score");
-    current.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    current.setStyle(sf::Text::Bold);
     current.setCharacterSize(24);
     sf::FloatRect textRect = current.getLocalBounds();
     current.setPosition(sf::Vector2f(scoreBox.getPosition().x+((scoreBox.getSize().x-textRect.width)*.5), scoreBox.getPosition().y));
@@ -318,10 +324,10 @@ void Game::drawCurrentscore()
     score.setString(scoreToString(round(currentScore)));
     score.setCharacterSize(24);
     sf::FloatRect textRect2 = score.getLocalBounds();
-    score.setPosition(sf::Vector2f(scoreBox.getPosition().x+((scoreBox.getSize().x-textRect2.width)*.5), scoreBox.getPosition().y+32));
+    score.setPosition(sf::Vector2f(scoreBox.getPosition().x+((scoreBox.getSize().x-textRect2.width)*.5)-2, scoreBox.getPosition().y+31));
     score.setFillColor(sf::Color::White);
     score.setOutlineColor(sf::Color(102,102,102));
-    score.setOutlineThickness(2);
+    score.setOutlineThickness(1);
     mWindow.draw(score);
 }
 
@@ -370,6 +376,9 @@ std::string Game::scoreToString(int score)
 {
     //returns score as text
     std::ostringstream os;
+    for(int i = 0; i < 10 - std::to_string(score).length(); i++) {
+        os << '0';
+    }
     os << score;
     return os.str();
 }
