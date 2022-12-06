@@ -367,7 +367,7 @@ void Game::placementPoints()
     }
 }
 
-/*void Game::mainMenuBackground(){
+void Game::mainMenuBackground(){
     //actual background design
     sf::RectangleShape menuBackground;
     menuBackground.setSize(sf::Vector2f(700, 650));
@@ -380,100 +380,102 @@ void Game::placementPoints()
     mWindow.draw(blackground);
 }
 
-void Game::mainMenuButtons(bool &gameStart){
-    bool overPlayButton = false;
-    bool overExitButton = false;
+void Game::mainMenuButtons(bool &gameStart, bool &overPlayButton,bool &overExitButton){
 
     sf::RectangleShape playButton;
-        playButton.setSize(sf::Vector2f(150,75));
-        playButton.setOrigin(playButton.getSize().x/2, playButton.getSize().y/2);
-        playButton.setPosition(sf::Vector2f(WINDOW_SIZE_X - WINDOW_SIZE_X/2,WINDOW_SIZE_Y - WINDOW_SIZE_Y/2));
-        playButton.setOutlineThickness(5);
+    playButton.setSize(sf::Vector2f(150,75));
+    playButton.setOrigin(playButton.getSize().x/2, playButton.getSize().y/2);
+    playButton.setPosition(sf::Vector2f(WINDOW_SIZE_X - WINDOW_SIZE_X/2,WINDOW_SIZE_Y - WINDOW_SIZE_Y/2));
+    playButton.setOutlineThickness(5);
 
-        sf::RectangleShape exitButton;
-        exitButton.setSize(sf::Vector2f(150,75));
-        exitButton.setOrigin(exitButton.getSize().x/2, exitButton.getSize().y/2);
-        exitButton.setPosition(sf::Vector2f(playButton.getPosition().x, playButton.getPosition().y+WINDOW_SIZE_Y/6));
-        exitButton.setOutlineThickness(5);
+    sf::RectangleShape exitButton;
+    exitButton.setSize(sf::Vector2f(150,75));
+    exitButton.setOrigin(exitButton.getSize().x/2, exitButton.getSize().y/2);
+    exitButton.setPosition(sf::Vector2f(playButton.getPosition().x, playButton.getPosition().y+WINDOW_SIZE_Y/6));
+    exitButton.setOutlineThickness(5);
 
-        sf::RectangleShape title;
-        title.setSize(sf::Vector2f(984/1.75, 168/1.75));
-        title.setTexture(&Title);
-        title.setOrigin(title.getSize().x/2, title.getSize().y/2);
-        title.setPosition(sf::Vector2f(playButton.getPosition().x, playButton.getPosition().y-WINDOW_SIZE_Y/4));
-        mWindow.draw(title);
+    sf::RectangleShape title;
+    title.setSize(sf::Vector2f(984/1.75, 168/1.75));
+    title.setTexture(&Title);
+    title.setOrigin(title.getSize().x/2, title.getSize().y/2);
+    title.setPosition(sf::Vector2f(playButton.getPosition().x, playButton.getPosition().y-WINDOW_SIZE_Y/4));
+    mWindow.draw(title);
 
-        sf::Text play;
-        sf::Text exit;
-        
-        playButton.setFillColor(sf::Color(34,59,140, 230));  
-        play.setFillColor(sf::Color(0,0,0,230));
-        playButton.setOutlineColor(sf::Color(0,0,0,230));
+    sf::Text play;
+    sf::Text exit;
+    
+    playButton.setFillColor(sf::Color(34,59,140, 230));  
+    play.setFillColor(sf::Color(0,0,0,230));
+    playButton.setOutlineColor(sf::Color(0,0,0,230));
 
-        exitButton.setFillColor(sf::Color(223,18,18, 230));  
-        exit.setFillColor(sf::Color(0,0,0,230));
-        exitButton.setOutlineColor(sf::Color(0,0,0,230));
+    exitButton.setFillColor(sf::Color(223,18,18, 230));  
+    exit.setFillColor(sf::Color(0,0,0,230));
+    exitButton.setOutlineColor(sf::Color(0,0,0,230));
 
-        
-        play.setCharacterSize(35);
-        play.setFont(font);
-        play.setString("Play");
-        sf::FloatRect textRect = play.getLocalBounds();
-        play.setOrigin(sf::Vector2f(textRect.left + textRect.width/2.0f, textRect.top  + textRect.height/2.0f));
-        play.setPosition(sf::Vector2f(playButton.getPosition().x, playButton.getPosition().y));
-        
+    
+    play.setCharacterSize(35);
+    play.setFont(font);
+    play.setString("Play");
+    sf::FloatRect textRect = play.getLocalBounds();
+    play.setOrigin(sf::Vector2f(textRect.left + textRect.width/2.0f, textRect.top  + textRect.height/2.0f));
+    play.setPosition(sf::Vector2f(playButton.getPosition().x, playButton.getPosition().y));
+    
 
-        exit = play;
-        
-        exit.setString("Exit");
-        exit.setPosition(sf::Vector2f(playButton.getPosition().x, playButton.getPosition().y+WINDOW_SIZE_Y/6));
+    exit = play;
+    
+    exit.setString("Exit");
+    exit.setPosition(sf::Vector2f(playButton.getPosition().x, playButton.getPosition().y+WINDOW_SIZE_Y/6));
 
-        if (overPlayButton){
-            playButton.setFillColor(sf::Color(152,181,227, 230));
-            play.setFillColor(sf::Color(255,255,255,230));
-            playButton.setOutlineColor(sf::Color(255,255,255,230));
+    sf::Event event;
+    while(mWindow.pollEvent(event)){
+        if (event.type == sf::Event::Closed){
+            mWindow.close();
+            std::exit(0);
         }
-        else if (overExitButton){
-            exitButton.setFillColor(sf::Color(255,65,65, 230));
-            exit.setFillColor(sf::Color(255,255,255,230));
-            exitButton.setOutlineColor(sf::Color(255,255,255,230));
+        sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
+        bool mouseInPlayButton =    mousePosition.x >= playButton.getPosition().x - playButton.getSize().x/2
+                                && mousePosition.x <= playButton.getPosition().x + playButton.getSize().x/2
+                                && mousePosition.y >= playButton.getPosition().y - playButton.getSize().y/2
+                                && mousePosition.y <= playButton.getPosition().y + playButton.getSize().y/2;
+        bool mouseInExitButton =    mousePosition.x >= exitButton.getPosition().x - exitButton.getSize().x/2
+                                && mousePosition.x <= exitButton.getPosition().x + exitButton.getSize().x/2
+                                && mousePosition.y >= exitButton.getPosition().y - exitButton.getSize().y/2
+                                && mousePosition.y <= exitButton.getPosition().y + exitButton.getSize().y/2;
+    if(event.type == sf::Event::MouseMoved)
+        {
+            overPlayButton = mouseInPlayButton;
+            overExitButton = mouseInExitButton;
         }
-
-        mWindow.draw(playButton);
-        mWindow.draw(exitButton);
-        mWindow.draw(play);
-        mWindow.draw(exit);
-
-        sf::Event event;
-        while(mWindow.pollEvent(event)){
-            if (event.type == sf::Event::Closed){
-                mWindow.close();
-                std::exit(0);
-            }
-            sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
-            bool mouseInPlayButton =    mousePosition.x >= playButton.getPosition().x - playButton.getSize().x/2
-                                    && mousePosition.x <= playButton.getPosition().x + playButton.getSize().x/2
-                                    && mousePosition.y >= playButton.getPosition().y - playButton.getSize().y/2
-                                    && mousePosition.y <= playButton.getPosition().y + playButton.getSize().y/2;
-            bool mouseInExitButton =    mousePosition.x >= exitButton.getPosition().x - exitButton.getSize().x/2
-                                    && mousePosition.x <= exitButton.getPosition().x + exitButton.getSize().x/2
-                                    && mousePosition.y >= exitButton.getPosition().y - exitButton.getSize().y/2
-                                    && mousePosition.y <= exitButton.getPosition().y + exitButton.getSize().y/2;
-        if(event.type == sf::Event::MouseMoved)
-            {
-                overPlayButton = mouseInPlayButton;
-                overExitButton = mouseInExitButton;
-            }
-            if (event.type == sf::Event::MouseButtonPressed){
-                    if(event.mouseButton.button==sf::Mouse::Left){
-                        if(mouseInPlayButton){
-                            gameStart = true;
-                        }
-                        if(mouseInExitButton){
-                            mWindow.close();
-                            std::exit(0);
-                        }
+        if (event.type == sf::Event::MouseButtonPressed){
+                if(event.mouseButton.button==sf::Mouse::Left){
+                    if(mouseInPlayButton){
+                        gameStart = true;
+                    }
+                    if(mouseInExitButton){
+                        mWindow.close();
+                        std::exit(0);
                     }
                 }
-        }
-}*/
+            }
+    }
+
+    if (overPlayButton){
+        playButton.setFillColor(sf::Color(152,181,227, 230));
+        play.setFillColor(sf::Color(255,255,255,230));
+        playButton.setOutlineColor(sf::Color(255,255,255,230));
+    }
+    else if (overExitButton){
+        exitButton.setFillColor(sf::Color(255,65,65, 230));
+        exit.setFillColor(sf::Color(255,255,255,230));
+        exitButton.setOutlineColor(sf::Color(255,255,255,230));
+    }
+
+    mWindow.draw(playButton);
+    mWindow.draw(exitButton);
+    mWindow.draw(play);
+    mWindow.draw(exit);
+
+
+    mWindow.display();
+    mWindow.clear(sf::Color(10, 10, 10));
+}

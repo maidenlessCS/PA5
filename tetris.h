@@ -332,7 +332,7 @@ class Game
     bool isDone() const;
     void gameEnd(char board[20][10], Block* fallingBlock);
     void mainMenuBackground();
-    void mainMenuButtons(bool &gameStart);
+    void mainMenuButtons(bool &gameStart, bool &overPlayButton,bool &overExitButton);
     void getHighscore();
     void checkScores();
     int WINDOW_SIZE_X = 700;
