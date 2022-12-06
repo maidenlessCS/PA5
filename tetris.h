@@ -1122,8 +1122,8 @@ class Game
     void gameEnd(char board[20][10], Block* fallingBlock);
     void getHighscore();
     void checkScores();
-    int WINDOW_SIZE_X = 700;
-    int WINDOW_SIZE_Y = 650;
+    int WINDOW_SIZE_X = 650;
+    int WINDOW_SIZE_Y = 600;
     // Each block is sized to BLOCK_SIZE + (BORDER_SIZE * 2)
     int BLOCK_SIZE = 22;
     int BORDER_SIZE = 1;
