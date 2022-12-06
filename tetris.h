@@ -1,3 +1,10 @@
+/**
+ * @file tetris.h
+ * @author Ben Bonus, Davin Lewis
+ * @brief defines classes for Tetris and functions
+ * @version 0.1
+ * @date 2022-12-06
+ */
 #ifndef TETRIS_H
 #define TETRIS_H
 
@@ -5,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <time.h>
 #include <stdlib.h>
 #include <fstream>
