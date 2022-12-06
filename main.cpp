@@ -10,7 +10,7 @@ int main() {
     char nextBoard[5][5];
 
     int randBlock = rand() % 7 + 1;
-    Block *fallingBlock = getBlockType(5);
+    Block *fallingBlock = getBlockType(1);
     randBlock = rand() % 7 + 1;
     Block *nextBlock = getBlockType(randBlock);
 

@@ -60,6 +60,11 @@ void Game::update(char board[20][10], Block* fallingBlock) {
 
 void Game::render(char board[20][10], Block* nextBlock) {
 
+    // Basically it finds the center of the screen, then goes back half the size of the board from there
+    // I know the multiplication could be simplified but it makes more sense when written this way
+    int horizontalOffset = WINDOW_SIZE_X - WINDOW_SIZE_X/2 - ((BLOCK_SIZE+BORDER_SIZE*2)*10)/2;
+    int verticalOffset = WINDOW_SIZE_Y - WINDOW_SIZE_Y/2 - ((BLOCK_SIZE+BORDER_SIZE*2)*20)/2;
+
     sf::RectangleShape background;
     background.setSize(sf::Vector2f(700, 650));
     background.setTexture(&back);
@@ -77,25 +82,23 @@ void Game::render(char board[20][10], Block* nextBlock) {
     mWindow.draw(boardBorder);
 
     sf::RectangleShape nextBox;
-    nextBox.setSize(sf::Vector2f(150, 200));
+    nextBox.setSize(sf::Vector2f(150, 160));
     nextBox.setFillColor(sf::Color::Black);
     nextBox.setOutlineColor(sf::Color(102,102,102));
     nextBox.setOutlineThickness(2);
-    nextBox.setPosition(50, 250);
+    nextBox.setPosition(horizontalOffset/2 - 150/2, (WINDOW_SIZE_Y - WINDOW_SIZE_Y/2)-160/2);
     mWindow.draw(nextBox);
 
     sf::Text next;
     next.setFont(font);
-    next.setString("Next:");
-    next.setPosition(50,250);
+    next.setString("Next");
+    next.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    next.setPosition(horizontalOffset/2 - 150/2, (WINDOW_SIZE_Y - WINDOW_SIZE_Y/2)-160/2);
     next.setCharacterSize(24);
     next.setFillColor(sf::Color::White);
+    next.setOutlineColor(sf::Color(102,102,102));
+    next.setOutlineThickness(2);
     mWindow.draw(next);
-
-    // Basically it finds the center of the screen, then goes back half the size of the board from there
-    // I know the multiplication could be simplified but it makes more sense when written this way
-    int horizontalOffset = WINDOW_SIZE_X - WINDOW_SIZE_X/2 - ((BLOCK_SIZE+BORDER_SIZE*2)*10)/2;
-    int verticalOffset = WINDOW_SIZE_Y - WINDOW_SIZE_Y/2 - ((BLOCK_SIZE+BORDER_SIZE*2)*20)/2;
 
     sf::RectangleShape square;
     square.setSize(sf::Vector2f(BLOCK_SIZE+BORDER_SIZE*2, BLOCK_SIZE+BORDER_SIZE*2));
@@ -128,10 +131,10 @@ void Game::render(char board[20][10], Block* nextBlock) {
         }
     }
     horizontalOffset = (nextBox.getPosition().x - (BLOCK_SIZE+BORDER_SIZE*2)*nextBlock->getCenterX()) + (nextBox.getSize().x/2);
-    verticalOffset = (nextBox.getPosition().y - (BLOCK_SIZE+BORDER_SIZE*2)*nextBlock->getCenterY()) + (nextBox.getSize().y/2);
+    verticalOffset = (nextBox.getPosition().y + 10 - (BLOCK_SIZE+BORDER_SIZE*2)*nextBlock->getCenterY()) + ((nextBox.getSize().y)/2);
     for (int j = 0; j < 5; j++)
     {
-        for (int i = 0; i<5; i++)
+        for (int i = 0; i< 5 ; i++)
         {
             int posX = horizontalOffset + BLOCK_SIZE*j+BORDER_SIZE*j*2 - BORDER_SIZE;
             int posY = verticalOffset + BLOCK_SIZE*i+BORDER_SIZE*i*2 - BORDER_SIZE;
@@ -266,31 +269,38 @@ void spawnBlock(char board[20][10], Block* block) {
 
 void Game::drawHighscore()
 {
+    int horizontalOffset = WINDOW_SIZE_X - WINDOW_SIZE_X/2 - ((BLOCK_SIZE+BORDER_SIZE*2)*10)/2;
+    int verticalOffset = WINDOW_SIZE_Y - WINDOW_SIZE_Y/2 - ((BLOCK_SIZE+BORDER_SIZE*2)*20)/2;
+
     std::ifstream file; 
     std::string Highscore;
     file.open("Highscore.txt");
     getline(file, Highscore);
     file.close();
+
     sf::RectangleShape scoreBox;
-    scoreBox.setSize(sf::Vector2f(150, 50));
+    scoreBox.setSize(sf::Vector2f(150, 70));
     scoreBox.setFillColor(sf::Color::Black);
-    scoreBox.setPosition(525, 100);
+    scoreBox.setPosition(horizontalOffset+(BLOCK_SIZE+BORDER_SIZE*2)*10 + horizontalOffset/2 - 150/2, verticalOffset);
     scoreBox.setOutlineColor(sf::Color(102,102,102));
     scoreBox.setOutlineThickness(2);
     mWindow.draw(scoreBox);
+
     sf::Text high;
     high.setFont(font);
-    high.setString("Highscore:");
-    high.setPosition(530,100);
+    high.setString("Highscore");
+    high.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    high.setPosition(horizontalOffset+(BLOCK_SIZE+BORDER_SIZE*2)*10 + horizontalOffset/2 - 150/2, verticalOffset);
     high.setCharacterSize(24);
     high.setFillColor(sf::Color::White);
     high.setOutlineColor(sf::Color(102,102,102));
     high.setOutlineThickness(2);
     mWindow.draw(high);
+    
     sf::Text score;
     score.setFont(font);
     score.setString(Highscore);
-    score.setPosition(530,120);
+    score.setPosition(horizontalOffset+(BLOCK_SIZE+BORDER_SIZE*2)*10 + horizontalOffset/2 - 150/2, verticalOffset + 32);
     score.setCharacterSize(24);
     score.setFillColor(sf::Color::White);
     score.setOutlineColor(sf::Color(102,102,102));
@@ -319,26 +329,32 @@ void Game::checkScores()
 
 void Game::drawCurrentscore()
 {
+    int horizontalOffset = WINDOW_SIZE_X - WINDOW_SIZE_X/2 - ((BLOCK_SIZE+BORDER_SIZE*2)*10)/2;
+    int verticalOffset = WINDOW_SIZE_Y - WINDOW_SIZE_Y/2 - ((BLOCK_SIZE+BORDER_SIZE*2)*20)/2;
+
     sf::RectangleShape scoreBox;
-    scoreBox.setSize(sf::Vector2f(150, 50));
+    scoreBox.setSize(sf::Vector2f(150, 70));
     scoreBox.setFillColor(sf::Color::Black);
-    scoreBox.setPosition(525, 160);
+    scoreBox.setPosition(horizontalOffset+(BLOCK_SIZE+BORDER_SIZE*2)*10 + horizontalOffset/2 - 150/2, verticalOffset + scoreBox.getSize().y + horizontalOffset/2 - 150/2);
     scoreBox.setOutlineColor(sf::Color(102,102,102));
     scoreBox.setOutlineThickness(2);
     mWindow.draw(scoreBox);
+
     sf::Text high;
     high.setFont(font);
-    high.setString("Score:");
-    high.setPosition(530,160);
+    high.setString("Score");
+    high.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    high.setPosition(horizontalOffset+(BLOCK_SIZE+BORDER_SIZE*2)*10 + horizontalOffset/2 - 150/2, verticalOffset + scoreBox.getSize().y + horizontalOffset/2 - 150/2);
     high.setCharacterSize(24);
     high.setFillColor(sf::Color::White);
     high.setOutlineColor(sf::Color(102,102,102));
     high.setOutlineThickness(2);
     mWindow.draw(high);
+    
     sf::Text score;
     score.setFont(font);
     score.setString(scoreToString(round(currentScore)));
-    score.setPosition(530,180);
+    score.setPosition(horizontalOffset+(BLOCK_SIZE+BORDER_SIZE*2)*10 + horizontalOffset/2 - 150/2, verticalOffset + scoreBox.getSize().y + horizontalOffset/2 - 150/2 + 32);
     score.setCharacterSize(24);
     score.setFillColor(sf::Color::White);
     score.setOutlineColor(sf::Color(102,102,102));
