@@ -21,12 +21,12 @@ void I::rotate(char board[20][10]) {
         index = (index + 1) % 4; // Wrap-around operation, increments from 0, 1, 2, 3 and then wraps back to 0
         // COLLISION CHECKING
         for(int i = -2; i <= 2; i++) {                     
-        for(int j = -2; j <= 2; j++) {                  
-            if(shape[index][i+2][j+2] == mChar && board[posY+i][posX+j] != '-') {
-                canRotate = false;
-                break;
-            }
-        }                                               
+            for(int j = -2; j <= 2; j++) {                  
+                if((shape[index][i+2][j+2] == mChar) && (posX+j >= 10 || posX+j < 0 || board[posY+i][posX+j] != '-')) {
+                    canRotate = false;
+                    break;
+                }
+            }                                               
         }
         cout << !canRotate << " " << (index != startIndex) << endl;
 
@@ -97,21 +97,24 @@ bool I::movePos(char board[20][10], int moveX, int moveY) {
 
 bool I::canMove(char board[20][10], int moveX, int moveY, int i, int j) {
     if(moveX > 0) { // MOVING RIGHT
+        if((index == 0 || index == 2) && posX >= 7) { // manual checking for I block since
+            return false;                              // block is too big for array to have
+        } 
         if( (shape[index][i+2][j+2] == '6' || shape[index][i+2][j+2] == '3')  &&  (posX+j >= 10 || board[posY+i][posX+j] != '-')) {
-        cout << "COLLISION RIGHT" << endl;
-        return false;
+            cout << "COLLISION RIGHT" << endl;
+            return false;
         }
     }
     else if (moveX < 0) { // MOVING LEFT
         if( (shape[index][i+2][j+2] == '4' || shape[index][i+2][j+2] == '1')  &&  (posX+j <=-1 || board[posY+i][posX+j] != '-')) {
-        cout << "COLLISION LEFT" << endl;
-        return false;
+            cout << "COLLISION LEFT" << endl;
+            return false;
         }
     }
     if(moveY > 0) { // MOVING DOWN
         if( (shape[index][i+2][j+2] == '1' || shape[index][i+2][j+2] == '2' || shape[index][i+2][j+2] == '3')  &&  board[posY+i][posX+j] != '-') {
-        cout << "COLLISION DOWN" << endl;
-        return false;
+            cout << "COLLISION DOWN" << endl;
+            return false;
         }
     }
     return true;
