@@ -9,6 +9,17 @@
 #include "tetris.h"
 
 int main() {
+    //closes if music file can't load
+    sf::Music gameTheme;
+    if (!gameTheme.openFromFile("TetrisTheme.ogg")){
+        cout << "no music" << endl;
+        std::exit(0);
+    }
+    sf::Music menuTheme;
+    if (!menuTheme.openFromFile("TetrisMenu.ogg")){
+        cout << "no music" << endl;
+        std::exit(0);
+    }
     srand (time(NULL));
     //board for game to convert to sfml
     char board[20][10];
@@ -33,6 +44,9 @@ int main() {
     bool gameStart = false;
     bool overPlayButton = false;
     bool overExitButton = false;
+    //play main menu music on loop
+    menuTheme.play();
+    menuTheme.setLoop(true);
     while(!gameStart)
     {
         //displays the main menu background
@@ -41,6 +55,8 @@ int main() {
         game.mainMenuButtons(gameStart, overPlayButton, overExitButton);
         
     }
+    //ends main menu music
+    menuTheme.stop();
     //gets highscore from text file
     game.getHighscore();
     //starts clock, running 60 fps
@@ -48,8 +64,10 @@ int main() {
     sf::Clock clock; // starts the clock
     //integer tracks time passing
     float secondsCounter = 0;
-
     bool newBlock = false;
+    //plays game music on loop
+    gameTheme.play();
+    gameTheme.setLoop(true);
 
     while(!game.isDone())
     {
@@ -89,6 +107,7 @@ int main() {
     }
     //compares highscore and current score then changes if necessary
     game.checkScores();
-    
+    //ends game music
+    gameTheme.stop();
     return 0;
 }
