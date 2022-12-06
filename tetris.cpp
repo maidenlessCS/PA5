@@ -194,6 +194,14 @@ void Game::loadTextures() {
         cout << "no back" << endl;
         exit(11);
     }
+    if(!back2.loadFromFile("back2.png")) {
+        cout << "no back" << endl;
+        exit(11);
+    }
+    if(!title.loadFromFile("TetrisTitle.png")) {
+        cout << "no back" << endl;
+        exit(11);
+    }
 }
 
 void Game::loadFont() {

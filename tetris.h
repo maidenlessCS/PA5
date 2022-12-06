@@ -1122,8 +1122,8 @@ class Game
     void gameEnd(char board[20][10], Block* fallingBlock);
     void getHighscore();
     void checkScores();
-    int WINDOW_SIZE_X = 650;
-    int WINDOW_SIZE_Y = 600;
+    int WINDOW_SIZE_X = 700;
+    int WINDOW_SIZE_Y = 650;
     // Each block is sized to BLOCK_SIZE + (BORDER_SIZE * 2)
     int BLOCK_SIZE = 22;
     int BORDER_SIZE = 1;
@@ -1138,6 +1138,8 @@ class Game
    sf::Font font;
    sf::Texture art;
    sf::Texture back;
+   sf::Texture back2;
+   sf::Texture title;
  private:
     bool mIsDone;
     void drawHighscore();
@@ -1146,7 +1148,6 @@ class Game
     std::string scoreToString(int score);
     sf::RectangleShape square;
     sf::RectangleShape boardSprite;
-    
     sf::Vector2i mIncrement;
     float currentScore = 0;
     int highestScore =0;
