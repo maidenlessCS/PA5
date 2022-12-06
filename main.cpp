@@ -10,7 +10,12 @@
 
 int main() {
     bool gameRestarting = false;
-    
+
+    cout << endl;
+    cout << "TETRIS by Ben Bonus and Davin Lewis" << endl;
+    cout << "for Final Project in CS151 course" << endl;
+    cout << endl;
+
     do {
         // sets the random seed to time(NULL), ensuring that it is actually random
         srand (time(NULL));
@@ -53,7 +58,7 @@ int main() {
         // sets board to all blanks spaces, or '-'
         initializeBoard(board, '-');
         // board for game to convert to sfml
-        board[4][5] = 'T';
+        
         // board to display next block on screen
         char nextBoard[5][5];
 
@@ -68,8 +73,6 @@ int main() {
         setBlockType(randBlock, nextBlock);
         // puts falling block at the top of the board
         spawnBlock(board, fallingBlock);
-        // out's the board to the terminal
-        displayBoard(board);
         // starts clock, running 60 fps
         const sf::Time TIME_PER_FRAME = sf::seconds(1.f / 60.f);
         sf::Clock clock; // starts the clock
@@ -80,7 +83,7 @@ int main() {
         // plays game music on loop
         gameTheme.play();
         gameTheme.setLoop(true);
-        gameTheme.setVolume(100);
+        gameTheme.setVolume(90);
         while(!game.isDone())
         {
             sf::Time elapsedTime = clock.restart();
@@ -109,14 +112,13 @@ int main() {
                 secondsCounter = 0;
             }
             game.render(board, nextBlock, true);
-            displayBoard(board);
 
             sf::sleep(elapsedTime + TIME_PER_FRAME - clock.getElapsedTime());
 
             game.gameEnd(board, fallingBlock);
         }
 
-        gameTheme.setVolume(30);
+        gameTheme.setVolume(40);
 
         // loop and function conditions for end screen
         bool buttonPressed = false;
