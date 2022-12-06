@@ -14,7 +14,7 @@ int main() {
     do {
         // sets the random seed to time(NULL), ensuring that it is actually random
         srand (time(NULL));
-        //creates game, loads textures and fonts
+        // creates game, loads textures and fonts
         Game game;
         game.loadTextures();
         game.loadFont();
@@ -29,7 +29,7 @@ int main() {
             cout << "no music" << endl;
             std::exit(0);
         }
-        // Main menu prototype
+        // loop and function conditions for main menu
         bool gameStart = false;
         bool overPlayButton = false;
         bool overExitButton = false;
@@ -115,7 +115,7 @@ int main() {
             game.gameEnd(board, fallingBlock);
         }
 
-        // loop and function conditions
+        // loop and function conditions for end screen
         bool buttonPressed = false;
         bool overRestartButton = false;
         bool overExitButton2 = false;
@@ -132,13 +132,13 @@ int main() {
             // if the exit button is pressed
             if(buttonPressed && !gameRestarting) {
                 game.checkScores();
-                //ends game music
+                // ends game music
                 gameTheme.stop();
                 delete fallingBlock;
                 delete nextBlock;
             }
         }
-        // will run again if the restart button is pressed, causing the game to restart
+    // will run again if the restart button is pressed, causing the game to restart
     } while(gameRestarting);
 
     return 0;

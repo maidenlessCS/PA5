@@ -62,11 +62,7 @@ bool Game::handleInput(char board[20][10], Block* fallingBlock) {
     return false;
 }
 
-void Game::update(char board[20][10], Block* fallingBlock) {
-    
-}
-
-void Game::render(char board[20][10], Block* nextBlock) {
+void Game::render(char board[20][10], Block* nextBlock, bool clearSceen) {
 
     // Basically it finds the center of the screen, then goes back half the size of the board from there
     // I know the multiplication could be simplified but it makes more sense when written this way
@@ -159,8 +155,10 @@ void Game::render(char board[20][10], Block* nextBlock) {
             }
         }
     }
-    mWindow.display();
-    mWindow.clear(sf::Color(10, 10, 10));
+    if(clearSceen) {
+        mWindow.display();
+        mWindow.clear(sf::Color(10, 10, 10));
+    }
 }
 
 void Game::squareColor(char current, sf::RectangleShape &square){
