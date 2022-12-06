@@ -54,10 +54,6 @@ bool Game::handleInput(char board[20][10], Block* fallingBlock) {
     return false;
 }
 
-void Game::update(char board[20][10], Block* fallingBlock) {
-    
-}
-
 void Game::render(char board[20][10], Block* nextBlock) {
 
     // Basically it finds the center of the screen, then goes back half the size of the board from there
@@ -321,7 +317,7 @@ void Game::explosion(char board[20][10])
                         }
                     }
                     this->explosion(board);
-                    currentScore += scoredPoints+(1-SPEED_MULT)*100;
+                    currentScore += scoredPoints+(1-TEMP_SPEED)*100;
                     if(SPEED_MULT > 0.2) {
                         SPEED_MULT -= (scoredPoints/5000);
                     }
@@ -353,7 +349,7 @@ void Game::gameEnd(char board[20][10], Block* fallingBlock)
 void Game::placementPoints()
 {
     float scoredPoints = 20;
-    currentScore += scoredPoints+(1-SPEED_MULT)*100;
+    currentScore += scoredPoints+(1-TEMP_SPEED)*100;
     if(SPEED_MULT > 0.2) {
         SPEED_MULT -= (scoredPoints/5000);
     }

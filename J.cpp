@@ -21,12 +21,12 @@ void J::rotate(char board[20][10]) {
         index = (index + 1) % 4; // Wrap-around operation, increments from 0, 1, 2, 3 and then wraps back to 0
         // COLLISION CHECKING
         for(int i = -2; i <= 2; i++) {                     
-        for(int j = -2; j <= 2; j++) {                  
-            if(shape[index][i+2][j+2] == mChar && board[posY+i][posX+j] != '-') {
-                canRotate = false;
-                break;
-            }
-        }                                               
+            for(int j = -2; j <= 2; j++) {                  
+                if((shape[index][i+2][j+2] == mChar) && (posX+j >= 10 || posX+j < 0 || board[posY+i][posX+j] != '-')) {
+                    canRotate = false;
+                    break;
+                }
+            }                                               
         }
         cout << !canRotate << " " << (index != startIndex) << endl;
 

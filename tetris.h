@@ -313,7 +313,7 @@ class S : public Block {
 
 void initializeBoard(char board[20][10], char fillChar);
 void displayBoard(char board[20][10]);
-Block* getBlockType(int num);
+void setBlockType(int num, Block* &fallingBlock);
 void spawnBlock(char board[20][10], Block* block);
 
 class Game
@@ -325,7 +325,6 @@ class Game
     bool handleInput(char board[20][10], Block* fallingBlock);
     void loadTextures();
     void loadFont();
-    void update(char board[20][10], Block* fallingBlock);
     void render(char board[20][10], Block* nextBlock);
     void explosion(char board[20][10]);
     void placementPoints();

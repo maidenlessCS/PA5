@@ -18,8 +18,7 @@ void displayBoard(char board[20][10]) {
     cout << endl;
 }
 
-Block* getBlockType(int num) {
-    Block *fallingBlock;
+void setBlockType(int num, Block* &fallingBlock) {
     switch(num) {
         case 1:
             fallingBlock = new T;
@@ -47,7 +46,6 @@ Block* getBlockType(int num) {
             // fallingBlock = new T;
             // break;
     }
-    return fallingBlock;
 }
 
 void spawnBlock(char board[20][10], Block* block) {
