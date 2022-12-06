@@ -35,3 +35,12 @@ $ ./Tetris
 ```
 ## Game description
 The Game should boot up to a main menu where the player is greeted with a musical them and can choose to play or exit the game.
+Once the "Play" button is pressed the game will begin, playing the classic Tetris theme in the background.
+
+![gameStart](ReadMeAssets/gameStart.png)
+
+The objective of the game is survive as long as possible by placing blocks in way that results in an entire row(horizontal) being filled. This will cause the row to clear, allowing more blocks to be placed. The player can move the piece left and right by using the corresponding arrow keys. Pressing the space bar will instantly drop the piece to the bottom. Holding the down arrow will increase the falling speed of the current block. Points are awarded for every piece placed and row cleared, with bonuses based off of speed of placement.
+
+![preExplosion](ReadMeAssets/preExplosion.png)
+
+![postExplosion](ReadMeAssets/postExposion.png)
