@@ -9,69 +9,12 @@ int main() {
     //Main menu prototype
     bool gameStart = false;
     bool overPlayButton = false;
+    bool overExitButton = false;
     while(!gameStart)
     {
-        sf::RectangleShape menuBackground;
-        menuBackground.setSize(sf::Vector2f(700, 650));
-        menuBackground.setTexture(&game.back);
-        game.mWindow.draw(menuBackground);
-
-        sf::RectangleShape playButton;
-        playButton.setSize(sf::Vector2f(100,50));
-        playButton.setOrigin(50,25);
-        playButton.setPosition(sf::Vector2f(350,325));
-        playButton.setOutlineThickness(5);
-
-        sf::Text play;
-        if (overPlayButton){
-            playButton.setFillColor(sf::Color(152,181,227, 190));
-            play.setFillColor(sf::Color(255,255,255,190));
-            playButton.setOutlineColor(sf::Color(255,255,255,190));
-        }
-        else{
-            playButton.setFillColor(sf::Color(34,59,140, 190));  
-            play.setFillColor(sf::Color(0,0,0,190));
-            playButton.setOutlineColor(sf::Color(0,0,0,190));
-        }
-        game.mWindow.draw(playButton);
-        play.setCharacterSize(35);
-        play.setFont(game.font);
-        play.setString("Play");
-        sf::FloatRect textRect = play.getLocalBounds();
-        play.setOrigin(sf::Vector2f(textRect.left + textRect.width/2.0f, textRect.top  + textRect.height/2.0f));
-        play.setPosition(sf::Vector2f(playButton.getPosition().x, playButton.getPosition().y));
-        game.mWindow.draw(play);
-        sf::Event event;
-        while(game.mWindow.pollEvent(event)){
-            if (event.type == sf::Event::Closed){
-                game.mWindow.close();
-                exit(0);
-            }
-            sf::Vector2i mousePosition = sf::Mouse::getPosition(game.mWindow);
-            bool mouseInButton =    mousePosition.x >= playButton.getPosition().x - playButton.getSize().x/2
-                                    && mousePosition.x <= playButton.getPosition().x + playButton.getSize().x/2
-                                    && mousePosition.y >= playButton.getPosition().y - playButton.getSize().y/2
-                                    && mousePosition.y <= playButton.getPosition().y + playButton.getSize().y/2;
-        if(event.type == sf::Event::MouseMoved)
-            {
-                if(mouseInButton)
-                {
-                    overPlayButton = true;
-                }
-                else{
-                    overPlayButton = false;
-                }
-            }
-            if (event.type == sf::Event::MouseButtonPressed){
-                    if(event.mouseButton.button==sf::Mouse::Left){
-                        if(mouseInButton){
-                        gameStart = true;
-                        }
-                    }
-                }
-        }
-        game.mWindow.display();
-        game.mWindow.clear(sf::Color(10, 10, 10));
+        game.mainMenuBackground();
+        game.mainMenuButtons(gameStart, overPlayButton, overExitButton);
+        
     }
 
     game.getHighscore();
