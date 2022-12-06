@@ -426,6 +426,7 @@ void Game::mainMenuBackground(){
     title.setTexture(&Title);
     title.setOrigin(title.getSize().x/2, title.getSize().y/2);
 
+    // drop shadow for title
     title.setFillColor(sf::Color::Black);
     title.setPosition(sf::Vector2f(titlePosX + 12, titlePosY + 8));
     mWindow.draw(title);
@@ -433,6 +434,17 @@ void Game::mainMenuBackground(){
     title.setFillColor(sf::Color::White);
     title.setPosition(sf::Vector2f(titlePosX, titlePosY));
     mWindow.draw(title);
+
+    sf::Text footer;
+    footer.setFont(font);
+    footer.setString("TETRIS | Ben Bonus and Davin Lewis");
+    footer.setCharacterSize(20);
+    sf::FloatRect textRect = footer.getLocalBounds();
+    footer.setPosition(sf::Vector2f(WINDOW_SIZE_X/2 - textRect.width/2, WINDOW_SIZE_Y - textRect.height - 10));
+    footer.setFillColor(sf::Color::White);
+    footer.setOutlineColor(sf::Color(0,0,0, 200));
+    footer.setOutlineThickness(2);
+    mWindow.draw(footer);
 }
 
 void Game::mainMenuButtons(bool &gameStart, bool &overPlayButton,bool &overExitButton){
@@ -495,11 +507,11 @@ void Game::mainMenuButtons(bool &gameStart, bool &overPlayButton,bool &overExitB
             std::exit(0);
         }
         sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
-        bool mouseInPlayButton =    mousePosition.x >= playButton.getPosition().x - playButton.getSize().x/2
+        bool mouseInPlayButton =   mousePosition.x >= playButton.getPosition().x - playButton.getSize().x/2
                                 && mousePosition.x <= playButton.getPosition().x + playButton.getSize().x/2
                                 && mousePosition.y >= playButton.getPosition().y - playButton.getSize().y/2
                                 && mousePosition.y <= playButton.getPosition().y + playButton.getSize().y/2;
-        bool mouseInExitButton =    mousePosition.x >= exitButton.getPosition().x - exitButton.getSize().x/2
+        bool mouseInExitButton =   mousePosition.x >= exitButton.getPosition().x - exitButton.getSize().x/2
                                 && mousePosition.x <= exitButton.getPosition().x + exitButton.getSize().x/2
                                 && mousePosition.y >= exitButton.getPosition().y - exitButton.getSize().y/2
                                 && mousePosition.y <= exitButton.getPosition().y + exitButton.getSize().y/2;

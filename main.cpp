@@ -58,7 +58,7 @@ int main() {
         // sets board to all blanks spaces, or '-'
         initializeBoard(board, '-');
         // board for game to convert to sfml
-        board[4][5] = 'T';
+        
         // board to display next block on screen
         char nextBoard[5][5];
 
