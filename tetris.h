@@ -321,7 +321,7 @@ class S : public Block {
 
 void initializeBoard(char board[20][10], char fillChar);
 void displayBoard(char board[20][10]);
-Block* getBlockType(int num);
+void setBlockType(int num, Block* &block);
 void spawnBlock(char board[20][10], Block* block);
 
 class Game
@@ -333,13 +333,17 @@ class Game
     bool handleInput(char board[20][10], Block* fallingBlock);
     void loadTextures();
     void loadFont();
-    void render(char board[20][10], Block* nextBlock);
+    void render(char board[20][10], Block* nextBlock, bool clearSceen);
     void explosion(char board[20][10]);
     void placementPoints();
     bool isDone() const;
+    void drawHighscore();
+    void drawCurrentscore();
     void gameEnd(char board[20][10], Block* fallingBlock);
     void mainMenuBackground();
+    void endBackground();
     void mainMenuButtons(bool &gameStart, bool &overPlayButton,bool &overExitButton);
+    void endButtons(bool &restartPressed, bool &buttonPressed, bool &overRestartButton,bool &overExitButton);
     void getHighscore();
     void checkScores();
     int WINDOW_SIZE_X = 700;
@@ -362,8 +366,6 @@ class Game
    sf::Texture Title;
  private:
     bool mIsDone;
-    void drawHighscore();
-    void drawCurrentscore();
     void squareColor(char current, sf::RectangleShape &square);
     std::string scoreToString(int score);
     sf::RectangleShape square;

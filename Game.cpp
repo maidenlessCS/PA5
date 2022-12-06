@@ -62,7 +62,7 @@ bool Game::handleInput(char board[20][10], Block* fallingBlock) {
     return false;
 }
 
-void Game::render(char board[20][10], Block* nextBlock) {
+void Game::render(char board[20][10], Block* nextBlock, bool clearSceen) {
 
     // Basically it finds the center of the screen, then goes back half the size of the board from there
     // I know the multiplication could be simplified but it makes more sense when written this way
@@ -155,9 +155,10 @@ void Game::render(char board[20][10], Block* nextBlock) {
             }
         }
     }
-    //displays current window
-    mWindow.display();
-    mWindow.clear(sf::Color(10, 10, 10));
+    if(clearSceen) {
+        mWindow.display();
+        mWindow.clear(sf::Color(10, 10, 10));
+    }
 }
 
 void Game::squareColor(char current, sf::RectangleShape &square){
@@ -355,7 +356,6 @@ void Game::explosion(char board[20][10])
                     }
                     //checks for any other explosions
                     this->explosion(board);
-                    //gives points based on speed
                     currentScore += scoredPoints+(1-SPEED_MULT)*100;
                     if(SPEED_MULT > 0.2) {
                         SPEED_MULT -= (scoredPoints/5000);
@@ -392,7 +392,6 @@ void Game::placementPoints()
 {
     //base point score
     float scoredPoints = 20;
-    //bonus points for speed of placement
     currentScore += scoredPoints+(1-SPEED_MULT)*100;
     if(SPEED_MULT > 0.2) {
         SPEED_MULT -= (scoredPoints/5000);
@@ -402,14 +401,29 @@ void Game::placementPoints()
 void Game::mainMenuBackground(){
     //actual background design
     sf::RectangleShape menuBackground;
-    menuBackground.setSize(sf::Vector2f(700, 650));
+    menuBackground.setSize(sf::Vector2f(WINDOW_SIZE_X, WINDOW_SIZE_Y));
     menuBackground.setTexture(&back2);
     mWindow.draw(menuBackground);
     //darkens the background for asthetics
     sf::RectangleShape blackground;
-    blackground.setSize(sf::Vector2f(700, 650));
+    blackground.setSize(sf::Vector2f(WINDOW_SIZE_X, WINDOW_SIZE_Y));
     blackground.setFillColor(sf::Color(0,0,0,160));
     mWindow.draw(blackground);
+    
+    sf::RectangleShape title;
+    int titlePosX = WINDOW_SIZE_X - WINDOW_SIZE_X/2;
+    int titlePosY = WINDOW_SIZE_Y - WINDOW_SIZE_Y/2 - WINDOW_SIZE_Y/4;
+    title.setSize(sf::Vector2f(984/1.75, 168/1.75));
+    title.setTexture(&Title);
+    title.setOrigin(title.getSize().x/2, title.getSize().y/2);
+
+    title.setFillColor(sf::Color::Black);
+    title.setPosition(sf::Vector2f(titlePosX + 12, titlePosY + 8));
+    mWindow.draw(title);
+
+    title.setFillColor(sf::Color::White);
+    title.setPosition(sf::Vector2f(titlePosX, titlePosY));
+    mWindow.draw(title);
 }
 
 void Game::mainMenuButtons(bool &gameStart, bool &overPlayButton,bool &overExitButton){
@@ -427,28 +441,41 @@ void Game::mainMenuButtons(bool &gameStart, bool &overPlayButton,bool &overExitB
     exitButton.setOrigin(exitButton.getSize().x/2, exitButton.getSize().y/2);
     exitButton.setPosition(sf::Vector2f(playButton.getPosition().x, playButton.getPosition().y+WINDOW_SIZE_Y/6));
     exitButton.setOutlineThickness(5);
-    exitButton.setFillColor(sf::Color(223,18,18, 230));
-    exitButton.setOutlineColor(sf::Color(0,0,0,230));
-    //designs and positions the title box
+
     sf::RectangleShape title;
     title.setSize(sf::Vector2f(984/1.75, 168/1.75));
     title.setTexture(&Title);
     title.setOrigin(title.getSize().x/2, title.getSize().y/2);
     title.setPosition(sf::Vector2f(playButton.getPosition().x, playButton.getPosition().y-WINDOW_SIZE_Y/4));
     mWindow.draw(title);
-    //creates "play" and :exit" text to be manipulated over time
+
     sf::Text play;
     sf::Text exit;
     //designs and positions "play" and "exit" text
     play.setFillColor(sf::Color(0,0,0,230));
+    playButton.setOutlineColor(sf::Color(0,0,0,230));
+
+    exitButton.setFillColor(sf::Color(223,18,18, 230));  
+    exit.setFillColor(sf::Color(0,0,0,230));
+    exitButton.setOutlineColor(sf::Color(0,0,0,230));
+
+    
     play.setCharacterSize(35);
     play.setFont(font);
-    play.setString("Play");
+    play.setString("Plae"); // The reason for this is because the 'y' throws off the centering
+                            // even though it technically is properly centered, it looks too high
+                            // because the y goes further below the other characters
+                            // so we set localbounds without a y first and then change it after
     sf::FloatRect textRect = play.getLocalBounds();
+    play.setString("Play");
     play.setOrigin(sf::Vector2f(textRect.left + textRect.width/2.0f, textRect.top  + textRect.height/2.0f));
     play.setPosition(sf::Vector2f(playButton.getPosition().x, playButton.getPosition().y));
+    
+
     exit = play;
     exit.setString("Exit");
+    textRect = exit.getLocalBounds();
+    exit.setOrigin(sf::Vector2f(textRect.left + textRect.width/2.0f, textRect.top  + textRect.height/2.0f));
     exit.setPosition(sf::Vector2f(playButton.getPosition().x, playButton.getPosition().y+WINDOW_SIZE_Y/6));
 
     sf::Event event;
@@ -504,8 +531,128 @@ void Game::mainMenuButtons(bool &gameStart, bool &overPlayButton,bool &overExitB
     mWindow.draw(exitButton);
     mWindow.draw(play);
     mWindow.draw(exit);
-    
-    //displays current window
+
+
+    mWindow.display();
+    mWindow.clear(sf::Color(10, 10, 10));
+}
+
+void Game::endBackground(){
+    //actual background design
+    sf::RectangleShape blackground;
+    blackground.setSize(sf::Vector2f(WINDOW_SIZE_X, WINDOW_SIZE_Y));
+    blackground.setFillColor(sf::Color(0,0,0,220));
+    mWindow.draw(blackground);
+}
+
+void Game::endButtons(bool &restartPressed, bool &buttonPressed, bool &overRestartButton,bool &overExitButton) {
+
+    int horizontalOffset = WINDOW_SIZE_X - WINDOW_SIZE_X/2 + ((BLOCK_SIZE+BORDER_SIZE*2)*10)/2;
+    int verticalOffset = WINDOW_SIZE_Y - WINDOW_SIZE_Y/2 - ((BLOCK_SIZE+BORDER_SIZE*2)*20)/2;
+
+    sf::RectangleShape restartButton;
+    restartButton.setSize(sf::Vector2f(150,75));
+    restartButton.setOrigin(restartButton.getSize().x/2, restartButton.getSize().y/2);
+    restartButton.setPosition(sf::Vector2f(horizontalOffset + (WINDOW_SIZE_X-horizontalOffset)/2, WINDOW_SIZE_Y - WINDOW_SIZE_Y/2 + restartButton.getSize().y/2));
+    restartButton.setOutlineThickness(5);
+
+    sf::RectangleShape exitButton;
+    exitButton.setSize(sf::Vector2f(150,75));
+    exitButton.setOrigin(exitButton.getSize().x/2, exitButton.getSize().y/2);
+    exitButton.setPosition(sf::Vector2f(restartButton.getPosition().x, restartButton.getPosition().y+WINDOW_SIZE_Y/6));
+    exitButton.setOutlineThickness(5);
+
+    sf::Text restart;
+    sf::Text exit;
+
+    restartButton.setFillColor(sf::Color(34,59,140, 230));  
+    restart.setFillColor(sf::Color(0,0,0,230));
+    restartButton.setOutlineColor(sf::Color(0,0,0,230));
+
+    exitButton.setFillColor(sf::Color(223,18,18, 220));  
+    exit.setFillColor(sf::Color(0,0,0,230));
+    exitButton.setOutlineColor(sf::Color(0,0,0,230));
+
+    restart.setCharacterSize(35);
+    restart.setFont(font);
+    restart.setString("Restart");
+    sf::FloatRect textRect = restart.getLocalBounds();
+    restart.setOrigin(sf::Vector2f(textRect.left + textRect.width/2.0f, textRect.top  + textRect.height/2.0f));
+    restart.setPosition(sf::Vector2f(restartButton.getPosition().x, restartButton.getPosition().y));
+
+    exit = restart;
+
+    exit.setString("Exit");
+    textRect = exit.getLocalBounds();
+    exit.setOrigin(sf::Vector2f(textRect.left + textRect.width/2.0f, textRect.top  + textRect.height/2.0f));
+    exit.setPosition(sf::Vector2f(restartButton.getPosition().x, restartButton.getPosition().y+WINDOW_SIZE_Y/6));
+
+    sf::Text gameOver;
+
+    gameOver.setFillColor(sf::Color(223,18,18, 220));
+    gameOver.setOutlineColor(sf::Color(240, 235, 235, 240));
+    gameOver.setOutlineThickness(1);
+    gameOver.setCharacterSize(60);
+    gameOver.setFont(font);
+    gameOver.setString("Game Over");
+    gameOver.setStyle(sf::Text::Bold);
+    textRect = gameOver.getLocalBounds();
+    gameOver.setOrigin(sf::Vector2f(textRect.left + textRect.width/2.0f, textRect.top  + textRect.height/2.0f));
+    gameOver.setPosition(sf::Vector2f(restartButton.getPosition().x/2.2, WINDOW_SIZE_Y/2));
+
+    sf::Event event;
+    while(mWindow.pollEvent(event)){
+        if (event.type == sf::Event::Closed){
+            mWindow.close();
+            std::exit(0);
+        }
+        sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
+        bool mouseInRestartButton= mousePosition.x >= restartButton.getPosition().x - restartButton.getSize().x/2
+                                && mousePosition.x <= restartButton.getPosition().x + restartButton.getSize().x/2
+                                && mousePosition.y >= restartButton.getPosition().y - restartButton.getSize().y/2
+                                && mousePosition.y <= restartButton.getPosition().y + restartButton.getSize().y/2;
+        bool mouseInExitButton =    mousePosition.x >= exitButton.getPosition().x - exitButton.getSize().x/2
+                                && mousePosition.x <= exitButton.getPosition().x + exitButton.getSize().x/2
+                                && mousePosition.y >= exitButton.getPosition().y - exitButton.getSize().y/2
+                                && mousePosition.y <= exitButton.getPosition().y + exitButton.getSize().y/2;
+    if(event.type == sf::Event::MouseMoved)
+        {
+            overRestartButton = mouseInRestartButton;
+            overExitButton = mouseInExitButton;
+        }
+        if (event.type == sf::Event::MouseButtonPressed){
+                if(event.mouseButton.button==sf::Mouse::Left){
+                    if(mouseInRestartButton) {
+                        buttonPressed = true;
+                        restartPressed = true;
+                    }
+                    if(mouseInExitButton) {
+                        buttonPressed = true;
+                        restartPressed = false;
+                        // mWindow.close();
+                        // std::exit(0);
+                    }
+                }
+            }
+    }
+
+    if (overRestartButton){
+        restartButton.setFillColor(sf::Color(152,181,227, 230));
+        restart.setFillColor(sf::Color(255,255,255,230));
+        restartButton.setOutlineColor(sf::Color(255,255,255,230));
+    }
+    else if (overExitButton){
+        exitButton.setFillColor(sf::Color(255,65,65, 230));
+        exit.setFillColor(sf::Color(255,255,255,230));
+        exitButton.setOutlineColor(sf::Color(255,255,255,230));
+    }
+
+    mWindow.draw(restartButton);
+    mWindow.draw(exitButton);
+    mWindow.draw(restart);
+    mWindow.draw(exit);
+    mWindow.draw(gameOver);
+
     mWindow.display();
     mWindow.clear(sf::Color(10, 10, 10));
 }

@@ -18,36 +18,34 @@ void displayBoard(char board[20][10]) {
     cout << endl;
 }
 
-Block* getBlockType(int num) {
-    Block *fallingBlock;
+void setBlockType(int num, Block* &block) {
     switch(num) {
         case 1:
-            fallingBlock = new T;
+            block = new T;
             break;
         case 2:
-            fallingBlock = new O;
+            block = new O;
             break;
         case 3:
-            fallingBlock = new J;
+            block = new J;
             break;
         case 4:
-            fallingBlock = new L;
+            block = new L;
             break;
         case 5:
-            fallingBlock = new I;
+            block = new I;
             break;
         case 6:
-            fallingBlock = new Z;
+            block = new Z;
             break;
         case 7:
-            fallingBlock = new S;
+            block = new S;
             break;
         default:
             exit(2); // This shouldn't ever happen but just in case
             // fallingBlock = new T;
             // break;
     }
-    return fallingBlock;
 }
 
 void spawnBlock(char board[20][10], Block* block) {
