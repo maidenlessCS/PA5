@@ -80,6 +80,7 @@ int main() {
         // plays game music on loop
         gameTheme.play();
         gameTheme.setLoop(true);
+        gameTheme.setVolume(100);
         while(!game.isDone())
         {
             sf::Time elapsedTime = clock.restart();
@@ -114,6 +115,8 @@ int main() {
 
             game.gameEnd(board, fallingBlock);
         }
+
+        gameTheme.setVolume(30);
 
         // loop and function conditions for end screen
         bool buttonPressed = false;
