@@ -1,3 +1,10 @@
+/**
+ * @file tetris.h
+ * @author Ben Bonus, Davin Lewis
+ * @brief defines classes for Tetris and functions
+ * @version 0.1
+ * @date 2022-12-06
+ */
 #ifndef TETRIS_H
 #define TETRIS_H
 
@@ -325,7 +332,6 @@ class Game
     bool handleInput(char board[20][10], Block* fallingBlock);
     void loadTextures();
     void loadFont();
-    void update(char board[20][10], Block* fallingBlock);
     void render(char board[20][10], Block* nextBlock);
     void explosion(char board[20][10]);
     void placementPoints();
