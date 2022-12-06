@@ -20,6 +20,7 @@ bool Game::handleInput(char board[20][10], Block* fallingBlock) {
         {
             // Close window button clicked.
             mWindow.close();
+            std::exit(0);
         }
         if (event.type == sf::Event::EventType::KeyPressed){
             // LEFT ARROW PRESSED
@@ -434,7 +435,7 @@ void Game::mainMenuBackground(){
     title.setFillColor(sf::Color::White);
     title.setPosition(sf::Vector2f(titlePosX, titlePosY));
     mWindow.draw(title);
-
+    //writes credit at the bottom of the title
     sf::Text footer;
     footer.setFont(font);
     footer.setString("TETRIS | Ben Bonus and Davin Lewis");

@@ -3,6 +3,7 @@
 void initializeBoard(char board[20][10], char fillChar) {
     for(int i = 0; i < 20; i++) {
         for(int j = 0; j < 10; j++) {
+            //fills board it entered character, currently set to run as board's empty square
             board[i][j] = fillChar;
         }
     }
@@ -11,6 +12,7 @@ void initializeBoard(char board[20][10], char fillChar) {
 void displayBoard(char board[20][10]) {
     for(int i = 0; i < 20; i++) {
         for(int j = 0; j < 10; j++) {
+            //outputs board to terminal
             cout << board[i][j] << ' ';
         }
         cout << endl;
@@ -19,6 +21,7 @@ void displayBoard(char board[20][10]) {
 }
 
 void setBlockType(int num, Block* &block) {
+    //sets to a block type based on the number passed
     switch(num) {
         case 1:
             block = new T;
@@ -49,9 +52,11 @@ void setBlockType(int num, Block* &block) {
 }
 
 void spawnBlock(char board[20][10], Block* block) {
+    //gets Block's shape
     vector<vector<char>> spriteSheet = block->getSprite();
     char blockChar = block->getChar();
     int start = block->getStartingRow();
+    //puts the block into the game array
     for(int i = 0; i < 5-start; i++) {
         for(int j = 0; j < 5; j++) {
             if(spriteSheet[i+start][j] == blockChar)

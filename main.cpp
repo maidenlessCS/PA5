@@ -53,12 +53,10 @@ int main() {
         menuTheme.stop();
         // gets highscore from text file
         game.getHighscore();
-        // starts clock, running 60 fps
+        // board for game to convert to sfml
         char board[20][10];
         // sets board to all blanks spaces, or '-'
         initializeBoard(board, '-');
-        // board for game to convert to sfml
-        
         // board to display next block on screen
         char nextBoard[5][5];
 
@@ -145,6 +143,5 @@ int main() {
         }
     // will run again if the restart button is pressed, causing the game to restart
     } while(gameRestarting);
-
     return 0;
 }

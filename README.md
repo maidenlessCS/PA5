@@ -1,6 +1,6 @@
 # Tetris
 
-This is our final project for cs151, Tetris running on sfml using a character array.
+This is our final project for cs151, Tetris running on sfml using a character array by Ben Bonus and Davin Lewis.
 
 ### SetUp on Linux (Ubuntu) system
 1. Open the terminal
@@ -40,9 +40,13 @@ $ ./Tetris
 The Game should boot up to a main menu where the player is greeted with a musical them and can choose to play or exit the game.
 Once the "Play" button is pressed the game will begin, playing the classic Tetris theme in the background.
 
+### Title screen
+![gameStart](ReadMeAssets/title.png)
+
+### Game screen
 ![gameStart](ReadMeAssets/gameStart.png)
 
-The objective of the game is survive as long as possible by placing blocks in way that results in an entire row(horizontal) being filled. This will cause the row to clear, allowing more blocks to be placed. The player can move the piece left and right by using the corresponding arrow keys. Pressing the space bar will instantly drop the piece to the bottom. Holding the down arrow will increase the falling speed of the current block. Points are awarded for every piece placed and row cleared, with bonuses based off of speed of placement.
+The objective of the game is survive as long as possible by placing blocks in way that results in an entire row(horizontal) being filled. This will cause the row to clear, allowing more blocks to be placed. The player can move the piece left and right by using the corresponding arrow keys. Pressing the space bar will instantly drop the piece to the bottom. Points are awarded for every piece placed and row cleared, with bonuses based off of speed of placement.
 
 ### Before clear
 ![preExplosion](ReadMeAssets/preExplosion.png)
