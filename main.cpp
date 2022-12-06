@@ -140,6 +140,10 @@ int main() {
                 delete fallingBlock;
                 delete nextBlock;
             }
+            if(buttonPressed && gameRestarting)
+            {
+                game.checkScores();
+            }
         }
     // will run again if the restart button is pressed, causing the game to restart
     } while(gameRestarting);
