@@ -96,8 +96,9 @@ void Game::render(char board[20][10], Block* nextBlock) {
     next.setFont(font);
     next.setString("Next");
     next.setStyle(sf::Text::Bold | sf::Text::Underlined);
-    next.setPosition(horizontalOffset/2 - 150/2, (WINDOW_SIZE_Y - WINDOW_SIZE_Y/2)-160/2);
     next.setCharacterSize(24);
+    sf::FloatRect textRect = next.getLocalBounds();
+    next.setPosition(sf::Vector2f(nextBox.getPosition().x+((nextBox.getSize().x-textRect.width)*.5), nextBox.getPosition().y));
     next.setFillColor(sf::Color::White);
     next.setOutlineColor(sf::Color(102,102,102));
     next.setOutlineThickness(2);
@@ -244,8 +245,9 @@ void Game::drawHighscore()
     high.setFont(font);
     high.setString("Highscore");
     high.setStyle(sf::Text::Bold | sf::Text::Underlined);
-    high.setPosition(horizontalOffset+(BLOCK_SIZE+BORDER_SIZE*2)*10 + horizontalOffset/2 - 150/2, verticalOffset);
     high.setCharacterSize(24);
+    sf::FloatRect textRect = high.getLocalBounds();
+    high.setPosition(sf::Vector2f(scoreBox.getPosition().x+((scoreBox.getSize().x-textRect.width)*.5), scoreBox.getPosition().y));
     high.setFillColor(sf::Color::White);
     high.setOutlineColor(sf::Color(102,102,102));
     high.setOutlineThickness(2);
@@ -254,8 +256,9 @@ void Game::drawHighscore()
     sf::Text score;
     score.setFont(font);
     score.setString(Highscore);
-    score.setPosition(horizontalOffset+(BLOCK_SIZE+BORDER_SIZE*2)*10 + horizontalOffset/2 - 150/2, verticalOffset + 32);
     score.setCharacterSize(24);
+    sf::FloatRect textRect2 = score.getLocalBounds();
+    score.setPosition(sf::Vector2f(scoreBox.getPosition().x+((scoreBox.getSize().x-textRect2.width)*.5), scoreBox.getPosition().y+32));
     score.setFillColor(sf::Color::White);
     score.setOutlineColor(sf::Color(102,102,102));
     score.setOutlineThickness(2);
@@ -301,8 +304,9 @@ void Game::drawCurrentscore()
     current.setFont(font);
     current.setString("Score");
     current.setStyle(sf::Text::Bold | sf::Text::Underlined);
-    current.setPosition(horizontalOffset+(BLOCK_SIZE+BORDER_SIZE*2)*10 + horizontalOffset/2 - 150/2, verticalOffset + scoreBox.getSize().y + horizontalOffset/2 - 150/2);
     current.setCharacterSize(24);
+    sf::FloatRect textRect = current.getLocalBounds();
+    current.setPosition(sf::Vector2f(scoreBox.getPosition().x+((scoreBox.getSize().x-textRect.width)*.5), scoreBox.getPosition().y));
     current.setFillColor(sf::Color::White);
     current.setOutlineColor(sf::Color(102,102,102));
     current.setOutlineThickness(2);
@@ -311,8 +315,9 @@ void Game::drawCurrentscore()
     sf::Text score;
     score.setFont(font);
     score.setString(scoreToString(round(currentScore)));
-    score.setPosition(horizontalOffset+(BLOCK_SIZE+BORDER_SIZE*2)*10 + horizontalOffset/2 - 150/2, verticalOffset + scoreBox.getSize().y + horizontalOffset/2 - 150/2 + 32);
     score.setCharacterSize(24);
+    sf::FloatRect textRect2 = score.getLocalBounds();
+    score.setPosition(sf::Vector2f(scoreBox.getPosition().x+((scoreBox.getSize().x-textRect2.width)*.5), scoreBox.getPosition().y+32));
     score.setFillColor(sf::Color::White);
     score.setOutlineColor(sf::Color(102,102,102));
     score.setOutlineThickness(2);
