@@ -19,6 +19,7 @@ bool Game::handleInput(char board[20][10], Block* fallingBlock) {
         if(event.type == sf::Event::Closed)
         {
             // Close window button clicked.
+            checkScores();
             mWindow.close();
             std::exit(0);
         }
@@ -235,7 +236,7 @@ void Game::drawHighscore()
     getline(file, readScore);
     file.close();
 
-    for(int i = 0; i < 10 - readScore.length(); i++) {
+    for(int i = 0; i < int(10 - readScore.length()); i++) {
         highscore += '0';
     }
     highscore += readScore;
@@ -336,8 +337,6 @@ void Game::explosion(char board[20][10])
 {
     //base score for an explosion
     float scoredPoints = 100;
-    //boolean to
-    bool explosion = false;
     int counter = 0;
     for(int i=0; i < 20; i++){
         //if current space in array is solid square
@@ -377,7 +376,7 @@ std::string Game::scoreToString(int score)
 {
     //returns score as text
     std::ostringstream os;
-    for(int i = 0; i < 10 - std::to_string(score).length(); i++) {
+    for(int i = 0; i < 10 - int(std::to_string(score).length()); i++) {
         os << '0';
     }
     os << score;
@@ -504,6 +503,7 @@ void Game::mainMenuButtons(bool &gameStart, bool &overPlayButton,bool &overExitB
     while(mWindow.pollEvent(event)){
         //closes window and applications if x button is hit
         if (event.type == sf::Event::Closed){
+            checkScores();
             mWindow.close();
             std::exit(0);
         }
@@ -570,7 +570,6 @@ void Game::endBackground(){
 void Game::endButtons(bool &restartPressed, bool &buttonPressed, bool &overRestartButton,bool &overExitButton) {
 
     int horizontalOffset = WINDOW_SIZE_X - WINDOW_SIZE_X/2 + ((BLOCK_SIZE+BORDER_SIZE*2)*10)/2;
-    int verticalOffset = WINDOW_SIZE_Y - WINDOW_SIZE_Y/2 - ((BLOCK_SIZE+BORDER_SIZE*2)*20)/2;
 
     sf::RectangleShape restartButton;
     restartButton.setSize(sf::Vector2f(150,75));
@@ -625,6 +624,7 @@ void Game::endButtons(bool &restartPressed, bool &buttonPressed, bool &overResta
     sf::Event event;
     while(mWindow.pollEvent(event)){
         if (event.type == sf::Event::Closed){
+            checkScores();
             mWindow.close();
             std::exit(0);
         }
