@@ -57,8 +57,6 @@ int main() {
         char board[20][10];
         // sets board to all blanks spaces, or '-'
         initializeBoard(board, '-');
-        // board to display next block on screen
-        char nextBoard[5][5];
 
         // assigns fallingBlock to a random block type
         int randBlock = rand() % 7 + 1;
@@ -137,8 +135,8 @@ int main() {
                 game.checkScores();
                 // ends game music
                 gameTheme.stop();
-                delete fallingBlock;
-                delete nextBlock;
+                delete [] fallingBlock;
+                delete [] nextBlock;
             }
             if(buttonPressed && gameRestarting)
             {
