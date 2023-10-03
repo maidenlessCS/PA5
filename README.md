@@ -37,7 +37,7 @@ $ g++ -std=C++11 *.cpp -o Tetris -lsfml-graphics -lsfml-window -lsfml-system -ls
 $ ./Tetris
 ```
 ## Game description
-The Game should boot up to a main menu where the player is greeted with a musical them and can choose to play or exit the game.
+The Game should boot up to a main menu where the player is greeted with a musical theme and can choose to play or exit the game.
 Once the "Play" button is pressed the game will begin, playing the classic Tetris theme in the background.
 
 ### Title screen
